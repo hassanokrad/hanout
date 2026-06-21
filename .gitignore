@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# tooling
+.claude/
+
+# never commit real business data — keep private working copies out of the repo
+private/
+*.ods
+*.xlsx
+**/*-history.csv

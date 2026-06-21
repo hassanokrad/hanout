@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="Hanout — a free, offline, modular manager for any small shop." />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Hanout" />
+  <!--__HEAD__-->
+  <title>Hanout</title>
+  <style>/*__STYLES__*/</style>
+</head>
+<body data-theme="light">
+  <header class="h-header">
+    <div class="h-header-inner">
+      <div class="h-brand">
+        <span class="h-logo" aria-hidden="true">🏪</span>
+        <span id="h-business" class="h-business">Hanout</span>
+      </div>
+      <div class="h-header-actions">
+        <select id="h-lang" class="h-lang" aria-label="Language"></select>
+        <button id="h-theme" class="h-icon-btn" type="button" aria-label="Toggle theme">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="h-view" class="h-view" role="main"></main>
+
+  <nav id="h-nav" class="h-nav" aria-label="Sections"></nav>
+
+  <noscript style="display:block;padding:2rem;text-align:center">Hanout needs JavaScript enabled.</noscript>
+
+  <script>/*__CORE__*/</script>
+  <script>/*__MODULES__*/</script>
+  <script id="h-seed" type="application/json">/*__SEED__*/</script>
+  <script>
+    (function () {
+      var SEED = null;
+      try { SEED = JSON.parse(document.getElementById('h-seed').textContent); } catch (e) { /* no seed */ }
+      function start() { window.Hanout.boot(SEED); }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+      else start();
+    })();
+  </script>
+</body>
+</html>

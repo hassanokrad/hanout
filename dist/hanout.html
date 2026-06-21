@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="Hanout — a free, offline, modular manager for any small shop." />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Hanout" />
+  <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiSGFub3V0IC0gc2hvcCBtYW5hZ2VyIiwic2hvcnRfbmFtZSI6Ikhhbm91dCIsImRlc2NyaXB0aW9uIjoiRnJlZSwgb2ZmbGluZSwgbW9kdWxhciBtYW5hZ2VyIGZvciBhbnkgc21hbGwgc2hvcC4iLCJzdGFydF91cmwiOiIuIiwic2NvcGUiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiYmFja2dyb3VuZF9jb2xvciI6IiNmNWY3ZjkiLCJ0aGVtZV9jb2xvciI6IiMwZjc2NmUiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyUyMHhtbG5zJTNEJTIyaHR0cCUzQSUyRiUyRnd3dy53My5vcmclMkYyMDAwJTJGc3ZnJTIyJTIwdmlld0JveCUzRCUyMjAlMjAwJTIwNTEyJTIwNTEyJTIyJTNFJTNDZGVmcyUzRSUzQ2xpbmVhckdyYWRpZW50JTIwaWQlM0QlMjJnJTIyJTIweDElM0QlMjIwJTIyJTIweTElM0QlMjIwJTIyJTIweDIlM0QlMjIxJTIyJTIweTIlM0QlMjIxJTIyJTNFJTNDc3RvcCUyMG9mZnNldCUzRCUyMjAlMjIlMjBzdG9wLWNvbG9yJTNEJTIyJTIzMGQ5NDg4JTIyJTJGJTNFJTNDc3RvcCUyMG9mZnNldCUzRCUyMjElMjIlMjBzdG9wLWNvbG9yJTNEJTIyJTIzMGY3NjZlJTIyJTJGJTNFJTNDJTJGbGluZWFyR3JhZGllbnQlM0UlM0MlMkZkZWZzJTNFJTNDcmVjdCUyMHdpZHRoJTNEJTIyNTEyJTIyJTIwaGVpZ2h0JTNEJTIyNTEyJTIyJTIwcnglM0QlMjIxMTYlMjIlMjBmaWxsJTNEJTIydXJsKCUyM2cpJTIyJTJGJTNFJTNDdGV4dCUyMHglM0QlMjIyNTYlMjIlMjB5JTNEJTIyMzU4JTIyJTIwZm9udC1mYW1pbHklM0QlMjJzeXN0ZW0tdWklMkNTZWdvZSUyMFVJJTJDQXJpYWwlMkNzYW5zLXNlcmlmJTIyJTIwZm9udC1zaXplJTNEJTIyMzAwJTIyJTIwZm9udC13ZWlnaHQlM0QlMjI4MDAlMjIlMjB0ZXh0LWFuY2hvciUzRCUyMm1pZGRsZSUyMiUyMGZpbGwlM0QlMjIlMjNmZmZmZmYlMjIlM0VIJTNDJTJGdGV4dCUzRSUzQyUyRnN2ZyUzRSIsInNpemVzIjoiYW55IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwiLCJwdXJwb3NlIjoiYW55IG1hc2thYmxlIn1dfQ==">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%230d9488%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230f766e%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22116%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22256%22%20y%3D%22358%22%20font-family%3D%22system-ui%2CSegoe%20UI%2CArial%2Csans-serif%22%20font-size%3D%22300%22%20font-weight%3D%22800%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%3EH%3C%2Ftext%3E%3C%2Fsvg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%230d9488%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230f766e%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22116%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22256%22%20y%3D%22358%22%20font-family%3D%22system-ui%2CSegoe%20UI%2CArial%2Csans-serif%22%20font-size%3D%22300%22%20font-weight%3D%22800%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%3EH%3C%2Ftext%3E%3C%2Fsvg%3E">
+  <title>Hanout</title>
+  <style>/* Hanout core — styles.css : theme variables, light/dark, RTL-aware, mobile-first */
+
+:root {
+  --bg: #f5f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef1f5;
+  --text: #16202e;
+  --muted: #687387;
+  --border: #e2e7ee;
+  --accent: #0f766e;
+  --accent-2: #0d9488;
+  --accent-soft: #d8f1ec;
+  --on-accent: #ffffff;
+  --danger: #dc2626;
+  --danger-soft: #fde6e6;
+  --warn: #b45309;
+  --warn-soft: #fdebd0;
+  --ok: #15803d;
+  --ok-soft: #dcf3e3;
+  --shadow: 0 1px 3px rgba(16, 24, 40, .09), 0 1px 2px rgba(16, 24, 40, .05);
+  --shadow-lg: 0 12px 32px rgba(16, 24, 40, .18);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --max: 760px;
+}
+body[data-theme="dark"] {
+  --bg: #0b1118;
+  --surface: #121a24;
+  --surface-2: #1b2533;
+  --text: #e8eef6;
+  --muted: #93a1b5;
+  --border: #25313f;
+  --accent: #2dd4bf;
+  --accent-2: #14b8a6;
+  --accent-soft: #103029;
+  --on-accent: #04201c;
+  --danger: #f87171;
+  --danger-soft: #3a1d1d;
+  --warn: #fbbf24;
+  --warn-soft: #382a12;
+  --ok: #4ade80;
+  --ok-soft: #14301f;
+  --shadow: 0 1px 3px rgba(0, 0, 0, .45);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, .55);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+  padding-bottom: 78px; /* clear bottom nav */
+}
+h1, h2, h3, h4, p { margin: 0; }
+button { font-family: inherit; cursor: pointer; }
+.h-muted { color: var(--muted); }
+.h-spacer { flex: 1; }
+
+/* ---------- header ---------- */
+.h-header {
+  position: sticky; top: 0; z-index: 30;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: saturate(1.2) blur(6px);
+}
+.h-header-inner {
+  max-width: var(--max); margin: 0 auto;
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px;
+}
+.h-brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.h-logo { font-size: 22px; }
+.h-business { font-weight: 700; font-size: 17px; letter-spacing: .2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.h-header-actions { margin-inline-start: auto; display: flex; align-items: center; gap: 8px; }
+.h-lang {
+  appearance: none; background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 13px;
+}
+.h-icon-btn {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 999px; width: 36px; height: 36px; font-size: 16px; line-height: 1;
+}
+.h-icon-btn:active { transform: scale(.94); }
+
+/* ---------- main view ---------- */
+.h-view { max-width: var(--max); margin: 0 auto; padding: 16px 16px 8px; }
+.h-page-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin: 2px 2px 10px; }
+
+/* ---------- bottom nav ---------- */
+.h-nav {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 40;
+  display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none;
+  max-width: var(--max); margin: 0 auto;
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+}
+.h-nav::-webkit-scrollbar { display: none; }
+.h-tab {
+  flex: 1 0 auto; min-width: 60px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: none; border: 0; border-radius: 10px; padding: 6px 8px;
+  color: var(--muted); font-size: 10.5px; font-weight: 600;
+}
+.h-tab-ico { font-size: 19px; line-height: 1; filter: grayscale(.35); opacity: .8; }
+.h-tab.active { color: var(--accent); background: var(--accent-soft); }
+.h-tab.active .h-tab-ico { filter: none; opacity: 1; }
+
+/* ---------- cards ---------- */
+.h-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 14px; margin-bottom: 14px;
+}
+.h-card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.h-card-head h3 { font-size: 15px; font-weight: 700; }
+.h-card-head .h-spacer { flex: 1; }
+.h-section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin: 18px 2px 8px; }
+
+/* ---------- buttons ---------- */
+.h-btn {
+  background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 10px; padding: 9px 15px; font-size: 14px; font-weight: 600;
+}
+.h-btn:active { transform: translateY(1px); }
+.h-btn-primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.h-btn-danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+.h-btn-ghost { background: none; border-color: transparent; color: var(--accent); }
+.h-btn-block { display: block; width: 100%; }
+.h-btn-lg { padding: 13px 18px; font-size: 16px; }
+.h-btn[disabled] { opacity: .5; pointer-events: none; }
+
+.h-fab {
+  position: fixed; inset-inline-end: 16px; bottom: 90px; z-index: 35;
+  width: 54px; height: 54px; border-radius: 50%; border: 0;
+  background: var(--accent); color: var(--on-accent); font-size: 26px; line-height: 1;
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---------- inputs / fields ---------- */
+.h-input {
+  width: 100%; background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 15px;
+}
+.h-input:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+select.h-input { appearance: none; }
+.h-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.h-field-label { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.h-field-hint { font-size: 11.5px; color: var(--muted); }
+.h-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.h-form-grid .h-col-2 { grid-column: 1 / -1; }
+
+/* ---------- lists ---------- */
+.h-list { display: flex; flex-direction: column; }
+.h-list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 2px; border-bottom: 1px solid var(--border);
+}
+.h-list-item:last-child { border-bottom: 0; }
+.h-list-main { min-width: 0; flex: 1; }
+.h-list-title { font-weight: 600; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.h-list-sub { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+.h-list-end { text-align: end; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.h-list-amount { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ---------- product grid (POS) ---------- */
+.h-prodgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(102px, 1fr)); gap: 10px; }
+.h-prod {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 12px 10px; text-align: center; min-height: 86px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px;
+}
+.h-prod:active { transform: scale(.96); border-color: var(--accent); }
+.h-prod-name { font-weight: 600; font-size: 13px; line-height: 1.25; }
+.h-prod-price { font-size: 12px; color: var(--accent); font-weight: 700; }
+.h-prod-stock { font-size: 10.5px; color: var(--muted); }
+.h-prod.low .h-prod-stock { color: var(--warn); }
+.h-prod.out { opacity: .55; }
+
+/* ---------- KPIs ---------- */
+.h-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.h-kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 13px 14px; }
+.h-kpi-val { font-size: 22px; font-weight: 800; letter-spacing: -.4px; font-variant-numeric: tabular-nums; }
+.h-kpi-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.h-kpi-sub { font-size: 11.5px; margin-top: 4px; }
+
+/* ---------- chips / pills ---------- */
+.h-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.h-chip {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 600;
+}
+.h-chip.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.h-pill { display: inline-block; border-radius: 999px; padding: 2px 9px; font-size: 11px; font-weight: 700; background: var(--surface-2); color: var(--muted); }
+.h-pill-ok { background: var(--ok-soft); color: var(--ok); }
+.h-pill-warn { background: var(--warn-soft); color: var(--warn); }
+.h-pill-danger { background: var(--danger-soft); color: var(--danger); }
+.h-pill-accent { background: var(--accent-soft); color: var(--accent); }
+
+/* ---------- bar chart ---------- */
+.h-bars { display: flex; flex-direction: column; gap: 7px; }
+.h-bar-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.h-bar-label { flex: 0 0 33%; max-width: 33%; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.h-bar-track { flex: 1; height: 9px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.h-bar-fill { display: block; height: 100%; background: linear-gradient(90deg, var(--accent-2), var(--accent)); border-radius: 999px; }
+.h-bar-val { flex: 0 0 auto; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* ---------- empty / error ---------- */
+.h-empty { text-align: center; color: var(--muted); padding: 32px 16px; }
+.h-empty-emoji { font-size: 34px; opacity: .7; margin-bottom: 8px; }
+.h-err { color: var(--danger); white-space: pre-wrap; font-size: 12px; padding: 12px; }
+
+/* ---------- modal / bottom sheet ---------- */
+.h-overlay {
+  position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center;
+  background: rgba(8, 12, 20, .45); opacity: 0; transition: opacity .18s ease; padding: 16px;
+}
+.h-overlay.show { opacity: 1; }
+.h-modal {
+  background: var(--surface); color: var(--text); border-radius: var(--radius);
+  box-shadow: var(--shadow-lg); width: 100%; max-width: 460px; max-height: 90vh;
+  display: flex; flex-direction: column; transform: translateY(8px) scale(.98); transition: transform .18s ease;
+}
+.h-overlay.show .h-modal { transform: none; }
+.h-modal-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.h-modal-head h3 { font-size: 16px; font-weight: 700; flex: 1; }
+.h-x { background: none; border: 0; color: var(--muted); font-size: 18px; line-height: 1; padding: 4px; }
+.h-modal-body { padding: 16px; overflow-y: auto; }
+.h-modal-foot { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--border); }
+.h-modal-foot .h-btn { flex: 1; }
+@media (max-width: 540px) {
+  .h-sheet { align-self: flex-end; max-width: none; border-radius: 18px 18px 0 0; transform: translateY(100%); }
+  .h-overlay.show .h-sheet { transform: none; }
+  .h-overlay:has(.h-sheet) { align-items: flex-end; padding: 0; }
+}
+
+/* ---------- toast ---------- */
+.h-toast {
+  position: fixed; left: 50%; bottom: 96px; transform: translate(-50%, 20px);
+  background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 999px;
+  font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow-lg); z-index: 70;
+  opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; max-width: 88vw; text-align: center;
+}
+.h-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- utilities ---------- */
+.h-row { display: flex; align-items: center; gap: 10px; }
+.h-wrap { flex-wrap: wrap; }
+.h-stack { display: flex; flex-direction: column; gap: 10px; }
+.h-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.h-bignum { font-size: 30px; font-weight: 800; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+.h-accent { color: var(--accent); }
+.h-danger { color: var(--danger); }
+.h-ok { color: var(--ok); }
+.h-warn { color: var(--warn); }
+.h-link { background: none; border: 0; color: var(--accent); font-weight: 600; font-size: 13px; padding: 4px; }
+.h-center { text-align: center; }
+.h-mt { margin-top: 12px; }
+
+/* numbers stay LTR even in RTL layouts */
+.h-num, .h-list-end, .h-bar-val, .h-kpi-val { direction: ltr; }
+</style>
+</head>
+<body data-theme="light">
+  <header class="h-header">
+    <div class="h-header-inner">
+      <div class="h-brand">
+        <span class="h-logo" aria-hidden="true">🏪</span>
+        <span id="h-business" class="h-business">Hanout</span>
+      </div>
+      <div class="h-header-actions">
+        <select id="h-lang" class="h-lang" aria-label="Language"></select>
+        <button id="h-theme" class="h-icon-btn" type="button" aria-label="Toggle theme">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="h-view" class="h-view" role="main"></main>
+
+  <nav id="h-nav" class="h-nav" aria-label="Sections"></nav>
+
+  <noscript style="display:block;padding:2rem;text-align:center">Hanout needs JavaScript enabled.</noscript>
+
+  <script>/* ===== core/store.js ===== */
+/* Hanout core — store.js
+ * A tiny localStorage-backed reactive store with collection (CRUD-by-id) helpers.
+ * Every key is namespaced with `hanout_`. Subscribers are notified on every write,
+ * which the runtime uses to re-render the active view. No dependencies.
+ */
+;(function () {
+  const H = (window.Hanout = window.Hanout || {});
+  const PREFIX = 'hanout_';
+
+  function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+  function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
+
+  function create() {
+    const cache = {};
+    const subs = [];
+
+    function read(key, fallback) {
+      if (key in cache) return cache[key];
+      try {
+        const raw = localStorage.getItem(PREFIX + key);
+        cache[key] = raw == null ? clone(fallback) : JSON.parse(raw);
+      } catch (e) {
+        cache[key] = clone(fallback);
+      }
+      return cache[key];
+    }
+    function write(key, val) {
+      cache[key] = val;
+      try { localStorage.setItem(PREFIX + key, JSON.stringify(val)); } catch (e) { /* quota / private mode */ }
+      notify(key);
+    }
+    function notify(key) { subs.forEach(fn => { try { fn(key); } catch (e) { console.error(e); } }); }
+
+    const store = {
+      uid,
+
+      // raw key/value
+      get(key, fallback) { return read(key, fallback === undefined ? null : fallback); },
+      set(key, val) { write(key, val); return val; },
+      has(key) { return localStorage.getItem(PREFIX + key) != null; },
+      removeKey(key) { delete cache[key]; localStorage.removeItem(PREFIX + key); notify(key); },
+
+      // collections: arrays of objects with an `id`
+      all(key) { return read(key, []); },
+      find(key, id) { return store.all(key).find(r => r.id === id) || null; },
+      insert(key, rec) {
+        const list = store.all(key).slice();
+        if (!rec.id) rec.id = uid();
+        list.push(rec);
+        write(key, list);
+        return rec;
+      },
+      update(key, id, patch) {
+        const list = store.all(key).map(r =>
+          r.id === id ? Object.assign({}, r, typeof patch === 'function' ? patch(r) : patch) : r
+        );
+        write(key, list);
+        return store.find(key, id);
+      },
+      upsert(key, rec) {
+        if (rec.id && store.find(key, rec.id)) return store.update(key, rec.id, rec);
+        return store.insert(key, rec);
+      },
+      del(key, id) { write(key, store.all(key).filter(r => r.id !== id)); },
+
+      // change notification
+      subscribe(fn) {
+        subs.push(fn);
+        return () => { const i = subs.indexOf(fn); if (i >= 0) subs.splice(i, 1); };
+      },
+
+      // backup / restore (only keys we own)
+      keys() {
+        const out = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && k.indexOf(PREFIX) === 0) out.push(k.slice(PREFIX.length));
+        }
+        return out;
+      },
+      exportAll() {
+        const data = {};
+        store.keys().forEach(k => { data[k] = store.get(k); });
+        return data;
+      },
+      importAll(data, opts) {
+        opts = opts || {};
+        if (!opts.merge) store.keys().forEach(k => store.removeKey(k));
+        Object.keys(data || {}).forEach(k => store.set(k, data[k]));
+      },
+      clearAll() {
+        store.keys().forEach(k => store.removeKey(k));
+        for (const k in cache) delete cache[k];
+      },
+    };
+    return store;
+  }
+
+  H.Store = { create, uid, PREFIX };
+})();
+
+
+/* ===== core/i18n.js ===== */
+/* Hanout core — i18n.js
+ * EN / FR / AR dictionaries, translation with {var} interpolation, and text
+ * direction (Arabic → RTL). Modules add their own keys via Hanout.I18n.extend().
+ */
+;(function () {
+  const H = (window.Hanout = window.Hanout || {});
+  const dict = { en: {}, fr: {}, ar: {} };
+  const RTL = { ar: true };
+  let lang = 'en';
+
+  const core = {
+    en: {
+      save: 'Save', cancel: 'Cancel', delete: 'Delete', edit: 'Edit', add: 'Add', close: 'Close',
+      search: 'Search', confirm: 'Confirm', yes: 'Yes', no: 'No', ok: 'OK', today: 'Today',
+      total: 'Total', all: 'All', none: 'None', name: 'Name', price: 'Price', cost: 'Cost',
+      qty: 'Qty', quantity: 'Quantity', amount: 'Amount', date: 'Date', time: 'Time',
+      category: 'Category', note: 'Note', notes: 'Notes', phone: 'Phone', type: 'Type',
+      balance: 'Balance', actions: 'Actions', empty_here: 'Nothing here yet', undo: 'Undo',
+      saved: 'Saved', deleted: 'Deleted', removed: 'Removed', are_you_sure: 'Are you sure?',
+      this_cannot_be_undone: 'This cannot be undone.', revenue: 'Revenue', profit: 'Profit',
+      units: 'Units', sales: 'Sales', custom: 'Custom', cash: 'Cash', credit: 'Credit',
+      paid: 'Paid', unpaid: 'Unpaid', settings: 'Settings', currency: 'Currency',
+      language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark',
+      business_name: 'Business name', modules: 'Modules', required: 'required', optional: 'optional',
+      this_month: 'This month', last_month: 'Last month', all_time: 'All time',
+    },
+    fr: {
+      save: 'Enregistrer', cancel: 'Annuler', delete: 'Supprimer', edit: 'Modifier', add: 'Ajouter',
+      close: 'Fermer', search: 'Rechercher', confirm: 'Confirmer', yes: 'Oui', no: 'Non', ok: 'OK',
+      today: "Aujourd'hui", total: 'Total', all: 'Tout', none: 'Aucun', name: 'Nom', price: 'Prix',
+      cost: 'Coût', qty: 'Qté', quantity: 'Quantité', amount: 'Montant', date: 'Date', time: 'Heure',
+      category: 'Catégorie', note: 'Note', notes: 'Notes', phone: 'Téléphone', type: 'Type',
+      balance: 'Solde', actions: 'Actions', empty_here: 'Rien pour le moment', undo: 'Annuler',
+      saved: 'Enregistré', deleted: 'Supprimé', removed: 'Retiré', are_you_sure: 'Êtes-vous sûr ?',
+      this_cannot_be_undone: 'Cette action est irréversible.', revenue: 'Recettes', profit: 'Bénéfice',
+      units: 'Unités', sales: 'Ventes', custom: 'Autre', cash: 'Espèces', credit: 'Crédit',
+      paid: 'Payé', unpaid: 'Impayé', settings: 'Réglages', currency: 'Devise', language: 'Langue',
+      theme: 'Thème', light: 'Clair', dark: 'Sombre', business_name: 'Nom du commerce',
+      modules: 'Modules', required: 'requis', optional: 'optionnel',
+      this_month: 'Ce mois-ci', last_month: 'Le mois dernier', all_time: 'Tout',
+    },
+    ar: {
+      save: 'حفظ', cancel: 'إلغاء', delete: 'حذف', edit: 'تعديل', add: 'إضافة', close: 'إغلاق',
+      search: 'بحث', confirm: 'تأكيد', yes: 'نعم', no: 'لا', ok: 'حسناً', today: 'اليوم',
+      total: 'المجموع', all: 'الكل', none: 'لا شيء', name: 'الاسم', price: 'الثمن', cost: 'التكلفة',
+      qty: 'الكمية', quantity: 'الكمية', amount: 'المبلغ', date: 'التاريخ', time: 'الوقت',
+      category: 'الفئة', note: 'ملاحظة', notes: 'ملاحظات', phone: 'الهاتف', type: 'النوع',
+      balance: 'الرصيد', actions: 'إجراءات', empty_here: 'لا يوجد شيء بعد', undo: 'تراجع',
+      saved: 'تم الحفظ', deleted: 'تم الحذف', removed: 'تمت الإزالة', are_you_sure: 'هل أنت متأكد؟',
+      this_cannot_be_undone: 'لا يمكن التراجع عن هذا.', revenue: 'المداخيل', profit: 'الربح',
+      units: 'الوحدات', sales: 'المبيعات', custom: 'آخر', cash: 'نقداً', credit: 'بالكريدي',
+      paid: 'مدفوع', unpaid: 'غير مدفوع', settings: 'الإعدادات', currency: 'العملة',
+      language: 'اللغة', theme: 'المظهر', light: 'فاتح', dark: 'داكن', business_name: 'اسم النشاط',
+      modules: 'الوحدات', required: 'مطلوب', optional: 'اختياري',
+      this_month: 'هذا الشهر', last_month: 'الشهر الماضي', all_time: 'الكل',
+    },
+  };
+
+  function extend(strings) {
+    for (const l of Object.keys(strings || {})) {
+      dict[l] = Object.assign(dict[l] || {}, strings[l]);
+    }
+  }
+  extend(core);
+
+  function setLang(l) { if (dict[l]) lang = l; }
+  function t(key, vars) {
+    let s = dict[lang] && dict[lang][key];
+    if (s == null) s = dict.en && dict.en[key];
+    if (s == null) s = key;
+    if (vars) for (const k in vars) s = s.split('{' + k + '}').join(vars[k]);
+    return s;
+  }
+  function dir() { return RTL[lang] ? 'rtl' : 'ltr'; }
+
+  H.I18n = {
+    extend, setLang, t, dir,
+    langs: ['en', 'fr', 'ar'],
+    label: { en: 'English', fr: 'Français', ar: 'العربية' },
+    get lang() { return lang; },
+  };
+})();
+
+
+/* ===== core/ui.js ===== */
+/* Hanout core — ui.js
+ * Minimal DOM builder + a handful of UI components (modal, bottom sheet, toast,
+ * confirm, form fields, bar chart, KPI, cards). No framework, no dependencies.
+ */
+;(function () {
+  const H = (window.Hanout = window.Hanout || {});
+  const cfg = { currency: 'MAD', lang: 'en', dir: 'ltr' };
+
+  function el(tag, props, children) {
+    const node = document.createElement(tag);
+    if (props) for (const k in props) {
+      const v = props[k];
+      if (v == null || v === false) continue;
+      if (k === 'class' || k === 'className') node.className = v;
+      else if (k === 'html') node.innerHTML = v;
+      else if (k === 'text') node.textContent = v;
+      else if (k === 'dataset') Object.assign(node.dataset, v);
+      else if (k === 'style' && typeof v === 'object') Object.assign(node.style, v);
+      else if (k.slice(0, 2) === 'on' && typeof v === 'function') node.addEventListener(k.slice(2).toLowerCase(), v);
+      else if (v === true) node.setAttribute(k, '');
+      else node.setAttribute(k, v);
+    }
+    append(node, children);
+    return node;
+  }
+  function append(node, c) {
+    if (c == null || c === false) return;
+    if (Array.isArray(c)) c.forEach(x => append(node, x));
+    else if (c instanceof Node) node.appendChild(c);
+    else node.appendChild(document.createTextNode(String(c)));
+  }
+  function clear(node) { while (node && node.firstChild) node.removeChild(node.firstChild); return node; }
+
+  // number / money / date formatting (Latin digits everywhere to avoid bidi issues)
+  function nf(n, max) { return Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: max == null ? 2 : max }); }
+  function money(n) { return nf(n) + ' ' + cfg.currency; }
+  function pad(x) { return String(x).padStart(2, '0'); }
+  function fmtDate(d) {
+    const dt = (d instanceof Date) ? d : new Date(d);
+    if (isNaN(dt)) return String(d || '');
+    return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate());
+  }
+  function fmtTime(d) {
+    const dt = (d instanceof Date) ? d : new Date(d);
+    if (isNaN(dt)) return '';
+    return pad(dt.getHours()) + ':' + pad(dt.getMinutes());
+  }
+  function todayKey() { return fmtDate(new Date()); }
+
+  // ---- toast ----
+  let toastT;
+  function toast(msg) {
+    let t = document.getElementById('h-toast');
+    if (!t) { t = el('div', { id: 'h-toast', class: 'h-toast' }); document.body.appendChild(t); }
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  // ---- modal / bottom sheet ----
+  function modal(opts) {
+    opts = opts || {};
+    const overlay = el('div', { class: 'h-overlay' });
+    const card = el('div', { class: 'h-modal' + (opts.sheet ? ' h-sheet' : '') });
+    if (opts.title) card.appendChild(el('div', { class: 'h-modal-head' }, [
+      el('h3', {}, opts.title),
+      el('button', { class: 'h-x', 'aria-label': 'close', onClick: dismiss }, '✕'),
+    ]));
+    const body = el('div', { class: 'h-modal-body' });
+    append(body, typeof opts.body === 'function' ? opts.body() : opts.body);
+    card.appendChild(body);
+    if (opts.actions && opts.actions.length) {
+      const foot = el('div', { class: 'h-modal-foot' });
+      opts.actions.forEach(a => foot.appendChild(
+        el('button', { class: 'h-btn' + (a.kind ? ' h-btn-' + a.kind : ''), onClick: () => a.onClick && a.onClick(dismiss) }, a.label)
+      ));
+      card.appendChild(foot);
+    }
+    overlay.appendChild(card);
+    overlay.addEventListener('click', e => { if (e.target === overlay && opts.dismissable !== false) dismiss(); });
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('show'));
+    let closed = false;
+    function dismiss() {
+      if (closed) return; closed = true;
+      overlay.classList.remove('show');
+      setTimeout(() => overlay.remove(), 180);
+      opts.onClose && opts.onClose();
+    }
+    return { close: dismiss, card, body };
+  }
+  function sheet(opts) { return modal(Object.assign({ sheet: true }, opts)); }
+
+  function confirm(message, opts) {
+    opts = opts || {};
+    return new Promise(resolve => {
+      let decided = false;
+      const done = v => { if (decided) return; decided = true; resolve(v); };
+      modal({
+        title: opts.title || H.I18n.t('confirm'),
+        body: el('p', { class: 'h-muted' }, message),
+        actions: [
+          { label: opts.cancel || H.I18n.t('cancel'), onClick: close => { close(); done(false); } },
+          { label: opts.ok || H.I18n.t('confirm'), kind: opts.danger ? 'danger' : 'primary', onClick: close => { close(); done(true); } },
+        ],
+        onClose: () => done(false),
+      });
+    });
+  }
+
+  // ---- form helpers ----
+  function field(label, control, hint) {
+    return el('label', { class: 'h-field' }, [
+      label ? el('span', { class: 'h-field-label' }, label) : null,
+      control,
+      hint ? el('span', { class: 'h-field-hint' }, hint) : null,
+    ]);
+  }
+  function input(props) { return el('input', Object.assign({ class: 'h-input' }, props)); }
+  function select(options, props) {
+    const s = el('select', Object.assign({ class: 'h-input' }, props));
+    (options || []).forEach(o => s.appendChild(el('option', { value: o.value, selected: o.selected }, o.label)));
+    return s;
+  }
+  function button(label, props) { return el('button', Object.assign({ class: 'h-btn' }, props), label); }
+
+  // ---- bar chart ----
+  function bars(data, opts) {
+    opts = opts || {};
+    const max = Math.max(1, ...data.map(d => +d.value || 0));
+    return el('div', { class: 'h-bars' }, data.length ? data.map(d =>
+      el('div', { class: 'h-bar-row' }, [
+        el('span', { class: 'h-bar-label', title: d.label }, d.label),
+        el('span', { class: 'h-bar-track' }, el('span', { class: 'h-bar-fill', style: { width: (100 * (+d.value || 0) / max) + '%' } })),
+        el('span', { class: 'h-bar-val' }, opts.format ? opts.format(d.value) : nf(d.value, 0)),
+      ])
+    ) : empty());
+  }
+
+  // ---- misc components ----
+  function empty(msg, emoji) {
+    return el('div', { class: 'h-empty' }, [
+      el('div', { class: 'h-empty-emoji' }, emoji || '🗒️'),
+      el('p', {}, msg || H.I18n.t('empty_here')),
+    ]);
+  }
+  function card(title, body, extra) {
+    return el('section', { class: 'h-card' }, [
+      title ? el('div', { class: 'h-card-head' }, [el('h3', {}, title), extra || null]) : null,
+      body,
+    ]);
+  }
+  function kpi(label, value, sub) {
+    return el('div', { class: 'h-kpi' }, [
+      el('div', { class: 'h-kpi-val' }, value),
+      el('div', { class: 'h-kpi-label' }, label),
+      sub ? el('div', { class: 'h-kpi-sub' }, sub) : null,
+    ]);
+  }
+  function pill(text, kind) { return el('span', { class: 'h-pill' + (kind ? ' h-pill-' + kind : '') }, text); }
+  function row(cells, props) { return el('div', Object.assign({ class: 'h-row' }, props), cells); }
+
+  H.ui = {
+    cfg, el, append, clear, money, nf, fmtDate, fmtTime, todayKey,
+    toast, modal, sheet, confirm, field, input, select, button, bars,
+    empty, card, kpi, pill, row,
+  };
+})();
+
+
+/* ===== core/app.js ===== */
+/* Hanout core — app.js
+ * The runtime: module registry, event bus, navigation, settings, theming, boot.
+ * Modules register at parse time via Hanout.module({...}); Hanout.boot(SEED) starts
+ * everything once the DOM is ready.
+ */
+;(function () {
+  const H = (window.Hanout = window.Hanout || {});
+  const ui = H.ui, I18n = H.I18n;
+
+  const registry = [];
+  function module(def) { registry.push(def); }
+
+  const SETTINGS_KEY = 'settings';
+  const SEEDVER_KEY = 'seedver';
+  const DEFAULT_SETTINGS = { business: 'Hanout', currency: 'MAD', lang: 'en', theme: 'light', enabled: {} };
+
+  let store, settings, app, activeId, SEED = null;
+  const listeners = {};
+
+  // ---- settings ----
+  function loadSettings() { return Object.assign({}, DEFAULT_SETTINGS, store.get(SETTINGS_KEY, {})); }
+  function saveSettings(patch) {
+    settings = Object.assign({}, settings, patch);
+    if (patch && patch.enabled) settings.enabled = Object.assign({}, settings.enabled, patch.enabled);
+    store.set(SETTINGS_KEY, settings);
+    applySettings();
+    renderNav();
+    render();
+  }
+  function applySettings() {
+    ui.cfg.currency = settings.currency || 'MAD';
+    ui.cfg.lang = settings.lang || 'en';
+    I18n.setLang(settings.lang || 'en');
+    ui.cfg.dir = I18n.dir();
+    document.documentElement.lang = settings.lang || 'en';
+    document.documentElement.dir = I18n.dir();
+    document.body.setAttribute('data-theme', settings.theme || 'light');
+    const bn = document.getElementById('h-business');
+    if (bn) bn.textContent = settings.business || 'Hanout';
+    const langSel = document.getElementById('h-lang');
+    if (langSel) langSel.value = settings.lang;
+  }
+
+  // ---- modules ----
+  function isEnabled(m) { return !!m && (m.core || settings.enabled[m.id] !== false); }
+  function enabledModules() { return registry.filter(isEnabled).sort((a, b) => (a.order || 50) - (b.order || 50)); }
+  function moduleById(id) { return registry.find(m => m.id === id) || null; }
+  function moduleTitle(m) { const t = m && m.title; return (t && (t[settings.lang] || t.en)) || (m && m.id) || ''; }
+
+  // ---- event bus ----
+  function on(evt, fn) {
+    (listeners[evt] = listeners[evt] || []).push(fn);
+    return () => { const a = listeners[evt]; const i = a.indexOf(fn); if (i >= 0) a.splice(i, 1); };
+  }
+  function emit(evt, payload) { (listeners[evt] || []).forEach(fn => { try { fn(payload); } catch (e) { console.error(e); } }); }
+
+  // ---- navigation / rendering ----
+  function openTab(id) {
+    const m = moduleById(id);
+    if (!isEnabled(m)) id = (enabledModules()[0] || {}).id;
+    activeId = id;
+    renderNav();
+    render();
+    const main = document.getElementById('h-view');
+    if (main) main.scrollTop = 0;
+  }
+  function render() {
+    const main = document.getElementById('h-view');
+    if (!main) return;
+    ui.clear(main);
+    const m = moduleById(activeId);
+    if (!m) return;
+    try { ui.append(main, m.view(app)); }
+    catch (e) { console.error(e); ui.append(main, ui.el('pre', { class: 'h-err' }, String((e && e.stack) || e))); }
+  }
+  function refresh() { render(); }
+  function renderNav() {
+    const nav = document.getElementById('h-nav');
+    if (!nav) return;
+    ui.clear(nav);
+    enabledModules().forEach(m => nav.appendChild(
+      ui.el('button', { class: 'h-tab' + (m.id === activeId ? ' active' : ''), onClick: () => openTab(m.id) }, [
+        ui.el('span', { class: 'h-tab-ico' }, m.icon || '•'),
+        ui.el('span', { class: 'h-tab-lbl' }, moduleTitle(m)),
+      ])
+    ));
+  }
+
+  // ---- seed / reset ----
+  function installSeed(seed) {
+    Object.keys(seed).forEach(k => { if (k !== 'version') store.set(k, seed[k]); });
+    store.set(SEEDVER_KEY, seed.version);
+  }
+  function firstRunSeed(seed) {
+    if (!seed) return;
+    if (store.has(SETTINGS_KEY)) return;            // an install already exists — never clobber user data
+    installSeed(seed);
+  }
+  function resetToSample() {
+    store.clearAll();
+    if (SEED) installSeed(SEED);
+    settings = loadSettings();
+    applySettings();
+    renderNav();
+    openTab((enabledModules()[0] || {}).id);
+  }
+
+  // ---- boot ----
+  function boot(seed) {
+    SEED = seed || null;
+    store = H.Store.create();
+    firstRunSeed(SEED);
+    settings = loadSettings();
+
+    app = {
+      store, ui, i18n: I18n,
+      t: (k, v) => I18n.t(k, v),
+      el: ui.el, money: ui.money, nf: ui.nf, fmtDate: ui.fmtDate, fmtTime: ui.fmtTime, todayKey: ui.todayKey,
+      toast: ui.toast, modal: ui.modal, sheet: ui.sheet, confirm: ui.confirm,
+      on, emit,
+      get settings() { return settings; },
+      saveSettings,
+      refresh, openTab,
+      modules: enabledModules,
+      allModules: () => registry.slice(),
+      moduleTitle, isEnabled,
+      resetToSample,
+      seed: () => SEED,
+    };
+
+    registry.forEach(m => m.strings && I18n.extend(m.strings));
+    applySettings();
+    registry.forEach(m => { if (isEnabled(m) && m.setup) { try { m.setup(app); } catch (e) { console.error(e); } } });
+
+    // re-render the active view whenever data changes (simple + fine at this scale)
+    store.subscribe(() => { if (document.getElementById('h-view')) render(); });
+
+    wireHeader();
+    renderNav();
+    openTab((enabledModules()[0] || {}).id);
+  }
+
+  function wireHeader() {
+    const langSel = document.getElementById('h-lang');
+    if (langSel) {
+      langSel.innerHTML = '';
+      I18n.langs.forEach(l => langSel.appendChild(ui.el('option', { value: l }, I18n.label[l])));
+      langSel.value = settings.lang;
+      langSel.onchange = () => saveSettings({ lang: langSel.value });
+    }
+    const themeBtn = document.getElementById('h-theme');
+    if (themeBtn) themeBtn.onclick = () => saveSettings({ theme: settings.theme === 'dark' ? 'light' : 'dark' });
+  }
+
+  H.module = module;
+  H.boot = boot;
+  H.app = () => app;
+})();
+</script>
+  <script>/* ===== modules/sales ===== */
+/* Hanout module — sales (point of sale). Core. Tap a product → record a sale. */
+;(function () {
+  const MOD = {
+    id: 'sales', core: true, order: 10, icon: '🛒',
+    title: { en: 'Sell', fr: 'Vendre', ar: 'بيع' },
+    strings: {
+      en: {
+        todays_total: "Today's total", todays_sales: "Today's sales", record_sale: 'Record sale',
+        unit_price: 'Unit price', payment: 'Payment', customer: 'Customer', pick_customer: 'pick a customer',
+        no_products: 'No products yet — add items in Inventory.', search_products: 'Search products…',
+        sale_recorded: 'Sale recorded', out_of_stock: 'out', in_stock: 'in stock',
+        select_customer_first: 'Pick a customer for a credit sale', undo_sale: 'Undo this sale?',
+      },
+      fr: {
+        todays_total: 'Total du jour', todays_sales: 'Ventes du jour', record_sale: 'Enregistrer la vente',
+        unit_price: 'Prix unitaire', payment: 'Paiement', customer: 'Client', pick_customer: 'choisir un client',
+        no_products: 'Aucun produit — ajoutez des articles dans Stock.', search_products: 'Rechercher un produit…',
+        sale_recorded: 'Vente enregistrée', out_of_stock: 'épuisé', in_stock: 'en stock',
+        select_customer_first: 'Choisissez un client pour une vente à crédit', undo_sale: 'Annuler cette vente ?',
+      },
+      ar: {
+        todays_total: 'مجموع اليوم', todays_sales: 'مبيعات اليوم', record_sale: 'تسجيل البيع',
+        unit_price: 'ثمن الوحدة', payment: 'الأداء', customer: 'الزبون', pick_customer: 'اختر زبوناً',
+        no_products: 'لا توجد منتجات بعد — أضِف عناصر في المخزون.', search_products: 'ابحث عن منتج…',
+        sale_recorded: 'تم تسجيل البيع', out_of_stock: 'نفد', in_stock: 'متوفر',
+        select_customer_first: 'اختر زبوناً للبيع بالكريدي', undo_sale: 'تراجع عن هذا البيع؟',
+      },
+    },
+
+    view(app) {
+      const { el, store, t, money } = app, ui = app.ui;
+      const wrap = el('div');
+      const today = app.todayKey();
+      const todays = store.all('sales').filter(s => s.date === today);
+      const todayTotal = todays.reduce((a, s) => a + s.total, 0);
+
+      // today summary
+      wrap.appendChild(ui.card(null, el('div', {}, [
+        el('div', { class: 'h-bignum h-accent' }, money(todayTotal)),
+        el('div', { class: 'h-muted', style: { fontSize: '12.5px', marginTop: '2px' } },
+          t('todays_total') + ' · ' + todays.length + ' ' + t('sales').toLowerCase()),
+      ])));
+
+      // search
+      let q = '', cat = '';
+      const search = ui.input({ type: 'search', placeholder: t('search_products'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderGrid(); } });
+      wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
+
+      const activeItems = () => store.all('items').filter(i => i.active !== false);
+      const cats = Array.from(new Set(activeItems().map(i => i.category).filter(Boolean)));
+      const chipRow = el('div', { class: 'h-chips', style: { flexWrap: 'nowrap', overflowX: 'auto', marginBottom: '12px' } });
+      function renderChips() {
+        ui.clear(chipRow);
+        [['', t('all')]].concat(cats.map(c => [c, c])).forEach(([val, lbl]) =>
+          chipRow.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; renderChips(); renderGrid(); } }, lbl)));
+      }
+      if (cats.length) { renderChips(); wrap.appendChild(chipRow); }
+
+      const grid = el('div', { class: 'h-prodgrid' });
+      function renderGrid() {
+        ui.clear(grid);
+        let list = activeItems();
+        if (cat) list = list.filter(i => i.category === cat);
+        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q));
+        if (!list.length) { grid.appendChild(ui.empty(store.all('items').length ? t('empty_here') : t('no_products'), '🛒')); return; }
+        list.forEach(it => {
+          const low = it.stock != null && it.stock > 0 && it.stock <= 3;
+          const out = it.stock != null && it.stock <= 0;
+          grid.appendChild(el('button', { class: 'h-prod' + (low ? ' low' : '') + (out ? ' out' : ''), onClick: () => openSale(app, it) }, [
+            el('div', { class: 'h-prod-name' }, it.name),
+            el('div', { class: 'h-prod-price' }, money(it.price)),
+            it.stock != null ? el('div', { class: 'h-prod-stock' }, out ? t('out_of_stock') : it.stock + ' ' + (it.unit || '')) : null,
+          ]));
+        });
+      }
+      renderGrid();
+      wrap.appendChild(grid);
+
+      // today's sales list
+      if (todays.length) {
+        const list = el('div', { class: 'h-list' });
+        todays.slice().reverse().forEach(s => {
+          list.appendChild(el('div', { class: 'h-list-item' }, [
+            el('div', { class: 'h-list-main' }, [
+              el('div', { class: 'h-list-title' }, s.name),
+              el('div', { class: 'h-list-sub' }, app.fmtTime(s.ts) + (s.qty > 1 ? ' · ' + s.qty + '×' + money(s.price) : '') + ' · ' + (s.payment === 'credit' ? t('credit') : t('cash'))),
+            ]),
+            el('div', { class: 'h-list-end' }, el('div', { class: 'h-list-amount' }, money(s.total))),
+            el('button', { class: 'h-link', onClick: () => undoSale(app, s) }, t('undo')),
+          ]));
+        });
+        wrap.appendChild(el('div', { class: 'h-section-title' }, t('todays_sales')));
+        wrap.appendChild(ui.card(null, list));
+      }
+      return wrap;
+    },
+  };
+
+  function openSale(app, item) {
+    const { el, store, t, money } = app, ui = app.ui;
+    let qty = 1, price = +item.price || 0, payment = 'cash', contactId = '';
+    const customers = store.all('contacts').filter(c => c.type === 'customer');
+
+    const totalEl = el('div', { class: 'h-bignum h-accent' });
+    const qtyEl = el('span', { style: { minWidth: '38px', textAlign: 'center', fontWeight: '700', fontSize: '18px' } }, String(qty));
+    const upd = () => { totalEl.textContent = money(qty * price); };
+
+    const priceInput = ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: String(price), oninput: e => { price = parseFloat(e.target.value) || 0; upd(); } });
+
+    const custField = ui.field(t('customer'),
+      ui.select([{ value: '', label: '— ' + t('pick_customer') + ' —' }].concat(customers.map(c => ({ value: c.id, label: c.name }))), { onchange: e => { contactId = e.target.value; } }));
+    custField.style.display = 'none';
+
+    const cashBtn = el('button', { class: 'h-chip active', onClick: () => setPay('cash') }, t('cash'));
+    const creditBtn = el('button', { class: 'h-chip', onClick: () => setPay('credit') }, t('credit'));
+    function setPay(p) { payment = p; cashBtn.classList.toggle('active', p === 'cash'); creditBtn.classList.toggle('active', p === 'credit'); custField.style.display = p === 'credit' ? '' : 'none'; }
+
+    let saving = false;
+    app.sheet({
+      title: item.name,
+      body: el('div', {}, [
+        ui.field(t('unit_price'), priceInput,
+          item.stock != null ? (item.stock <= 0 ? t('out_of_stock') : item.stock + ' ' + (item.unit || '') + ' ' + t('in_stock')) : null),
+        ui.field(t('quantity'), el('div', { class: 'h-row' }, [
+          el('button', { class: 'h-btn', onClick: () => { if (qty > 1) { qty--; qtyEl.textContent = qty; upd(); } } }, '−'),
+          qtyEl,
+          el('button', { class: 'h-btn', onClick: () => { qty++; qtyEl.textContent = qty; upd(); } }, '+'),
+        ])),
+        ui.field(t('payment'), el('div', { class: 'h-chips' }, [cashBtn, creditBtn])),
+        custField,
+        el('div', { class: 'h-row h-mt' }, [el('span', { class: 'h-muted' }, t('total')), el('div', { class: 'h-spacer' }), totalEl]),
+      ]),
+      actions: [
+        { label: t('cancel'), onClick: close => close() },
+        { label: t('record_sale'), kind: 'primary', onClick: close => {
+            if (saving) return;
+            if (payment === 'credit' && !contactId) { app.toast(t('select_customer_first')); return; }
+            saving = true;
+            recordSale(app, item, qty, price, payment, payment === 'credit' ? contactId : null);
+            close();
+          } },
+      ],
+    });
+    upd();
+  }
+
+  function recordSale(app, item, qty, price, payment, contactId) {
+    const now = new Date();
+    const sale = {
+      id: app.store.uid(), date: app.fmtDate(now), ts: now.toISOString(),
+      itemId: item.id, name: item.name, qty, price, total: +(qty * price).toFixed(2),
+      payment, contactId: contactId || null,
+    };
+    app.store.insert('sales', sale);
+    app.emit('sale:recorded', sale);
+    app.toast(app.t('sale_recorded'));
+  }
+
+  function undoSale(app, sale) {
+    app.confirm(app.t('undo_sale'), { danger: true, ok: app.t('undo') }).then(ok => {
+      if (!ok) return;
+      app.store.del('sales', sale.id);
+      app.emit('sale:undone', sale);
+      app.toast(app.t('removed'));
+    });
+  }
+
+  window.Hanout.module(MOD);
+})();
+
+
+/* ===== modules/inventory ===== */
+/* Hanout module — inventory (stock). Items CRUD, low-stock, auto-decrement on sale. */
+;(function () {
+  const LOW = 3;
+
+  const MOD = {
+    id: 'inventory', order: 20, icon: '📦',
+    title: { en: 'Inventory', fr: 'Stock', ar: 'المخزون' },
+    strings: {
+      en: {
+        add_item: 'Add item', edit_item: 'Edit item', low_stock: 'low', out_of_stock_label: 'out',
+        stock: 'Stock', unit: 'Unit', status: 'Status', active: 'Active', archived: 'Archived',
+        sell_price: 'Sale price', search_items: 'Search items…', name_required: 'Name is required',
+        delete_item_q: 'Delete this item?', show_archived: 'Show archived', in_stock_n: '{n} in stock',
+        n_low_m_out: '{low} low · {out} out of stock', all_good: 'Stock looks healthy',
+      },
+      fr: {
+        add_item: 'Ajouter un article', edit_item: "Modifier l'article", low_stock: 'bas', out_of_stock_label: 'épuisé',
+        stock: 'Stock', unit: 'Unité', status: 'Statut', active: 'Actif', archived: 'Archivé',
+        sell_price: 'Prix de vente', search_items: 'Rechercher…', name_required: 'Le nom est requis',
+        delete_item_q: 'Supprimer cet article ?', show_archived: 'Afficher archivés', in_stock_n: '{n} en stock',
+        n_low_m_out: '{low} bas · {out} épuisés', all_good: 'Stock en bon état',
+      },
+      ar: {
+        add_item: 'إضافة عنصر', edit_item: 'تعديل العنصر', low_stock: 'منخفض', out_of_stock_label: 'نفد',
+        stock: 'المخزون', unit: 'الوحدة', status: 'الحالة', active: 'نشط', archived: 'مؤرشف',
+        sell_price: 'ثمن البيع', search_items: 'بحث…', name_required: 'الاسم مطلوب',
+        delete_item_q: 'حذف هذا العنصر؟', show_archived: 'إظهار المؤرشف', in_stock_n: '{n} في المخزون',
+        n_low_m_out: '{low} منخفض · {out} نفد', all_good: 'المخزون بحالة جيدة',
+      },
+    },
+
+    setup(app) {
+      app.on('sale:recorded', s => {
+        if (!s.itemId) return;
+        const it = app.store.find('items', s.itemId);
+        if (it && typeof it.stock === 'number') app.store.update('items', it.id, { stock: Math.max(0, it.stock - s.qty) });
+      });
+      app.on('sale:undone', s => {
+        if (!s.itemId) return;
+        const it = app.store.find('items', s.itemId);
+        if (it && typeof it.stock === 'number') app.store.update('items', it.id, { stock: it.stock + s.qty });
+      });
+    },
+
+    view(app) {
+      const { el, store, t, money } = app, ui = app.ui;
+      const wrap = el('div');
+      let q = '', filter = 'all', showArchived = false;
+
+      // header
+      wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
+        el('div', { class: 'h-page-title', style: { margin: 0 } }, app.moduleTitle(MOD)),
+        el('div', { class: 'h-spacer' }),
+        el('button', { class: 'h-btn h-btn-primary', onClick: () => openItemForm(app, null) }, '+ ' + t('add_item')),
+      ]));
+
+      // health banner
+      const live = () => store.all('items').filter(i => i.active !== false);
+      const lowN = live().filter(i => i.stock != null && i.stock > 0 && i.stock <= LOW).length;
+      const outN = live().filter(i => i.stock != null && i.stock <= 0).length;
+      wrap.appendChild(ui.card(null, (lowN + outN)
+        ? el('div', { class: 'h-row' }, [el('span', {}, '⚠️'), el('span', {}, t('n_low_m_out', { low: lowN, out: outN }))])
+        : el('div', { class: 'h-row h-ok' }, [el('span', {}, '✅'), el('span', {}, t('all_good'))])));
+
+      // search + filter chips
+      const search = ui.input({ type: 'search', placeholder: t('search_items'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderList(); } });
+      wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
+      const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
+      [['all', t('all')], ['low', t('low_stock')], ['out', t('out_of_stock_label')]].forEach(([val, lbl]) =>
+        chips.appendChild(el('button', { class: 'h-chip' + (filter === val ? ' active' : ''), onClick: () => { filter = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['all', 'low', 'out'][i] === val)); renderList(); } }, lbl)));
+      chips.appendChild(el('label', { class: 'h-chip h-row', style: { gap: '6px' } }, [
+        el('input', { type: 'checkbox', onchange: e => { showArchived = e.target.checked; renderList(); } }),
+        el('span', {}, t('show_archived')),
+      ]));
+      wrap.appendChild(chips);
+
+      const listCard = el('section', { class: 'h-card' });
+      wrap.appendChild(listCard);
+      function renderList() {
+        ui.clear(listCard);
+        let list = store.all('items').slice();
+        if (!showArchived) list = list.filter(i => i.active !== false);
+        if (filter === 'low') list = list.filter(i => i.stock != null && i.stock > 0 && i.stock <= LOW);
+        if (filter === 'out') list = list.filter(i => i.stock != null && i.stock <= 0);
+        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q) || (i.category || '').toLowerCase().includes(q));
+        list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        if (!list.length) { listCard.appendChild(ui.empty(null, '📦')); return; }
+        const inner = el('div', { class: 'h-list' });
+        list.forEach(it => {
+          const out = it.stock != null && it.stock <= 0;
+          const low = it.stock != null && it.stock > 0 && it.stock <= LOW;
+          const badge = it.stock == null ? null
+            : ui.pill((out ? t('out_of_stock_label') : it.stock + ' ' + (it.unit || '')), out ? 'danger' : (low ? 'warn' : 'ok'));
+          inner.appendChild(el('div', { class: 'h-list-item', onClick: () => openItemForm(app, it) }, [
+            el('div', { class: 'h-list-main' }, [
+              el('div', { class: 'h-list-title' }, [it.name, it.active === false ? ' ' : null, it.active === false ? ui.pill(t('archived')) : null]),
+              el('div', { class: 'h-list-sub' }, [it.category || '—', ' · ', money(it.price)]),
+            ]),
+            el('div', { class: 'h-list-end' }, badge),
+          ]));
+        });
+        listCard.appendChild(inner);
+      }
+      renderList();
+      return wrap;
+    },
+  };
+
+  function openItemForm(app, item) {
+    const { el, store, t } = app, ui = app.ui;
+    const ed = !!item; item = item || {};
+    const cats = Array.from(new Set(store.all('items').map(i => i.category).filter(Boolean)));
+    const f = {
+      name: ui.input({ value: item.name || '', placeholder: t('name') }),
+      category: ui.input({ value: item.category || '', placeholder: t('category'), list: 'h-cats' }),
+      price: ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: item.price != null ? item.price : '' }),
+      cost: ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: item.cost != null ? item.cost : '' }),
+      stock: ui.input({ type: 'number', inputmode: 'numeric', step: '1', value: item.stock != null ? item.stock : '' }),
+      unit: ui.input({ value: item.unit || '', placeholder: 'pc' }),
+    };
+    let active = item.active !== false;
+    const body = el('div', {}, [
+      el('datalist', { id: 'h-cats' }, cats.map(c => el('option', { value: c }))),
+      ui.field(t('name'), f.name),
+      el('div', { class: 'h-form-grid' }, [
+        ui.field(t('category'), f.category),
+        ui.field(t('unit') + ' (' + t('optional') + ')', f.unit),
+        ui.field(t('sell_price'), f.price),
+        ui.field(t('cost') + ' (' + t('optional') + ')', f.cost),
+        ui.field(t('stock'), f.stock),
+      ]),
+      ed ? ui.field(t('status'), el('label', { class: 'h-row', style: { gap: '8px' } }, [
+        el('input', { type: 'checkbox', checked: active, onchange: e => { active = e.target.checked; } }),
+        el('span', {}, t('active')),
+      ])) : null,
+    ]);
+
+    const actions = [];
+    if (ed) actions.push({ label: t('delete'), kind: 'danger', onClick: close => {
+      app.confirm(t('delete_item_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { store.del('items', item.id); close(); app.toast(t('deleted')); } });
+    } });
+    actions.push({ label: t('save'), kind: 'primary', onClick: close => {
+      const name = f.name.value.trim();
+      if (!name) { app.toast(t('name_required')); return; }
+      store.upsert('items', {
+        id: item.id, name, category: f.category.value.trim(),
+        price: parseFloat(f.price.value) || 0, cost: parseFloat(f.cost.value) || 0,
+        stock: f.stock.value === '' ? null : (parseInt(f.stock.value, 10) || 0),
+        unit: f.unit.value.trim() || 'pc', active,
+      });
+      close(); app.toast(t('saved'));
+    } });
+
+    app.sheet({ title: ed ? t('edit_item') : t('add_item'), body, actions });
+  }
+
+  window.Hanout.module(MOD);
+})();
+
+
+/* ===== modules/debts ===== */
+/* Hanout module — debts (the credit book / كريدي). Tracks who owes what. */
+;(function () {
+  const MOD = {
+    id: 'debts', order: 30, icon: '📒',
+    title: { en: 'Debts', fr: 'Crédits', ar: 'الكريدي' },
+    strings: {
+      en: {
+        total_outstanding: 'Total outstanding', record_payment: 'Record payment', add_charge: 'Add charge',
+        owes: 'owes', settled: 'All settled — nobody owes anything', pick_contact: 'Pick a customer',
+        charge: 'Charge', a_payment: 'Payment', amount_gt0: 'Enter an amount', repayment: 'Repayment',
+      },
+      fr: {
+        total_outstanding: 'Total dû', record_payment: 'Enregistrer un paiement', add_charge: 'Ajouter une dette',
+        owes: 'doit', settled: 'Tout est réglé — personne ne doit rien', pick_contact: 'Choisir un client',
+        charge: 'Dette', a_payment: 'Paiement', amount_gt0: 'Saisissez un montant', repayment: 'Remboursement',
+      },
+      ar: {
+        total_outstanding: 'المجموع المتبقي', record_payment: 'تسجيل دفعة', add_charge: 'إضافة دين',
+        owes: 'عليه', settled: 'كل شيء مسدد — لا أحد مدين', pick_contact: 'اختر زبوناً',
+        charge: 'دين', a_payment: 'دفعة', amount_gt0: 'أدخل مبلغاً', repayment: 'تسديد',
+      },
+    },
+
+    setup(app) {
+      app.on('sale:recorded', s => {
+        if (s.payment === 'credit' && s.contactId)
+          app.store.insert('debts', { id: app.store.uid(), contactId: s.contactId, kind: 'charge', amount: s.total, date: s.date, ts: s.ts, saleId: s.id, note: s.name });
+      });
+      app.on('sale:undone', s => {
+        if (s.payment === 'credit' && s.contactId) {
+          const charge = app.store.all('debts').find(d => d.saleId === s.id);
+          if (charge) app.store.del('debts', charge.id);
+        }
+      });
+    },
+
+    view(app) {
+      const { el, store, t, money } = app, ui = app.ui;
+      const wrap = el('div');
+      const bal = balances(app);
+      const contacts = store.all('contacts');
+      const cname = id => (contacts.find(c => c.id === id) || {}).name || '—';
+      const total = Object.keys(bal).reduce((s, id) => s + Math.max(0, bal[id]), 0);
+
+      wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
+        el('div', { class: 'h-page-title', style: { margin: 0 } }, app.moduleTitle(MOD)),
+        el('div', { class: 'h-spacer' }),
+        el('button', { class: 'h-btn h-btn-primary', onClick: () => openEntry(app, null, 'payment') }, '+ ' + t('record_payment')),
+      ]));
+      wrap.appendChild(ui.card(null, el('div', {}, [
+        el('div', { class: 'h-bignum ' + (total > 0 ? 'h-danger' : 'h-ok') }, money(total)),
+        el('div', { class: 'h-muted', style: { fontSize: '12.5px' } }, t('total_outstanding')),
+      ])));
+
+      const owing = Object.keys(bal).filter(id => bal[id] > 0.001).sort((a, b) => bal[b] - bal[a]);
+      if (!owing.length) {
+        wrap.appendChild(ui.card(null, el('div', { class: 'h-row h-ok' }, [el('span', {}, '✅'), el('span', {}, t('settled'))])));
+        return wrap;
+      }
+      const list = el('div', { class: 'h-list' });
+      owing.forEach(id => list.appendChild(el('div', { class: 'h-list-item', onClick: () => openContact(app, id) }, [
+        el('div', { class: 'h-list-main' }, [
+          el('div', { class: 'h-list-title' }, cname(id)),
+          el('div', { class: 'h-list-sub' }, t('owes')),
+        ]),
+        el('div', { class: 'h-list-end' }, ui.pill(money(bal[id]), 'danger')),
+      ])));
+      wrap.appendChild(ui.card(null, list));
+      return wrap;
+    },
+  };
+
+  function ledger(app, cid) { return app.store.all('debts').filter(d => d.contactId === cid).sort((a, b) => (a.ts < b.ts ? -1 : 1)); }
+  function balanceOf(app, cid) { return ledger(app, cid).reduce((s, d) => s + (d.kind === 'payment' ? -d.amount : d.amount), 0); }
+  function balances(app) {
+    const m = {};
+    app.store.all('debts').forEach(d => { m[d.contactId] = (m[d.contactId] || 0) + (d.kind === 'payment' ? -d.amount : d.amount); });
+    return m;
+  }
+
+  function openContact(app, cid) {
+    const { el, store, t, money } = app, ui = app.ui;
+    const c = store.find('contacts', cid) || { name: '—' };
+    const body = el('div', {});
+    function render() {
+      ui.clear(body);
+      const balance = balanceOf(app, cid);
+      body.appendChild(el('div', { class: 'h-center', style: { marginBottom: '12px' } }, [
+        el('div', { class: 'h-bignum ' + (balance > 0 ? 'h-danger' : 'h-ok') }, money(Math.max(0, balance))),
+        el('div', { class: 'h-muted', style: { fontSize: '12px' } }, balance > 0 ? t('owes') : t('settled')),
+      ]));
+      body.appendChild(el('div', { class: 'h-row', style: { gap: '10px', marginBottom: '12px' } }, [
+        el('button', { class: 'h-btn h-btn-primary h-spacer', onClick: () => openEntry(app, cid, 'payment', render) }, t('record_payment')),
+        el('button', { class: 'h-btn h-spacer', onClick: () => openEntry(app, cid, 'charge', render) }, t('add_charge')),
+      ]));
+      const led = ledger(app, cid).slice().reverse();
+      const list = el('div', { class: 'h-list' });
+      if (!led.length) list.appendChild(ui.empty());
+      led.forEach(d => {
+        const pay = d.kind === 'payment';
+        list.appendChild(el('div', { class: 'h-list-item' }, [
+          el('div', { class: 'h-list-main' }, [
+            el('div', { class: 'h-list-title' }, pay ? t('a_payment') : (d.note || t('charge'))),
+            el('div', { class: 'h-list-sub' }, d.date),
+          ]),
+          el('div', { class: 'h-list-end' }, el('span', { class: 'h-list-amount ' + (pay ? 'h-ok' : 'h-danger') }, (pay ? '−' : '+') + money(d.amount))),
+          el('button', { class: 'h-link', title: t('delete'), onClick: () => { store.del('debts', d.id); render(); } }, '✕'),
+        ]));
+      });
+      body.appendChild(list);
+    }
+    render();
+    app.sheet({ title: c.name, body });
+  }
+
+  function openEntry(app, cid, kind, after) {
+    const { el, store, t } = app, ui = app.ui;
+    const customers = store.all('contacts').filter(c => c.type === 'customer');
+    let contactId = cid || '';
+    const amt = ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', placeholder: '0' });
+    const note = ui.input({ placeholder: t('note') + ' (' + t('optional') + ')' });
+    const pickField = cid ? null : ui.field(t('customer'),
+      ui.select([{ value: '', label: '— ' + t('pick_contact') + ' —' }].concat(customers.map(c => ({ value: c.id, label: c.name }))), { onchange: e => { contactId = e.target.value; } }));
+    app.sheet({
+      title: kind === 'payment' ? t('record_payment') : t('add_charge'),
+      body: el('div', {}, [pickField, ui.field(t('amount'), amt), ui.field(t('note'), note)]),
+      actions: [
+        { label: t('cancel'), onClick: close => close() },
+        { label: t('save'), kind: 'primary', onClick: close => {
+            const a = parseFloat(amt.value) || 0;
+            if (!contactId) { app.toast(t('pick_contact')); return; }
+            if (a <= 0) { app.toast(t('amount_gt0')); return; }
+            const now = new Date();
+            store.insert('debts', { id: store.uid(), contactId, kind, amount: +a.toFixed(2), date: app.fmtDate(now), ts: now.toISOString(), note: note.value.trim() || (kind === 'payment' ? t('repayment') : '') });
+            close(); app.toast(t('saved')); after && after();
+          } },
+      ],
+    });
+  }
+
+  window.Hanout.module(MOD);
+})();
+
+
+/* ===== modules/expenses ===== */
+/* Hanout module — expenses (cashbook out): purchases, rent, utilities… */
+;(function () {
+  const DEFAULT_CATS = ['Purchases', 'Rent', 'Utilities', 'Transport', 'Salaries', 'Other'];
+
+  const MOD = {
+    id: 'expenses', order: 40, icon: '💸',
+    title: { en: 'Expenses', fr: 'Dépenses', ar: 'المصاريف' },
+    strings: {
+      en: { add_expense: 'Add expense', edit_expense: 'Edit expense', this_month_spent: 'Spent this month',
+        no_expenses: 'No expenses recorded yet', delete_expense_q: 'Delete this expense?', amount_gt0: 'Enter an amount' },
+      fr: { add_expense: 'Ajouter une dépense', edit_expense: 'Modifier la dépense', this_month_spent: 'Dépensé ce mois-ci',
+        no_expenses: 'Aucune dépense enregistrée', delete_expense_q: 'Supprimer cette dépense ?', amount_gt0: 'Saisissez un montant' },
+      ar: { add_expense: 'إضافة مصروف', edit_expense: 'تعديل المصروف', this_month_spent: 'مصاريف هذا الشهر',
+        no_expenses: 'لا توجد مصاريف مسجلة', delete_expense_q: 'حذف هذا المصروف؟', amount_gt0: 'أدخل مبلغاً' },
+    },
+
+    view(app) {
+      const { el, store, t, money } = app, ui = app.ui;
+      const wrap = el('div');
+      let cat = '';
+      const month = app.todayKey().slice(0, 7);
+      const all = store.all('expenses');
+      const monthTotal = all.filter(e => (e.date || '').slice(0, 7) === month).reduce((s, e) => s + (+e.amount || 0), 0);
+
+      wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
+        el('div', { class: 'h-page-title', style: { margin: 0 } }, app.moduleTitle(MOD)),
+        el('div', { class: 'h-spacer' }),
+        el('button', { class: 'h-btn h-btn-primary', onClick: () => openForm(app, null) }, '+ ' + t('add_expense')),
+      ]));
+      wrap.appendChild(ui.card(null, el('div', {}, [
+        el('div', { class: 'h-bignum h-warn' }, money(monthTotal)),
+        el('div', { class: 'h-muted', style: { fontSize: '12.5px' } }, t('this_month_spent')),
+      ])));
+
+      const cats = Array.from(new Set(all.map(e => e.category).filter(Boolean)));
+      if (cats.length) {
+        const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px', flexWrap: 'nowrap', overflowX: 'auto' } });
+        [['', t('all')]].concat(cats.map(c => [c, c])).forEach(([val, lbl]) =>
+          chips.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; renderList(); [...chips.children].forEach((ch, i) => ch.classList.toggle('active', (['', ...cats][i]) === val)); } }, lbl)));
+        wrap.appendChild(chips);
+      }
+
+      const listCard = el('section', { class: 'h-card' });
+      wrap.appendChild(listCard);
+      function renderList() {
+        ui.clear(listCard);
+        let list = all.slice().sort((a, b) => ((a.ts || a.date) < (b.ts || b.date) ? 1 : -1));
+        if (cat) list = list.filter(e => e.category === cat);
+        if (!list.length) { listCard.appendChild(ui.empty(t('no_expenses'), '💸')); return; }
+        const inner = el('div', { class: 'h-list' });
+        list.slice(0, 60).forEach(e => inner.appendChild(el('div', { class: 'h-list-item', onClick: () => openForm(app, e) }, [
+          el('div', { class: 'h-list-main' }, [
+            el('div', { class: 'h-list-title' }, e.category || t('none')),
+            el('div', { class: 'h-list-sub' }, [e.date, e.note ? ' · ' + e.note : '']),
+          ]),
+          el('div', { class: 'h-list-end' }, el('span', { class: 'h-list-amount h-warn' }, money(e.amount))),
+        ])));
+        listCard.appendChild(inner);
+      }
+      renderList();
+      return wrap;
+    },
+  };
+
+  function openForm(app, exp) {
+    const { el, store, t } = app, ui = app.ui;
+    const ed = !!exp; exp = exp || {};
+    const cats = Array.from(new Set(DEFAULT_CATS.concat(store.all('expenses').map(e => e.category).filter(Boolean))));
+    const amt = ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: exp.amount != null ? exp.amount : '' });
+    const category = ui.input({ value: exp.category || '', placeholder: t('category'), list: 'h-exp-cats' });
+    const date = ui.input({ type: 'date', value: exp.date || app.todayKey() });
+    const note = ui.input({ value: exp.note || '', placeholder: t('note') + ' (' + t('optional') + ')' });
+
+    const actions = [];
+    if (ed) actions.push({ label: t('delete'), kind: 'danger', onClick: close => {
+      app.confirm(t('delete_expense_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { store.del('expenses', exp.id); close(); app.toast(t('deleted')); } });
+    } });
+    actions.push({ label: t('save'), kind: 'primary', onClick: close => {
+      const a = parseFloat(amt.value) || 0;
+      if (a <= 0) { app.toast(t('amount_gt0')); return; }
+      const d = date.value || app.todayKey();
+      store.upsert('expenses', { id: exp.id, amount: +a.toFixed(2), category: category.value.trim() || t('none'), date: d, ts: exp.ts || new Date(d).toISOString(), note: note.value.trim() });
+      close(); app.toast(t('saved'));
+    } });
+
+    app.sheet({
+      title: ed ? t('edit_expense') : t('add_expense'),
+      body: el('div', {}, [
+        el('datalist', { id: 'h-exp-cats' }, cats.map(c => el('option', { value: c }))),
+        ui.field(t('amount'), amt),
+        el('div', { class: 'h-form-grid' }, [ui.field(t('category'), category), ui.field(t('date'), date)]),
+        ui.field(t('note'), note),
+      ]),
+      actions,
+    });
+  }
+
+  window.Hanout.module(MOD);
+})();
+
+
+/* ===== modules/contacts ===== */
+/* Hanout module — contacts (customers & suppliers) with history + balances. */
+;(function () {
+  const MOD = {
+    id: 'contacts', order: 50, icon: '👥',
+    title: { en: 'Contacts', fr: 'Contacts', ar: 'الزبناء' },
+    strings: {
+      en: { add_contact: 'Add contact', edit_contact: 'Edit contact', customers: 'Customers', suppliers: 'Suppliers',
+        customer: 'Customer', supplier: 'Supplier', no_contacts: 'No contacts yet', delete_contact_q: 'Delete this contact?',
+        recent_purchases: 'Recent purchases', name_required: 'Name is required', owes: 'owes', search_contacts: 'Search contacts…' },
+      fr: { add_contact: 'Ajouter un contact', edit_contact: 'Modifier le contact', customers: 'Clients', suppliers: 'Fournisseurs',
+        customer: 'Client', supplier: 'Fournisseur', no_contacts: 'Aucun contact', delete_contact_q: 'Supprimer ce contact ?',
+        recent_purchases: 'Achats récents', name_required: 'Le nom est requis', owes: 'doit', search_contacts: 'Rechercher…' },
+      ar: { add_contact: 'إضافة جهة', edit_contact: 'تعديل الجهة', customers: 'الزبناء', suppliers: 'الموردون',
+        customer: 'زبون', supplier: 'مورد', no_contacts: 'لا توجد جهات بعد', delete_contact_q: 'حذف هذه الجهة؟',
+        recent_purchases: 'آخر المشتريات', name_required: 'الاسم مطلوب', owes: 'عليه', search_contacts: 'بحث…' },
+    },
+
+    view(app) {
+      const { el, store, t, money } = app, ui = app.ui;
+      const wrap = el('div');
+      let q = '', type = '';
+
+      wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
+        el('div', { class: 'h-page-title', style: { margin: 0 } }, app.moduleTitle(MOD)),
+        el('div', { class: 'h-spacer' }),
+        el('button', { class: 'h-btn h-btn-primary', onClick: () => openForm(app, null) }, '+ ' + t('add_contact')),
+      ]));
+
+      const search = ui.input({ type: 'search', placeholder: t('search_contacts'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderList(); } });
+      wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
+      const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
+      [['', t('all')], ['customer', t('customers')], ['supplier', t('suppliers')]].forEach(([val, lbl], i) =>
+        chips.appendChild(el('button', { class: 'h-chip' + (type === val ? ' active' : ''), onClick: () => { type = val; [...chips.children].forEach((c, j) => c.classList.toggle('active', ['', 'customer', 'supplier'][j] === val)); renderList(); } }, lbl)));
+      wrap.appendChild(chips);
+
+      const listCard = el('section', { class: 'h-card' });
+      wrap.appendChild(listCard);
+      function renderList() {
+        ui.clear(listCard);
+        const bal = balances(app);
+        let list = store.all('contacts').slice();
+        if (type) list = list.filter(c => c.type === type);
+        if (q) list = list.filter(c => (c.name || '').toLowerCase().includes(q) || (c.phone || '').includes(q));
+        list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        if (!list.length) { listCard.appendChild(ui.empty(t('no_contacts'), '👥')); return; }
+        const inner = el('div', { class: 'h-list' });
+        list.forEach(c => {
+          const owed = c.type === 'customer' ? (bal[c.id] || 0) : 0;
+          inner.appendChild(el('div', { class: 'h-list-item', onClick: () => openDetail(app, c.id) }, [
+            el('div', { class: 'h-list-main' }, [
+              el('div', { class: 'h-list-title' }, [c.name, ' ', ui.pill(c.type === 'supplier' ? t('supplier') : t('customer'), c.type === 'supplier' ? 'accent' : '')]),
+              el('div', { class: 'h-list-sub' }, c.phone || '—'),
+            ]),
+            owed > 0.001 ? el('div', { class: 'h-list-end' }, ui.pill(money(owed), 'danger')) : null,
+          ]));
+        });
+        listCard.appendChild(inner);
+      }
+      renderList();
+      return wrap;
+    },
+  };
+
+  function balances(app) {
+    const m = {};
+    app.store.all('debts').forEach(d => { m[d.contactId] = (m[d.contactId] || 0) + (d.kind === 'payment' ? -d.amount : d.amount); });
+    return m;
+  }
+
+  function openDetail(app, cid) {
+    const { el, store, t, money } = app, ui = app.ui;
+    const c = store.find('contacts', cid);
+    if (!c) return;
+    const owed = c.type === 'customer' ? (balances(app)[cid] || 0) : 0;
+    const purchases = store.all('sales').filter(s => s.contactId === cid).sort((a, b) => (a.ts < b.ts ? 1 : -1)).slice(0, 20);
+
+    const body = el('div', {}, [
+      el('div', { class: 'h-row', style: { marginBottom: '10px' } }, [
+        el('div', {}, [
+          el('div', { class: 'h-muted', style: { fontSize: '12px' } }, c.type === 'supplier' ? t('supplier') : t('customer')),
+          c.phone ? el('div', {}, c.phone) : null,
+        ]),
+        el('div', { class: 'h-spacer' }),
+        owed > 0.001 ? el('div', { class: 'h-center' }, [el('div', { class: 'h-list-amount h-danger' }, money(owed)), el('div', { class: 'h-muted', style: { fontSize: '11px' } }, t('owes'))]) : null,
+      ]),
+      el('button', { class: 'h-btn h-btn-block', onClick: () => { openForm(app, c); } }, t('edit_contact')),
+    ]);
+    if (purchases.length) {
+      body.appendChild(el('div', { class: 'h-section-title' }, t('recent_purchases')));
+      const list = el('div', { class: 'h-list' });
+      purchases.forEach(s => list.appendChild(el('div', { class: 'h-list-item' }, [
+        el('div', { class: 'h-list-main' }, [el('div', { class: 'h-list-title' }, s.name), el('div', { class: 'h-list-sub' }, s.date + ' · ' + (s.payment === 'credit' ? t('credit') : t('cash')))]),
+        el('div', { class: 'h-list-end' }, money(s.total)),
+      ])));
+      body.appendChild(list);
+    }
+    app.sheet({ title: c.name, body });
+  }
+
+  function openForm(app, contact) {
+    const { el, store, t } = app, ui = app.ui;
+    const ed = !!contact; contact = contact || {};
+    const name = ui.input({ value: contact.name || '', placeholder: t('name') });
+    const phone = ui.input({ type: 'tel', value: contact.phone || '', placeholder: t('phone') });
+    let type = contact.type || 'customer';
+    const custBtn = el('button', { class: 'h-chip' + (type === 'customer' ? ' active' : ''), onClick: () => setType('customer') }, t('customer'));
+    const supBtn = el('button', { class: 'h-chip' + (type === 'supplier' ? ' active' : ''), onClick: () => setType('supplier') }, t('supplier'));
+    function setType(v) { type = v; custBtn.classList.toggle('active', v === 'customer'); supBtn.classList.toggle('active', v === 'supplier'); }
+
+    const actions = [];
+    if (ed) actions.push({ label: t('delete'), kind: 'danger', onClick: close => {
+      app.confirm(t('delete_contact_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { store.del('contacts', contact.id); close(); app.toast(t('deleted')); } });
+    } });
+    actions.push({ label: t('save'), kind: 'primary', onClick: close => {
+      const n = name.value.trim();
+      if (!n) { app.toast(t('name_required')); return; }
+      store.upsert('contacts', { id: contact.id, name: n, type, phone: phone.value.trim() });
+      close(); app.toast(t('saved'));
+    } });
+
+    app.sheet({
+      title: ed ? t('edit_contact') : t('add_contact'),
+      body: el('div', {}, [
+        ui.field(t('name'), name),
+        ui.field(t('type'), el('div', { class: 'h-chips' }, [custBtn, supBtn])),
+        ui.field(t('phone') + ' (' + t('optional') + ')', phone),
+      ]),
+      actions,
+    });
+  }
+
+  window.Hanout.module(MOD);
+})();
+
+
+/* ===== modules/reports ===== */
+/* Hanout module — reports & insights. Core. Recomputed live from current data. */
+;(function () {
+  const MOD = {
+    id: 'reports', core: true, order: 60, icon: '📊',
+    title: { en: 'Reports', fr: 'Rapports', ar: 'التقارير' },
+    strings: {
+      en: { after_expenses: 'after expenses', avg_basket: 'Avg sale', no_data_period: 'No sales in this period',
+        revenue_by_day: 'Revenue by day', revenue_by_month: 'Revenue by month', top_sellers: 'Top sellers',
+        payment_mix: 'Cash vs credit', vs_prev: 'vs previous' },
+      fr: { after_expenses: 'après dépenses', avg_basket: 'Vente moy.', no_data_period: 'Aucune vente sur cette période',
+        revenue_by_day: 'Recettes par jour', revenue_by_month: 'Recettes par mois', top_sellers: 'Meilleures ventes',
+        payment_mix: 'Espèces vs crédit', vs_prev: 'vs précédent' },
+      ar: { after_expenses: 'بعد المصاريف', avg_basket: 'معدل البيع', no_data_period: 'لا مبيعات في هذه الفترة',
+        revenue_by_day: 'المداخيل حسب اليوم', revenue_by_month: 'المداخيل حسب الشهر', top_sellers: 'الأكثر مبيعاً',
+        payment_mix: 'نقداً مقابل كريدي', vs_prev: 'مقارنة بالسابق' },
+    },
+
+    view(app) {
+      const { el, store, t, money, nf } = app, ui = app.ui;
+      const wrap = el('div');
+      let period = 'month';
+      const nowMonth = app.todayKey().slice(0, 7);
+
+      wrap.appendChild(el('div', { class: 'h-page-title', style: { marginBottom: '8px' } }, app.moduleTitle(MOD)));
+      const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
+      [['month', t('this_month')], ['prev', t('last_month')], ['all', t('all_time')]].forEach(([val, lbl]) =>
+        chips.appendChild(el('button', { class: 'h-chip' + (period === val ? ' active' : ''), onClick: () => { period = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['month', 'prev', 'all'][i] === val)); render(); } }, lbl)));
+      wrap.appendChild(chips);
+      const body = el('div');
+      wrap.appendChild(body);
+
+      const inPeriod = (d) => {
+        if (period === 'all') return true;
+        const m = (d || '').slice(0, 7);
+        return period === 'month' ? m === nowMonth : m === monthsBack(nowMonth, 1);
+      };
+
+      function render() {
+        ui.clear(body);
+        const sales = store.all('sales').filter(s => inPeriod(s.date));
+        const expenses = store.all('expenses').filter(e => inPeriod(e.date));
+        const revenue = sales.reduce((s, x) => s + x.total, 0);
+        const spent = expenses.reduce((s, x) => s + (+x.amount || 0), 0);
+        const units = sales.reduce((s, x) => s + x.qty, 0);
+        const count = sales.length;
+
+        let prevRevenue = null;
+        if (period !== 'all') {
+          const pm = monthsBack(nowMonth, period === 'month' ? 1 : 2);
+          prevRevenue = store.all('sales').filter(s => (s.date || '').slice(0, 7) === pm).reduce((s, x) => s + x.total, 0);
+        }
+
+        const kpis = el('div', { class: 'h-kpis' });
+        kpis.appendChild(ui.kpi(t('revenue'), money(revenue), momentum(app, revenue, prevRevenue)));
+        kpis.appendChild(ui.kpi(t('profit'), money(revenue - spent), t('after_expenses')));
+        kpis.appendChild(ui.kpi(t('sales'), nf(count, 0), nf(units, 0) + ' ' + t('units').toLowerCase()));
+        kpis.appendChild(ui.kpi(t('avg_basket'), money(count ? revenue / count : 0)));
+        body.appendChild(kpis);
+
+        if (!count) { body.appendChild(el('div', { class: 'h-mt' }, ui.card(null, ui.empty(t('no_data_period'), '📊')))); return; }
+
+        // revenue chart
+        let chart;
+        if (period === 'all') {
+          const byM = {}; sales.forEach(s => { const m = (s.date || '').slice(0, 7); byM[m] = (byM[m] || 0) + s.total; });
+          chart = Object.keys(byM).sort().map(m => ({ label: m, value: byM[m] }));
+        } else {
+          const byD = {}; sales.forEach(s => { const d = (s.date || '').slice(8, 10); byD[d] = (byD[d] || 0) + s.total; });
+          chart = Object.keys(byD).sort().map(d => ({ label: d, value: byD[d] }));
+        }
+        body.appendChild(el('div', { class: 'h-section-title' }, period === 'all' ? t('revenue_by_month') : t('revenue_by_day')));
+        body.appendChild(ui.card(null, ui.bars(chart, { format: money })));
+
+        // top sellers (by units)
+        const byName = {}; sales.forEach(s => { byName[s.name] = (byName[s.name] || 0) + s.qty; });
+        const top = Object.keys(byName).map(n => ({ label: n, value: byName[n] })).sort((a, b) => b.value - a.value).slice(0, 8);
+        body.appendChild(el('div', { class: 'h-section-title' }, t('top_sellers')));
+        body.appendChild(ui.card(null, ui.bars(top, { format: v => nf(v, 0) })));
+
+        // payment mix
+        const cashRev = sales.filter(s => s.payment !== 'credit').reduce((s, x) => s + x.total, 0);
+        body.appendChild(el('div', { class: 'h-section-title' }, t('payment_mix')));
+        body.appendChild(ui.card(null, ui.bars([
+          { label: t('cash'), value: cashRev }, { label: t('credit'), value: revenue - cashRev },
+        ], { format: money })));
+      }
+      render();
+      return wrap;
+    },
+  };
+
+  function monthsBack(ym, n) {
+    let [y, m] = ym.split('-').map(Number);
+    m -= n; while (m < 1) { m += 12; y--; }
+    return y + '-' + String(m).padStart(2, '0');
+  }
+  function momentum(app, cur, prev) {
+    if (prev == null) return null;
+    if (!prev) return app.el('span', { class: 'h-muted' }, '—');
+    const pct = Math.round((cur - prev) / prev * 100), up = pct >= 0;
+    return app.el('span', { class: up ? 'h-ok' : 'h-danger' }, (up ? '▲ ' : '▼ ') + Math.abs(pct) + '% ' + app.t('vs_prev'));
+  }
+
+  window.Hanout.module(MOD);
+})();
+
+
+/* ===== modules/settings ===== */
+/* Hanout module — settings. Core. Business profile, language, theme, modules. */
+;(function () {
+  const APP_VERSION = '0.2.0';
+
+  const MOD = {
+    id: 'settings', core: true, order: 90, icon: '⚙️',
+    title: { en: 'Settings', fr: 'Réglages', ar: 'الإعدادات' },
+    strings: {
+      en: { business: 'Business', core_module: 'Core module', enabled: 'Enabled', disabled: 'Disabled',
+        always_on: 'always on', about: 'About', about_blurb: 'Free & open-source. Works offline — your data stays on this device.' },
+      fr: { business: 'Commerce', core_module: 'Module principal', enabled: 'Activé', disabled: 'Désactivé',
+        always_on: 'toujours actif', about: 'À propos', about_blurb: 'Libre et open-source. Fonctionne hors-ligne — vos données restent sur cet appareil.' },
+      ar: { business: 'النشاط', core_module: 'وحدة أساسية', enabled: 'مفعّل', disabled: 'معطّل',
+        always_on: 'دائم', about: 'حول', about_blurb: 'مجاني ومفتوح المصدر. يعمل دون إنترنت — بياناتك تبقى على هذا الجهاز.' },
+    },
+
+    view(app) {
+      const { el, t } = app, ui = app.ui, s = app.settings;
+      const wrap = el('div');
+      wrap.appendChild(el('div', { class: 'h-page-title' }, app.moduleTitle(MOD)));
+
+      // business profile
+      wrap.appendChild(ui.card(t('business'), el('div', {}, [
+        ui.field(t('business_name'), ui.input({ value: s.business, onchange: e => app.saveSettings({ business: e.target.value.trim() || 'Hanout' }) })),
+        el('div', { class: 'h-form-grid' }, [
+          ui.field(t('currency'), ui.input({ value: s.currency, onchange: e => app.saveSettings({ currency: e.target.value.trim() || 'MAD' }) })),
+          ui.field(t('language'), ui.select(app.i18n.langs.map(l => ({ value: l, label: app.i18n.label[l], selected: l === s.lang })), { onchange: e => app.saveSettings({ lang: e.target.value }) })),
+        ]),
+        ui.field(t('theme'), el('div', { class: 'h-chips' }, [
+          el('button', { class: 'h-chip' + (s.theme !== 'dark' ? ' active' : ''), onClick: () => app.saveSettings({ theme: 'light' }) }, t('light')),
+          el('button', { class: 'h-chip' + (s.theme === 'dark' ? ' active' : ''), onClick: () => app.saveSettings({ theme: 'dark' }) }, t('dark')),
+        ])),
+      ])));
+
+      // modules
+      const list = el('div', { class: 'h-list' });
+      app.allModules().slice().sort((a, b) => (a.order || 50) - (b.order || 50)).forEach(m => {
+        const on = app.isEnabled(m);
+        list.appendChild(el('div', { class: 'h-list-item' }, [
+          el('div', { class: 'h-list-main' }, [
+            el('div', { class: 'h-list-title' }, (m.icon || '•') + '  ' + app.moduleTitle(m)),
+            el('div', { class: 'h-list-sub' }, m.core ? t('core_module') : (on ? t('enabled') : t('disabled'))),
+          ]),
+          m.core
+            ? ui.pill(t('always_on'), 'accent')
+            : el('input', { type: 'checkbox', checked: on, onchange: e => app.saveSettings({ enabled: { [m.id]: e.target.checked } }) }),
+        ]));
+      });
+      wrap.appendChild(ui.card(t('modules'), list));
+
+      // about
+      wrap.appendChild(ui.card(t('about'), el('div', { class: 'h-muted', style: { fontSize: '13px' } }, [
+        el('div', {}, [el('strong', {}, 'Hanout'), ' · v' + APP_VERSION]),
+        el('div', { class: 'h-mt' }, t('about_blurb')),
+      ])));
+
+      return wrap;
+    },
+  };
+
+  window.Hanout.module(MOD);
+})();
+
+
+/* ===== modules/backup ===== */
+/* Hanout module — backup. Core. JSON backup/restore, CSV export, reset. */
+;(function () {
+  const MOD = {
+    id: 'backup', core: true, order: 95, icon: '💾',
+    title: { en: 'Backup', fr: 'Sauvegarde', ar: 'النسخ' },
+    strings: {
+      en: { backup: 'Backup', export_backup: 'Export backup (JSON)', import_backup: 'Import backup (JSON)',
+        export_sales_csv: 'Export sales (CSV)', danger_zone: 'Danger zone', reset_to_sample: 'Reset to sample data',
+        reset_sample_q: 'Replace everything with the sample data?', clear_all_data: 'Delete all data',
+        clear_all_q: 'Delete ALL data? This cannot be undone.', imported: 'Backup restored', bad_file: 'Could not read that file',
+        count_items: 'Items', count_sales: 'Sales', count_contacts: 'Contacts', count_expenses: 'Expenses' },
+      fr: { backup: 'Sauvegarde', export_backup: 'Exporter (JSON)', import_backup: 'Importer (JSON)',
+        export_sales_csv: 'Exporter ventes (CSV)', danger_zone: 'Zone sensible', reset_to_sample: 'Réinitialiser (démo)',
+        reset_sample_q: 'Tout remplacer par les données de démo ?', clear_all_data: 'Supprimer les données',
+        clear_all_q: 'Supprimer TOUTES les données ? Irréversible.', imported: 'Sauvegarde restaurée', bad_file: 'Fichier illisible',
+        count_items: 'Articles', count_sales: 'Ventes', count_contacts: 'Contacts', count_expenses: 'Dépenses' },
+      ar: { backup: 'نسخة احتياطية', export_backup: 'تصدير نسخة (JSON)', import_backup: 'استيراد نسخة (JSON)',
+        export_sales_csv: 'تصدير المبيعات (CSV)', danger_zone: 'منطقة الخطر', reset_to_sample: 'استعادة بيانات تجريبية',
+        reset_sample_q: 'استبدال كل شيء بالبيانات التجريبية؟', clear_all_data: 'حذف كل البيانات',
+        clear_all_q: 'حذف كل البيانات؟ لا يمكن التراجع.', imported: 'تمت الاستعادة', bad_file: 'تعذّرت قراءة الملف',
+        count_items: 'العناصر', count_sales: 'المبيعات', count_contacts: 'الزبناء', count_expenses: 'المصاريف' },
+    },
+
+    view(app) {
+      const { el, store, t } = app, ui = app.ui;
+      const wrap = el('div');
+      wrap.appendChild(el('div', { class: 'h-page-title' }, app.moduleTitle(MOD)));
+
+      // counts
+      const grid = el('div', { class: 'h-kpis' });
+      [['count_items', store.all('items').length], ['count_sales', store.all('sales').length],
+       ['count_contacts', store.all('contacts').length], ['count_expenses', store.all('expenses').length]]
+        .forEach(([k, v]) => grid.appendChild(ui.kpi(t(k), app.nf(v, 0))));
+      wrap.appendChild(grid);
+
+      // backup actions
+      const fileInput = el('input', { type: 'file', accept: '.json,application/json', style: { display: 'none' }, onchange: e => importJSON(app, e.target.files[0]) });
+      wrap.appendChild(ui.card(t('backup'), el('div', { class: 'h-stack' }, [
+        el('button', { class: 'h-btn h-btn-primary h-btn-block', onClick: () => exportJSON(app) }, '⬇  ' + t('export_backup')),
+        el('button', { class: 'h-btn h-btn-block', onClick: () => fileInput.click() }, '⬆  ' + t('import_backup')),
+        el('button', { class: 'h-btn h-btn-block', onClick: () => exportCSV(app) }, '⬇  ' + t('export_sales_csv')),
+        fileInput,
+      ])));
+
+      // danger zone
+      wrap.appendChild(ui.card(t('danger_zone'), el('div', { class: 'h-stack' }, [
+        el('button', { class: 'h-btn h-btn-block', onClick: () => app.confirm(t('reset_sample_q')).then(ok => { if (ok) { app.resetToSample(); app.toast(t('saved')); } }) }, t('reset_to_sample')),
+        el('button', { class: 'h-btn h-btn-danger h-btn-block', onClick: () => app.confirm(t('clear_all_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { store.clearAll(); location.reload(); } }) }, t('clear_all_data')),
+      ])));
+
+      return wrap;
+    },
+  };
+
+  function download(filename, text, type) {
+    const blob = new Blob([text], { type: type || 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function exportJSON(app) {
+    download('hanout-backup-' + app.todayKey() + '.json', JSON.stringify(app.store.exportAll(), null, 2), 'application/json');
+    app.toast(app.t('saved'));
+  }
+
+  function importJSON(app, file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        app.store.importAll(data);
+        app.toast(app.t('imported'));
+        setTimeout(() => location.reload(), 400);
+      } catch (e) { app.toast(app.t('bad_file')); }
+    };
+    reader.readAsText(file);
+  }
+
+  function exportCSV(app) {
+    const { store } = app;
+    const contacts = store.all('contacts');
+    const cname = id => (contacts.find(c => c.id === id) || {}).name || '';
+    const cell = v => { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    const rows = [['date', 'time', 'item', 'qty', 'unit_price', 'total', 'payment', 'customer']];
+    store.all('sales').slice().sort((a, b) => (a.ts < b.ts ? -1 : 1)).forEach(s =>
+      rows.push([s.date, app.fmtTime(s.ts), s.name, s.qty, s.price, s.total, s.payment || 'cash', cname(s.contactId)]));
+    download('hanout-sales-' + app.todayKey() + '.csv', rows.map(r => r.map(cell).join(',')).join('\n'), 'text/csv');
+    app.toast(app.t('saved'));
+  }
+
+  window.Hanout.module(MOD);
+})();
+</script>
+  <script id="h-seed" type="application/json">{"version":"demo-1","settings":{"business":"Chez Karima","currency":"MAD","lang":"en","theme":"light","enabled":{}},"items":[{"id":"i1","name":"Bread","category":"Bakery","price":2,"cost":1.4,"stock":40,"unit":"pc","active":true},{"id":"i2","name":"Croissant","category":"Bakery","price":3,"cost":2,"stock":18,"unit":"pc","active":true},{"id":"i3","name":"Milk 1L","category":"Dairy","price":7,"cost":6,"stock":30,"unit":"pc","active":true},{"id":"i4","name":"Yogurt","category":"Dairy","price":3,"cost":2.2,"stock":24,"unit":"pc","active":true},{"id":"i5","name":"Butter 200g","category":"Dairy","price":14,"cost":11,"stock":2,"unit":"pc","active":true},{"id":"i6","name":"Eggs (30)","category":"Dairy","price":42,"cost":36,"stock":0,"unit":"tray","active":true},{"id":"i7","name":"Cheese portions","category":"Dairy","price":9,"cost":7,"stock":10,"unit":"pc","active":true},{"id":"i8","name":"Water 1.5L","category":"Drinks","price":5,"cost":3.5,"stock":60,"unit":"pc","active":true},{"id":"i9","name":"Soda 1L","category":"Drinks","price":9,"cost":6.5,"stock":28,"unit":"pc","active":true},{"id":"i10","name":"Juice","category":"Drinks","price":8,"cost":6,"stock":16,"unit":"pc","active":true},{"id":"i11","name":"Coffee 200g","category":"Grocery","price":28,"cost":23,"stock":3,"unit":"pc","active":true},{"id":"i12","name":"Tea 200g","category":"Grocery","price":18,"cost":14,"stock":12,"unit":"pc","active":true},{"id":"i13","name":"Sugar 1kg","category":"Grocery","price":9,"cost":7.5,"stock":22,"unit":"kg","active":true},{"id":"i14","name":"Oil 1L","category":"Grocery","price":23,"cost":20,"stock":14,"unit":"pc","active":true},{"id":"i15","name":"Flour 1kg","category":"Grocery","price":6,"cost":4.8,"stock":20,"unit":"kg","active":true},{"id":"i16","name":"Rice 1kg","category":"Grocery","price":14,"cost":11,"stock":12,"unit":"kg","active":true},{"id":"i17","name":"Pasta 500g","category":"Grocery","price":7,"cost":5,"stock":18,"unit":"pc","active":true},{"id":"i18","name":"Tomato paste","category":"Grocery","price":4,"cost":2.8,"stock":26,"unit":"pc","active":true},{"id":"i19","name":"Tuna can","category":"Grocery","price":11,"cost":8.5,"stock":15,"unit":"pc","active":true},{"id":"i20","name":"Chips","category":"Snacks","price":5,"cost":3.2,"stock":30,"unit":"pc","active":true},{"id":"i21","name":"Biscuits","category":"Snacks","price":4,"cost":2.5,"stock":28,"unit":"pc","active":true},{"id":"i22","name":"Chocolate bar","category":"Snacks","price":6,"cost":4,"stock":24,"unit":"pc","active":true},{"id":"i23","name":"Chewing gum","category":"Snacks","price":2,"cost":1.2,"stock":35,"unit":"pc","active":true},{"id":"i24","name":"Soap","category":"Hygiene","price":5,"cost":3.5,"stock":20,"unit":"pc","active":true},{"id":"i25","name":"Shampoo sachet","category":"Hygiene","price":2,"cost":1.2,"stock":40,"unit":"pc","active":true},{"id":"i26","name":"Toothpaste","category":"Hygiene","price":13,"cost":10,"stock":8,"unit":"pc","active":true},{"id":"i27","name":"Detergent 1kg","category":"Household","price":19,"cost":15,"stock":9,"unit":"pc","active":true},{"id":"i28","name":"Matches","category":"Household","price":2,"cost":1.2,"stock":25,"unit":"pc","active":true},{"id":"i29","name":"Candle","category":"Household","price":3,"cost":2,"stock":14,"unit":"pc","active":true},{"id":"i30","name":"Cigarettes pack","category":"Other","price":38,"cost":35,"stock":20,"unit":"pc","active":true},{"id":"i31","name":"Phone credit 10","category":"Other","price":10,"cost":9.5,"stock":999,"unit":"pc","active":true}],"contacts":[{"id":"c1","name":"Mehdi","type":"customer","phone":"0699 486 733"},{"id":"c2","name":"Karima","type":"customer","phone":"0663 416 134"},{"id":"c3","name":"Youssef","type":"customer","phone":"0681 192 424"},{"id":"c4","name":"Fatima","type":"customer","phone":"0622 850 664"},{"id":"c5","name":"Said","type":"customer","phone":"0688 237 950"},{"id":"c6","name":"Naima","type":"customer","phone":"0644 164 221"},{"id":"c7","name":"Omar","type":"customer","phone":"0621 233 211"},{"id":"c8","name":"Salma","type":"customer","phone":"0695 179 582"},{"id":"c9","name":"Rachid","type":"customer","phone":"0635 127 180"},{"id":"c10","name":"Hind","type":"customer","phone":"0643 562 208"},{"id":"cs1","name":"Grossiste Atlas","type":"supplier","phone":"0530 307 319"},{"id":"cs2","name":"Dépôt Central","type":"supplier","phone":"0525 667 685"},{"id":"cs3","name":"Sodial Distribution","type":"supplier","phone":"0522 400 494"}],"sales":[{"id":"s1","date":"2026-04-07","ts":"2026-04-07T15:53:30.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s2","date":"2026-04-07","ts":"2026-04-07T12:08:18.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s3","date":"2026-04-07","ts":"2026-04-07T13:02:27.000Z","itemId":"i8","name":"Water 1.5L","qty":3,"price":5,"total":15,"payment":"cash","contactId":null},{"id":"s4","date":"2026-04-07","ts":"2026-04-07T18:11:06.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s5","date":"2026-04-07","ts":"2026-04-07T17:25:26.000Z","itemId":"i22","name":"Chocolate bar","qty":2,"price":6,"total":12,"payment":"cash","contactId":null},{"id":"s6","date":"2026-04-07","ts":"2026-04-07T07:33:58.000Z","itemId":"i7","name":"Cheese portions","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s7","date":"2026-04-08","ts":"2026-04-08T15:12:26.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s8","date":"2026-04-08","ts":"2026-04-08T18:52:02.000Z","itemId":"i10","name":"Juice","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s9","date":"2026-04-08","ts":"2026-04-08T12:53:29.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s10","date":"2026-04-09","ts":"2026-04-09T12:49:34.000Z","itemId":"i13","name":"Sugar 1kg","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s11","date":"2026-04-09","ts":"2026-04-09T19:15:13.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s12","date":"2026-04-09","ts":"2026-04-09T12:07:52.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s13","date":"2026-04-09","ts":"2026-04-09T17:53:09.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s14","date":"2026-04-09","ts":"2026-04-09T14:40:20.000Z","itemId":"i28","name":"Matches","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s15","date":"2026-04-09","ts":"2026-04-09T10:35:31.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s16","date":"2026-04-09","ts":"2026-04-09T11:45:47.000Z","itemId":"i4","name":"Yogurt","qty":2,"price":3,"total":6,"payment":"cash","contactId":null},{"id":"s17","date":"2026-04-09","ts":"2026-04-09T09:37:06.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s18","date":"2026-04-10","ts":"2026-04-10T18:15:25.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s19","date":"2026-04-10","ts":"2026-04-10T17:26:25.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s20","date":"2026-04-10","ts":"2026-04-10T12:11:15.000Z","itemId":"i7","name":"Cheese portions","qty":3,"price":9,"total":27,"payment":"cash","contactId":null},{"id":"s21","date":"2026-04-10","ts":"2026-04-10T10:51:50.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s22","date":"2026-04-10","ts":"2026-04-10T10:37:26.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s23","date":"2026-04-10","ts":"2026-04-10T17:05:46.000Z","itemId":"i27","name":"Detergent 1kg","qty":2,"price":19,"total":38,"payment":"cash","contactId":null},{"id":"s24","date":"2026-04-10","ts":"2026-04-10T18:52:59.000Z","itemId":"i2","name":"Croissant","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s25","date":"2026-04-10","ts":"2026-04-10T10:08:15.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s26","date":"2026-04-10","ts":"2026-04-10T15:24:06.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s27","date":"2026-04-11","ts":"2026-04-11T08:39:54.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s28","date":"2026-04-11","ts":"2026-04-11T18:40:52.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s29","date":"2026-04-11","ts":"2026-04-11T08:08:35.000Z","itemId":"i13","name":"Sugar 1kg","qty":3,"price":9,"total":27,"payment":"cash","contactId":null},{"id":"s30","date":"2026-04-11","ts":"2026-04-11T10:53:00.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s31","date":"2026-04-11","ts":"2026-04-11T14:10:45.000Z","itemId":"i20","name":"Chips","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s32","date":"2026-04-12","ts":"2026-04-12T10:52:45.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s33","date":"2026-04-12","ts":"2026-04-12T07:13:28.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s34","date":"2026-04-12","ts":"2026-04-12T07:12:38.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s35","date":"2026-04-12","ts":"2026-04-12T12:13:46.000Z","itemId":"i10","name":"Juice","qty":1,"price":8,"total":8,"payment":"cash","contactId":null},{"id":"s36","date":"2026-04-12","ts":"2026-04-12T08:09:15.000Z","itemId":"i28","name":"Matches","qty":3,"price":2,"total":6,"payment":"cash","contactId":null},{"id":"s37","date":"2026-04-12","ts":"2026-04-12T14:33:12.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s38","date":"2026-04-12","ts":"2026-04-12T07:38:17.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s39","date":"2026-04-13","ts":"2026-04-13T16:19:38.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s40","date":"2026-04-13","ts":"2026-04-13T10:04:05.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s41","date":"2026-04-13","ts":"2026-04-13T13:16:38.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"credit","contactId":"c3"},{"id":"s42","date":"2026-04-13","ts":"2026-04-13T07:47:14.000Z","itemId":"i17","name":"Pasta 500g","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s43","date":"2026-04-13","ts":"2026-04-13T18:10:02.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s44","date":"2026-04-13","ts":"2026-04-13T10:25:19.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s45","date":"2026-04-13","ts":"2026-04-13T16:42:33.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s46","date":"2026-04-13","ts":"2026-04-13T17:26:22.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"credit","contactId":"c5"},{"id":"s47","date":"2026-04-14","ts":"2026-04-14T14:19:24.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s48","date":"2026-04-14","ts":"2026-04-14T11:27:04.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s49","date":"2026-04-14","ts":"2026-04-14T13:03:08.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s50","date":"2026-04-14","ts":"2026-04-14T17:06:27.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s51","date":"2026-04-14","ts":"2026-04-14T11:29:07.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s52","date":"2026-04-14","ts":"2026-04-14T17:33:09.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s53","date":"2026-04-14","ts":"2026-04-14T11:11:02.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"credit","contactId":"c4"},{"id":"s54","date":"2026-04-15","ts":"2026-04-15T12:45:50.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"credit","contactId":"c10"},{"id":"s55","date":"2026-04-15","ts":"2026-04-15T14:36:16.000Z","itemId":"i19","name":"Tuna can","qty":3,"price":11,"total":33,"payment":"cash","contactId":null},{"id":"s56","date":"2026-04-15","ts":"2026-04-15T13:04:39.000Z","itemId":"i12","name":"Tea 200g","qty":3,"price":18,"total":54,"payment":"credit","contactId":"c3"},{"id":"s57","date":"2026-04-15","ts":"2026-04-15T09:12:11.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s58","date":"2026-04-15","ts":"2026-04-15T07:47:07.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s59","date":"2026-04-15","ts":"2026-04-15T12:50:59.000Z","itemId":"i17","name":"Pasta 500g","qty":1,"price":7,"total":7,"payment":"credit","contactId":"c6"},{"id":"s60","date":"2026-04-15","ts":"2026-04-15T17:03:49.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s61","date":"2026-04-15","ts":"2026-04-15T18:04:37.000Z","itemId":"i1","name":"Bread","qty":1,"price":1,"total":1,"payment":"credit","contactId":"c7"},{"id":"s62","date":"2026-04-15","ts":"2026-04-15T12:52:34.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s63","date":"2026-04-16","ts":"2026-04-16T10:08:06.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s64","date":"2026-04-16","ts":"2026-04-16T17:14:10.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":2,"total":2,"payment":"credit","contactId":"c8"},{"id":"s65","date":"2026-04-16","ts":"2026-04-16T07:24:23.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s66","date":"2026-04-16","ts":"2026-04-16T18:24:45.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s67","date":"2026-04-16","ts":"2026-04-16T13:23:18.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s68","date":"2026-04-16","ts":"2026-04-16T08:58:59.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s69","date":"2026-04-17","ts":"2026-04-17T19:10:05.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s70","date":"2026-04-17","ts":"2026-04-17T18:26:01.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s71","date":"2026-04-17","ts":"2026-04-17T11:14:10.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s72","date":"2026-04-17","ts":"2026-04-17T07:08:30.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s73","date":"2026-04-17","ts":"2026-04-17T13:25:07.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"credit","contactId":"c4"},{"id":"s74","date":"2026-04-17","ts":"2026-04-17T19:11:52.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s75","date":"2026-04-17","ts":"2026-04-17T10:28:20.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s76","date":"2026-04-17","ts":"2026-04-17T12:01:06.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s77","date":"2026-04-17","ts":"2026-04-17T07:33:06.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s78","date":"2026-04-18","ts":"2026-04-18T07:34:05.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s79","date":"2026-04-18","ts":"2026-04-18T15:51:53.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s80","date":"2026-04-18","ts":"2026-04-18T11:37:19.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s81","date":"2026-04-19","ts":"2026-04-19T16:46:36.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s82","date":"2026-04-19","ts":"2026-04-19T08:52:12.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s83","date":"2026-04-19","ts":"2026-04-19T15:31:50.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s84","date":"2026-04-19","ts":"2026-04-19T10:59:15.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s85","date":"2026-04-19","ts":"2026-04-19T07:11:40.000Z","itemId":"i10","name":"Juice","qty":1,"price":8,"total":8,"payment":"cash","contactId":null},{"id":"s86","date":"2026-04-19","ts":"2026-04-19T15:27:08.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s87","date":"2026-04-19","ts":"2026-04-19T19:14:15.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s88","date":"2026-04-19","ts":"2026-04-19T10:54:38.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s89","date":"2026-04-19","ts":"2026-04-19T16:18:33.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s90","date":"2026-04-20","ts":"2026-04-20T12:49:05.000Z","itemId":"i21","name":"Biscuits","qty":3,"price":4,"total":12,"payment":"cash","contactId":null},{"id":"s91","date":"2026-04-20","ts":"2026-04-20T16:11:00.000Z","itemId":"i19","name":"Tuna can","qty":3,"price":11,"total":33,"payment":"cash","contactId":null},{"id":"s92","date":"2026-04-20","ts":"2026-04-20T08:26:41.000Z","itemId":"i10","name":"Juice","qty":1,"price":8,"total":8,"payment":"cash","contactId":null},{"id":"s93","date":"2026-04-20","ts":"2026-04-20T14:12:49.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s94","date":"2026-04-20","ts":"2026-04-20T10:31:22.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s95","date":"2026-04-20","ts":"2026-04-20T09:24:03.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s96","date":"2026-04-21","ts":"2026-04-21T12:57:43.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s97","date":"2026-04-21","ts":"2026-04-21T18:18:40.000Z","itemId":"i29","name":"Candle","qty":2,"price":3,"total":6,"payment":"cash","contactId":null},{"id":"s98","date":"2026-04-21","ts":"2026-04-21T07:03:00.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s99","date":"2026-04-21","ts":"2026-04-21T18:53:13.000Z","itemId":"i23","name":"Chewing gum","qty":2,"price":2,"total":4,"payment":"cash","contactId":null},{"id":"s100","date":"2026-04-21","ts":"2026-04-21T14:14:20.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s101","date":"2026-04-21","ts":"2026-04-21T13:21:55.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s102","date":"2026-04-22","ts":"2026-04-22T14:11:31.000Z","itemId":"i20","name":"Chips","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s103","date":"2026-04-22","ts":"2026-04-22T13:13:46.000Z","itemId":"i12","name":"Tea 200g","qty":3,"price":18,"total":54,"payment":"cash","contactId":null},{"id":"s104","date":"2026-04-22","ts":"2026-04-22T16:30:41.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"credit","contactId":"c2"},{"id":"s105","date":"2026-04-22","ts":"2026-04-22T07:02:01.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s106","date":"2026-04-22","ts":"2026-04-22T07:26:35.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s107","date":"2026-04-22","ts":"2026-04-22T07:34:17.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s108","date":"2026-04-22","ts":"2026-04-22T17:46:49.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s109","date":"2026-04-23","ts":"2026-04-23T11:22:06.000Z","itemId":"i2","name":"Croissant","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s110","date":"2026-04-23","ts":"2026-04-23T07:15:54.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s111","date":"2026-04-23","ts":"2026-04-23T13:02:44.000Z","itemId":"i30","name":"Cigarettes pack","qty":3,"price":38,"total":114,"payment":"cash","contactId":null},{"id":"s112","date":"2026-04-23","ts":"2026-04-23T14:46:37.000Z","itemId":"i29","name":"Candle","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s113","date":"2026-04-23","ts":"2026-04-23T09:03:51.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s114","date":"2026-04-23","ts":"2026-04-23T16:00:10.000Z","itemId":"i31","name":"Phone credit 10","qty":2,"price":10,"total":20,"payment":"credit","contactId":"c6"},{"id":"s115","date":"2026-04-23","ts":"2026-04-23T12:31:11.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"credit","contactId":"c2"},{"id":"s116","date":"2026-04-23","ts":"2026-04-23T14:58:25.000Z","itemId":"i8","name":"Water 1.5L","qty":3,"price":5,"total":15,"payment":"cash","contactId":null},{"id":"s117","date":"2026-04-24","ts":"2026-04-24T14:26:34.000Z","itemId":"i29","name":"Candle","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s118","date":"2026-04-24","ts":"2026-04-24T16:17:44.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s119","date":"2026-04-24","ts":"2026-04-24T12:13:39.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s120","date":"2026-04-24","ts":"2026-04-24T07:10:07.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s121","date":"2026-04-24","ts":"2026-04-24T14:59:24.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s122","date":"2026-04-24","ts":"2026-04-24T11:45:58.000Z","itemId":"i29","name":"Candle","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s123","date":"2026-04-25","ts":"2026-04-25T09:51:11.000Z","itemId":"i31","name":"Phone credit 10","qty":3,"price":10,"total":30,"payment":"cash","contactId":null},{"id":"s124","date":"2026-04-25","ts":"2026-04-25T13:42:51.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"credit","contactId":"c1"},{"id":"s125","date":"2026-04-25","ts":"2026-04-25T17:05:42.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"credit","contactId":"c7"},{"id":"s126","date":"2026-04-26","ts":"2026-04-26T14:20:51.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"credit","contactId":"c7"},{"id":"s127","date":"2026-04-26","ts":"2026-04-26T13:26:14.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"credit","contactId":"c6"},{"id":"s128","date":"2026-04-26","ts":"2026-04-26T15:14:32.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s129","date":"2026-04-26","ts":"2026-04-26T17:15:56.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s130","date":"2026-04-27","ts":"2026-04-27T09:51:35.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"credit","contactId":"c9"},{"id":"s131","date":"2026-04-27","ts":"2026-04-27T12:39:55.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s132","date":"2026-04-27","ts":"2026-04-27T18:02:24.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s133","date":"2026-04-27","ts":"2026-04-27T17:11:24.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"credit","contactId":"c8"},{"id":"s134","date":"2026-04-27","ts":"2026-04-27T19:51:49.000Z","itemId":"i31","name":"Phone credit 10","qty":3,"price":10,"total":30,"payment":"cash","contactId":null},{"id":"s135","date":"2026-04-28","ts":"2026-04-28T18:58:19.000Z","itemId":"i7","name":"Cheese portions","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s136","date":"2026-04-28","ts":"2026-04-28T10:30:39.000Z","itemId":"i13","name":"Sugar 1kg","qty":2,"price":9,"total":18,"payment":"cash","contactId":null},{"id":"s137","date":"2026-04-28","ts":"2026-04-28T07:10:22.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s138","date":"2026-04-28","ts":"2026-04-28T10:03:17.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s139","date":"2026-04-28","ts":"2026-04-28T09:34:04.000Z","itemId":"i22","name":"Chocolate bar","qty":3,"price":6,"total":18,"payment":"credit","contactId":"c1"},{"id":"s140","date":"2026-04-28","ts":"2026-04-28T10:47:50.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s141","date":"2026-04-29","ts":"2026-04-29T07:05:14.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s142","date":"2026-04-29","ts":"2026-04-29T17:49:28.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s143","date":"2026-04-29","ts":"2026-04-29T13:46:52.000Z","itemId":"i5","name":"Butter 200g","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s144","date":"2026-04-29","ts":"2026-04-29T19:12:38.000Z","itemId":"i20","name":"Chips","qty":2,"price":5,"total":10,"payment":"cash","contactId":null},{"id":"s145","date":"2026-04-29","ts":"2026-04-29T07:50:20.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s146","date":"2026-04-30","ts":"2026-04-30T15:16:44.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s147","date":"2026-04-30","ts":"2026-04-30T10:41:47.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s148","date":"2026-04-30","ts":"2026-04-30T07:06:39.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s149","date":"2026-04-30","ts":"2026-04-30T18:08:32.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"credit","contactId":"c6"},{"id":"s150","date":"2026-04-30","ts":"2026-04-30T10:26:46.000Z","itemId":"i17","name":"Pasta 500g","qty":1,"price":7,"total":7,"payment":"credit","contactId":"c2"},{"id":"s151","date":"2026-04-30","ts":"2026-04-30T12:35:05.000Z","itemId":"i20","name":"Chips","qty":2,"price":5,"total":10,"payment":"cash","contactId":null},{"id":"s152","date":"2026-04-30","ts":"2026-04-30T14:41:57.000Z","itemId":"i11","name":"Coffee 200g","qty":2,"price":27,"total":54,"payment":"cash","contactId":null},{"id":"s153","date":"2026-04-30","ts":"2026-04-30T17:03:52.000Z","itemId":"i2","name":"Croissant","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s154","date":"2026-05-01","ts":"2026-05-01T12:59:29.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s155","date":"2026-05-01","ts":"2026-05-01T11:25:01.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s156","date":"2026-05-01","ts":"2026-05-01T15:13:02.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s157","date":"2026-05-01","ts":"2026-05-01T18:36:40.000Z","itemId":"i2","name":"Croissant","qty":3,"price":3,"total":9,"payment":"credit","contactId":"c6"},{"id":"s158","date":"2026-05-01","ts":"2026-05-01T10:46:13.000Z","itemId":"i7","name":"Cheese portions","qty":3,"price":9,"total":27,"payment":"cash","contactId":null},{"id":"s159","date":"2026-05-01","ts":"2026-05-01T17:33:41.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s160","date":"2026-05-01","ts":"2026-05-01T18:05:42.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s161","date":"2026-05-01","ts":"2026-05-01T17:57:50.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s162","date":"2026-05-01","ts":"2026-05-01T12:56:47.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s163","date":"2026-05-02","ts":"2026-05-02T12:36:08.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s164","date":"2026-05-02","ts":"2026-05-02T16:04:11.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"credit","contactId":"c3"},{"id":"s165","date":"2026-05-02","ts":"2026-05-02T15:32:19.000Z","itemId":"i5","name":"Butter 200g","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s166","date":"2026-05-02","ts":"2026-05-02T09:44:03.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s167","date":"2026-05-02","ts":"2026-05-02T13:29:38.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s168","date":"2026-05-02","ts":"2026-05-02T11:54:25.000Z","itemId":"i22","name":"Chocolate bar","qty":3,"price":6,"total":18,"payment":"cash","contactId":null},{"id":"s169","date":"2026-05-02","ts":"2026-05-02T19:53:15.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s170","date":"2026-05-02","ts":"2026-05-02T14:06:39.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"credit","contactId":"c1"},{"id":"s171","date":"2026-05-02","ts":"2026-05-02T15:07:36.000Z","itemId":"i12","name":"Tea 200g","qty":3,"price":18,"total":54,"payment":"cash","contactId":null},{"id":"s172","date":"2026-05-03","ts":"2026-05-03T11:12:26.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":1,"total":1,"payment":"cash","contactId":null},{"id":"s173","date":"2026-05-03","ts":"2026-05-03T15:59:56.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s174","date":"2026-05-03","ts":"2026-05-03T08:09:09.000Z","itemId":"i17","name":"Pasta 500g","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s175","date":"2026-05-03","ts":"2026-05-03T19:25:40.000Z","itemId":"i20","name":"Chips","qty":3,"price":5,"total":15,"payment":"cash","contactId":null},{"id":"s176","date":"2026-05-03","ts":"2026-05-03T19:48:41.000Z","itemId":"i29","name":"Candle","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s177","date":"2026-05-03","ts":"2026-05-03T19:47:40.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"credit","contactId":"c6"},{"id":"s178","date":"2026-05-03","ts":"2026-05-03T10:12:30.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s179","date":"2026-05-04","ts":"2026-05-04T14:31:08.000Z","itemId":"i21","name":"Biscuits","qty":2,"price":4,"total":8,"payment":"cash","contactId":null},{"id":"s180","date":"2026-05-04","ts":"2026-05-04T08:49:34.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s181","date":"2026-05-04","ts":"2026-05-04T19:39:23.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s182","date":"2026-05-05","ts":"2026-05-05T15:54:43.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s183","date":"2026-05-05","ts":"2026-05-05T08:52:54.000Z","itemId":"i17","name":"Pasta 500g","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s184","date":"2026-05-05","ts":"2026-05-05T15:52:26.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s185","date":"2026-05-05","ts":"2026-05-05T18:58:49.000Z","itemId":"i27","name":"Detergent 1kg","qty":3,"price":18,"total":54,"payment":"credit","contactId":"c3"},{"id":"s186","date":"2026-05-06","ts":"2026-05-06T08:54:23.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":6,"total":6,"payment":"credit","contactId":"c9"},{"id":"s187","date":"2026-05-06","ts":"2026-05-06T10:35:37.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s188","date":"2026-05-06","ts":"2026-05-06T11:36:59.000Z","itemId":"i20","name":"Chips","qty":2,"price":5,"total":10,"payment":"cash","contactId":null},{"id":"s189","date":"2026-05-06","ts":"2026-05-06T17:45:41.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s190","date":"2026-05-06","ts":"2026-05-06T18:17:57.000Z","itemId":"i18","name":"Tomato paste","qty":3,"price":4,"total":12,"payment":"cash","contactId":null},{"id":"s191","date":"2026-05-07","ts":"2026-05-07T12:42:38.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s192","date":"2026-05-07","ts":"2026-05-07T09:42:56.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s193","date":"2026-05-07","ts":"2026-05-07T16:25:30.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s194","date":"2026-05-07","ts":"2026-05-07T17:12:00.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s195","date":"2026-05-07","ts":"2026-05-07T13:27:29.000Z","itemId":"i18","name":"Tomato paste","qty":2,"price":4,"total":8,"payment":"cash","contactId":null},{"id":"s196","date":"2026-05-07","ts":"2026-05-07T12:58:56.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s197","date":"2026-05-07","ts":"2026-05-07T16:52:30.000Z","itemId":"i1","name":"Bread","qty":2,"price":2,"total":4,"payment":"cash","contactId":null},{"id":"s198","date":"2026-05-08","ts":"2026-05-08T09:51:07.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s199","date":"2026-05-08","ts":"2026-05-08T08:53:44.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"credit","contactId":"c1"},{"id":"s200","date":"2026-05-08","ts":"2026-05-08T19:12:41.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s201","date":"2026-05-08","ts":"2026-05-08T17:04:45.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s202","date":"2026-05-09","ts":"2026-05-09T08:28:56.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s203","date":"2026-05-09","ts":"2026-05-09T19:00:35.000Z","itemId":"i28","name":"Matches","qty":2,"price":2,"total":4,"payment":"cash","contactId":null},{"id":"s204","date":"2026-05-09","ts":"2026-05-09T07:26:51.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"credit","contactId":"c10"},{"id":"s205","date":"2026-05-09","ts":"2026-05-09T14:30:24.000Z","itemId":"i3","name":"Milk 1L","qty":3,"price":7,"total":21,"payment":"cash","contactId":null},{"id":"s206","date":"2026-05-09","ts":"2026-05-09T07:13:58.000Z","itemId":"i5","name":"Butter 200g","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s207","date":"2026-05-09","ts":"2026-05-09T19:44:41.000Z","itemId":"i28","name":"Matches","qty":3,"price":2,"total":6,"payment":"cash","contactId":null},{"id":"s208","date":"2026-05-09","ts":"2026-05-09T18:44:54.000Z","itemId":"i31","name":"Phone credit 10","qty":2,"price":10,"total":20,"payment":"cash","contactId":null},{"id":"s209","date":"2026-05-09","ts":"2026-05-09T09:46:05.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"credit","contactId":"c5"},{"id":"s210","date":"2026-05-10","ts":"2026-05-10T19:12:48.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s211","date":"2026-05-10","ts":"2026-05-10T14:40:25.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s212","date":"2026-05-10","ts":"2026-05-10T12:04:54.000Z","itemId":"i20","name":"Chips","qty":3,"price":5,"total":15,"payment":"cash","contactId":null},{"id":"s213","date":"2026-05-10","ts":"2026-05-10T11:10:24.000Z","itemId":"i27","name":"Detergent 1kg","qty":1,"price":19,"total":19,"payment":"cash","contactId":null},{"id":"s214","date":"2026-05-10","ts":"2026-05-10T11:12:04.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s215","date":"2026-05-10","ts":"2026-05-10T15:51:36.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"credit","contactId":"c3"},{"id":"s216","date":"2026-05-10","ts":"2026-05-10T11:49:44.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s217","date":"2026-05-10","ts":"2026-05-10T07:42:29.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s218","date":"2026-05-11","ts":"2026-05-11T15:34:35.000Z","itemId":"i9","name":"Soda 1L","qty":3,"price":9,"total":27,"payment":"cash","contactId":null},{"id":"s219","date":"2026-05-11","ts":"2026-05-11T08:04:12.000Z","itemId":"i27","name":"Detergent 1kg","qty":1,"price":19,"total":19,"payment":"cash","contactId":null},{"id":"s220","date":"2026-05-11","ts":"2026-05-11T11:22:38.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s221","date":"2026-05-11","ts":"2026-05-11T09:01:07.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s222","date":"2026-05-11","ts":"2026-05-11T18:58:09.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s223","date":"2026-05-11","ts":"2026-05-11T13:43:55.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s224","date":"2026-05-11","ts":"2026-05-11T19:00:43.000Z","itemId":"i13","name":"Sugar 1kg","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s225","date":"2026-05-11","ts":"2026-05-11T15:16:49.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s226","date":"2026-05-12","ts":"2026-05-12T15:38:31.000Z","itemId":"i1","name":"Bread","qty":3,"price":2,"total":6,"payment":"cash","contactId":null},{"id":"s227","date":"2026-05-12","ts":"2026-05-12T17:53:55.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s228","date":"2026-05-12","ts":"2026-05-12T08:38:31.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s229","date":"2026-05-12","ts":"2026-05-12T18:00:58.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s230","date":"2026-05-12","ts":"2026-05-12T19:37:04.000Z","itemId":"i7","name":"Cheese portions","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s231","date":"2026-05-12","ts":"2026-05-12T12:20:55.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s232","date":"2026-05-12","ts":"2026-05-12T07:16:46.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s233","date":"2026-05-12","ts":"2026-05-12T10:34:07.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s234","date":"2026-05-12","ts":"2026-05-12T15:15:36.000Z","itemId":"i26","name":"Toothpaste","qty":1,"price":13,"total":13,"payment":"cash","contactId":null},{"id":"s235","date":"2026-05-13","ts":"2026-05-13T19:49:38.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s236","date":"2026-05-13","ts":"2026-05-13T12:21:47.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s237","date":"2026-05-13","ts":"2026-05-13T10:13:41.000Z","itemId":"i1","name":"Bread","qty":3,"price":2,"total":6,"payment":"cash","contactId":null},{"id":"s238","date":"2026-05-13","ts":"2026-05-13T07:27:02.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s239","date":"2026-05-13","ts":"2026-05-13T19:01:48.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s240","date":"2026-05-13","ts":"2026-05-13T13:43:47.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s241","date":"2026-05-14","ts":"2026-05-14T13:28:18.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"credit","contactId":"c2"},{"id":"s242","date":"2026-05-14","ts":"2026-05-14T17:50:58.000Z","itemId":"i29","name":"Candle","qty":1,"price":3,"total":3,"payment":"credit","contactId":"c4"},{"id":"s243","date":"2026-05-14","ts":"2026-05-14T15:55:59.000Z","itemId":"i8","name":"Water 1.5L","qty":3,"price":5,"total":15,"payment":"cash","contactId":null},{"id":"s244","date":"2026-05-14","ts":"2026-05-14T19:22:43.000Z","itemId":"i27","name":"Detergent 1kg","qty":1,"price":19,"total":19,"payment":"cash","contactId":null},{"id":"s245","date":"2026-05-14","ts":"2026-05-14T14:35:11.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s246","date":"2026-05-14","ts":"2026-05-14T11:21:58.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s247","date":"2026-05-14","ts":"2026-05-14T13:10:42.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s248","date":"2026-05-15","ts":"2026-05-15T19:27:19.000Z","itemId":"i28","name":"Matches","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s249","date":"2026-05-15","ts":"2026-05-15T15:11:23.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s250","date":"2026-05-15","ts":"2026-05-15T09:22:23.000Z","itemId":"i19","name":"Tuna can","qty":2,"price":11,"total":22,"payment":"cash","contactId":null},{"id":"s251","date":"2026-05-15","ts":"2026-05-15T12:59:06.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s252","date":"2026-05-15","ts":"2026-05-15T08:05:00.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s253","date":"2026-05-15","ts":"2026-05-15T14:26:27.000Z","itemId":"i5","name":"Butter 200g","qty":1,"price":14,"total":14,"payment":"credit","contactId":"c5"},{"id":"s254","date":"2026-05-16","ts":"2026-05-16T09:54:24.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s255","date":"2026-05-16","ts":"2026-05-16T17:08:24.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s256","date":"2026-05-16","ts":"2026-05-16T11:24:09.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"credit","contactId":"c2"},{"id":"s257","date":"2026-05-16","ts":"2026-05-16T07:17:36.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s258","date":"2026-05-16","ts":"2026-05-16T10:25:03.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s259","date":"2026-05-17","ts":"2026-05-17T17:42:05.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s260","date":"2026-05-17","ts":"2026-05-17T09:02:17.000Z","itemId":"i28","name":"Matches","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s261","date":"2026-05-17","ts":"2026-05-17T07:03:12.000Z","itemId":"i13","name":"Sugar 1kg","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s262","date":"2026-05-17","ts":"2026-05-17T17:32:31.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s263","date":"2026-05-18","ts":"2026-05-18T15:01:15.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s264","date":"2026-05-18","ts":"2026-05-18T16:56:08.000Z","itemId":"i3","name":"Milk 1L","qty":3,"price":7,"total":21,"payment":"cash","contactId":null},{"id":"s265","date":"2026-05-18","ts":"2026-05-18T13:56:00.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s266","date":"2026-05-18","ts":"2026-05-18T14:19:33.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s267","date":"2026-05-18","ts":"2026-05-18T09:27:38.000Z","itemId":"i2","name":"Croissant","qty":1,"price":3,"total":3,"payment":"credit","contactId":"c8"},{"id":"s268","date":"2026-05-19","ts":"2026-05-19T17:04:53.000Z","itemId":"i27","name":"Detergent 1kg","qty":1,"price":19,"total":19,"payment":"cash","contactId":null},{"id":"s269","date":"2026-05-19","ts":"2026-05-19T16:11:52.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s270","date":"2026-05-19","ts":"2026-05-19T09:00:58.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"credit","contactId":"c3"},{"id":"s271","date":"2026-05-19","ts":"2026-05-19T15:36:18.000Z","itemId":"i7","name":"Cheese portions","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s272","date":"2026-05-19","ts":"2026-05-19T07:15:58.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s273","date":"2026-05-19","ts":"2026-05-19T13:13:27.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"credit","contactId":"c1"},{"id":"s274","date":"2026-05-19","ts":"2026-05-19T10:50:55.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"credit","contactId":"c7"},{"id":"s275","date":"2026-05-19","ts":"2026-05-19T07:17:37.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s276","date":"2026-05-20","ts":"2026-05-20T12:04:15.000Z","itemId":"i2","name":"Croissant","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s277","date":"2026-05-20","ts":"2026-05-20T19:46:32.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s278","date":"2026-05-20","ts":"2026-05-20T11:59:37.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s279","date":"2026-05-20","ts":"2026-05-20T16:29:10.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s280","date":"2026-05-20","ts":"2026-05-20T16:40:29.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s281","date":"2026-05-20","ts":"2026-05-20T19:10:21.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s282","date":"2026-05-20","ts":"2026-05-20T16:53:23.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s283","date":"2026-05-20","ts":"2026-05-20T09:03:23.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s284","date":"2026-05-21","ts":"2026-05-21T17:05:06.000Z","itemId":"i16","name":"Rice 1kg","qty":3,"price":14,"total":42,"payment":"cash","contactId":null},{"id":"s285","date":"2026-05-21","ts":"2026-05-21T18:21:34.000Z","itemId":"i4","name":"Yogurt","qty":3,"price":2,"total":6,"payment":"cash","contactId":null},{"id":"s286","date":"2026-05-21","ts":"2026-05-21T13:35:00.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s287","date":"2026-05-22","ts":"2026-05-22T18:22:03.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":8,"total":8,"payment":"cash","contactId":null},{"id":"s288","date":"2026-05-22","ts":"2026-05-22T17:34:05.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"credit","contactId":"c3"},{"id":"s289","date":"2026-05-22","ts":"2026-05-22T18:34:53.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s290","date":"2026-05-23","ts":"2026-05-23T15:59:57.000Z","itemId":"i11","name":"Coffee 200g","qty":1,"price":28,"total":28,"payment":"cash","contactId":null},{"id":"s291","date":"2026-05-23","ts":"2026-05-23T16:53:29.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s292","date":"2026-05-23","ts":"2026-05-23T18:14:44.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s293","date":"2026-05-23","ts":"2026-05-23T13:43:02.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s294","date":"2026-05-23","ts":"2026-05-23T17:27:52.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s295","date":"2026-05-23","ts":"2026-05-23T13:12:19.000Z","itemId":"i19","name":"Tuna can","qty":2,"price":11,"total":22,"payment":"cash","contactId":null},{"id":"s296","date":"2026-05-23","ts":"2026-05-23T09:59:27.000Z","itemId":"i29","name":"Candle","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s297","date":"2026-05-23","ts":"2026-05-23T07:34:04.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":12,"total":12,"payment":"cash","contactId":null},{"id":"s298","date":"2026-05-24","ts":"2026-05-24T08:40:10.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s299","date":"2026-05-24","ts":"2026-05-24T13:02:58.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s300","date":"2026-05-24","ts":"2026-05-24T10:32:55.000Z","itemId":"i29","name":"Candle","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s301","date":"2026-05-24","ts":"2026-05-24T10:57:17.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s302","date":"2026-05-24","ts":"2026-05-24T14:38:44.000Z","itemId":"i28","name":"Matches","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s303","date":"2026-05-24","ts":"2026-05-24T07:41:42.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s304","date":"2026-05-24","ts":"2026-05-24T19:05:03.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s305","date":"2026-05-24","ts":"2026-05-24T19:56:48.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s306","date":"2026-05-24","ts":"2026-05-24T17:46:10.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s307","date":"2026-05-25","ts":"2026-05-25T16:38:12.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s308","date":"2026-05-25","ts":"2026-05-25T12:56:22.000Z","itemId":"i8","name":"Water 1.5L","qty":2,"price":5,"total":10,"payment":"cash","contactId":null},{"id":"s309","date":"2026-05-25","ts":"2026-05-25T08:32:07.000Z","itemId":"i13","name":"Sugar 1kg","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s310","date":"2026-05-26","ts":"2026-05-26T14:49:26.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s311","date":"2026-05-26","ts":"2026-05-26T10:31:56.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s312","date":"2026-05-26","ts":"2026-05-26T14:53:25.000Z","itemId":"i28","name":"Matches","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s313","date":"2026-05-26","ts":"2026-05-26T18:22:39.000Z","itemId":"i28","name":"Matches","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s314","date":"2026-05-26","ts":"2026-05-26T09:37:36.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s315","date":"2026-05-26","ts":"2026-05-26T10:59:11.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s316","date":"2026-05-26","ts":"2026-05-26T13:13:34.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s317","date":"2026-05-26","ts":"2026-05-26T07:59:09.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s318","date":"2026-05-27","ts":"2026-05-27T14:06:50.000Z","itemId":"i23","name":"Chewing gum","qty":2,"price":2,"total":4,"payment":"cash","contactId":null},{"id":"s319","date":"2026-05-27","ts":"2026-05-27T10:23:33.000Z","itemId":"i11","name":"Coffee 200g","qty":1,"price":28,"total":28,"payment":"cash","contactId":null},{"id":"s320","date":"2026-05-27","ts":"2026-05-27T13:42:15.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s321","date":"2026-05-27","ts":"2026-05-27T18:28:32.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s322","date":"2026-05-27","ts":"2026-05-27T13:17:30.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s323","date":"2026-05-27","ts":"2026-05-27T17:48:13.000Z","itemId":"i7","name":"Cheese portions","qty":3,"price":9,"total":27,"payment":"cash","contactId":null},{"id":"s324","date":"2026-05-28","ts":"2026-05-28T17:57:23.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s325","date":"2026-05-28","ts":"2026-05-28T19:08:30.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":8,"total":8,"payment":"cash","contactId":null},{"id":"s326","date":"2026-05-28","ts":"2026-05-28T18:27:48.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s327","date":"2026-05-28","ts":"2026-05-28T08:33:41.000Z","itemId":"i10","name":"Juice","qty":3,"price":7,"total":21,"payment":"cash","contactId":null},{"id":"s328","date":"2026-05-28","ts":"2026-05-28T11:47:09.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s329","date":"2026-05-28","ts":"2026-05-28T13:12:26.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s330","date":"2026-05-28","ts":"2026-05-28T11:45:22.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s331","date":"2026-05-29","ts":"2026-05-29T14:23:11.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s332","date":"2026-05-29","ts":"2026-05-29T11:52:23.000Z","itemId":"i7","name":"Cheese portions","qty":1,"price":9,"total":9,"payment":"credit","contactId":"c3"},{"id":"s333","date":"2026-05-29","ts":"2026-05-29T12:54:12.000Z","itemId":"i10","name":"Juice","qty":2,"price":8,"total":16,"payment":"cash","contactId":null},{"id":"s334","date":"2026-05-29","ts":"2026-05-29T15:13:28.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s335","date":"2026-05-30","ts":"2026-05-30T08:09:08.000Z","itemId":"i31","name":"Phone credit 10","qty":2,"price":10,"total":20,"payment":"cash","contactId":null},{"id":"s336","date":"2026-05-30","ts":"2026-05-30T11:52:13.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s337","date":"2026-05-30","ts":"2026-05-30T15:41:29.000Z","itemId":"i10","name":"Juice","qty":1,"price":8,"total":8,"payment":"cash","contactId":null},{"id":"s338","date":"2026-05-31","ts":"2026-05-31T15:46:25.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s339","date":"2026-05-31","ts":"2026-05-31T12:53:44.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s340","date":"2026-05-31","ts":"2026-05-31T14:51:55.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s341","date":"2026-05-31","ts":"2026-05-31T19:58:13.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s342","date":"2026-05-31","ts":"2026-05-31T17:58:41.000Z","itemId":"i23","name":"Chewing gum","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s343","date":"2026-05-31","ts":"2026-05-31T13:07:29.000Z","itemId":"i11","name":"Coffee 200g","qty":1,"price":28,"total":28,"payment":"cash","contactId":null},{"id":"s344","date":"2026-05-31","ts":"2026-05-31T15:33:39.000Z","itemId":"i4","name":"Yogurt","qty":3,"price":3,"total":9,"payment":"cash","contactId":null},{"id":"s345","date":"2026-05-31","ts":"2026-05-31T17:53:47.000Z","itemId":"i2","name":"Croissant","qty":1,"price":3,"total":3,"payment":"credit","contactId":"c7"},{"id":"s346","date":"2026-05-31","ts":"2026-05-31T10:46:32.000Z","itemId":"i1","name":"Bread","qty":2,"price":2,"total":4,"payment":"cash","contactId":null},{"id":"s347","date":"2026-06-01","ts":"2026-06-01T19:00:13.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s348","date":"2026-06-01","ts":"2026-06-01T18:42:43.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s349","date":"2026-06-01","ts":"2026-06-01T14:00:22.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s350","date":"2026-06-01","ts":"2026-06-01T08:36:39.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s351","date":"2026-06-01","ts":"2026-06-01T15:42:37.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s352","date":"2026-06-01","ts":"2026-06-01T08:22:01.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s353","date":"2026-06-01","ts":"2026-06-01T08:15:01.000Z","itemId":"i9","name":"Soda 1L","qty":2,"price":9,"total":18,"payment":"credit","contactId":"c2"},{"id":"s354","date":"2026-06-02","ts":"2026-06-02T12:21:26.000Z","itemId":"i27","name":"Detergent 1kg","qty":2,"price":19,"total":38,"payment":"cash","contactId":null},{"id":"s355","date":"2026-06-02","ts":"2026-06-02T15:48:58.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s356","date":"2026-06-02","ts":"2026-06-02T16:10:29.000Z","itemId":"i27","name":"Detergent 1kg","qty":1,"price":19,"total":19,"payment":"cash","contactId":null},{"id":"s357","date":"2026-06-02","ts":"2026-06-02T14:42:27.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s358","date":"2026-06-02","ts":"2026-06-02T14:39:04.000Z","itemId":"i30","name":"Cigarettes pack","qty":2,"price":38,"total":76,"payment":"cash","contactId":null},{"id":"s359","date":"2026-06-03","ts":"2026-06-03T14:04:19.000Z","itemId":"i21","name":"Biscuits","qty":2,"price":4,"total":8,"payment":"cash","contactId":null},{"id":"s360","date":"2026-06-03","ts":"2026-06-03T10:59:23.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s361","date":"2026-06-03","ts":"2026-06-03T16:07:49.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s362","date":"2026-06-03","ts":"2026-06-03T19:35:15.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s363","date":"2026-06-03","ts":"2026-06-03T10:03:44.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"credit","contactId":"c3"},{"id":"s364","date":"2026-06-03","ts":"2026-06-03T09:55:00.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s365","date":"2026-06-03","ts":"2026-06-03T12:53:04.000Z","itemId":"i10","name":"Juice","qty":1,"price":8,"total":8,"payment":"cash","contactId":null},{"id":"s366","date":"2026-06-03","ts":"2026-06-03T12:06:14.000Z","itemId":"i28","name":"Matches","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s367","date":"2026-06-04","ts":"2026-06-04T19:00:16.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s368","date":"2026-06-04","ts":"2026-06-04T08:39:08.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s369","date":"2026-06-04","ts":"2026-06-04T13:33:51.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s370","date":"2026-06-04","ts":"2026-06-04T08:25:21.000Z","itemId":"i10","name":"Juice","qty":2,"price":8,"total":16,"payment":"cash","contactId":null},{"id":"s371","date":"2026-06-04","ts":"2026-06-04T19:44:32.000Z","itemId":"i2","name":"Croissant","qty":3,"price":3,"total":9,"payment":"cash","contactId":null},{"id":"s372","date":"2026-06-04","ts":"2026-06-04T13:56:58.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s373","date":"2026-06-04","ts":"2026-06-04T12:11:11.000Z","itemId":"i13","name":"Sugar 1kg","qty":1,"price":9,"total":9,"payment":"credit","contactId":"c5"},{"id":"s374","date":"2026-06-05","ts":"2026-06-05T12:42:19.000Z","itemId":"i20","name":"Chips","qty":3,"price":5,"total":15,"payment":"cash","contactId":null},{"id":"s375","date":"2026-06-05","ts":"2026-06-05T12:56:24.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s376","date":"2026-06-05","ts":"2026-06-05T16:12:55.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s377","date":"2026-06-05","ts":"2026-06-05T18:35:25.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s378","date":"2026-06-06","ts":"2026-06-06T12:09:06.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"credit","contactId":"c6"},{"id":"s379","date":"2026-06-06","ts":"2026-06-06T10:49:02.000Z","itemId":"i5","name":"Butter 200g","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s380","date":"2026-06-06","ts":"2026-06-06T08:15:32.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s381","date":"2026-06-06","ts":"2026-06-06T15:16:27.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s382","date":"2026-06-06","ts":"2026-06-06T14:30:03.000Z","itemId":"i30","name":"Cigarettes pack","qty":3,"price":38,"total":114,"payment":"cash","contactId":null},{"id":"s383","date":"2026-06-06","ts":"2026-06-06T09:30:06.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s384","date":"2026-06-07","ts":"2026-06-07T09:28:12.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s385","date":"2026-06-07","ts":"2026-06-07T12:43:10.000Z","itemId":"i16","name":"Rice 1kg","qty":1,"price":14,"total":14,"payment":"cash","contactId":null},{"id":"s386","date":"2026-06-07","ts":"2026-06-07T18:06:54.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s387","date":"2026-06-07","ts":"2026-06-07T09:23:26.000Z","itemId":"i25","name":"Shampoo sachet","qty":3,"price":2,"total":6,"payment":"cash","contactId":null},{"id":"s388","date":"2026-06-07","ts":"2026-06-07T13:36:42.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s389","date":"2026-06-07","ts":"2026-06-07T12:42:25.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s390","date":"2026-06-07","ts":"2026-06-07T10:05:01.000Z","itemId":"i2","name":"Croissant","qty":3,"price":3,"total":9,"payment":"cash","contactId":null},{"id":"s391","date":"2026-06-08","ts":"2026-06-08T12:41:28.000Z","itemId":"i10","name":"Juice","qty":3,"price":8,"total":24,"payment":"cash","contactId":null},{"id":"s392","date":"2026-06-08","ts":"2026-06-08T16:54:56.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s393","date":"2026-06-08","ts":"2026-06-08T08:38:53.000Z","itemId":"i18","name":"Tomato paste","qty":2,"price":4,"total":8,"payment":"credit","contactId":"c6"},{"id":"s394","date":"2026-06-08","ts":"2026-06-08T07:09:46.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s395","date":"2026-06-08","ts":"2026-06-08T13:32:34.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s396","date":"2026-06-08","ts":"2026-06-08T11:53:16.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s397","date":"2026-06-09","ts":"2026-06-09T16:35:11.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s398","date":"2026-06-09","ts":"2026-06-09T17:09:24.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s399","date":"2026-06-09","ts":"2026-06-09T12:11:35.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s400","date":"2026-06-09","ts":"2026-06-09T17:15:37.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":22,"total":22,"payment":"credit","contactId":"c7"},{"id":"s401","date":"2026-06-09","ts":"2026-06-09T09:04:08.000Z","itemId":"i11","name":"Coffee 200g","qty":1,"price":28,"total":28,"payment":"cash","contactId":null},{"id":"s402","date":"2026-06-09","ts":"2026-06-09T09:26:41.000Z","itemId":"i24","name":"Soap","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s403","date":"2026-06-09","ts":"2026-06-09T11:19:52.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"credit","contactId":"c4"},{"id":"s404","date":"2026-06-09","ts":"2026-06-09T08:35:34.000Z","itemId":"i1","name":"Bread","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s405","date":"2026-06-09","ts":"2026-06-09T19:16:22.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"credit","contactId":"c5"},{"id":"s406","date":"2026-06-10","ts":"2026-06-10T07:43:02.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"credit","contactId":"c3"},{"id":"s407","date":"2026-06-10","ts":"2026-06-10T15:46:43.000Z","itemId":"i9","name":"Soda 1L","qty":3,"price":11,"total":33,"payment":"credit","contactId":"c3"},{"id":"s408","date":"2026-06-10","ts":"2026-06-10T13:08:26.000Z","itemId":"i31","name":"Phone credit 10","qty":2,"price":10,"total":20,"payment":"cash","contactId":null},{"id":"s409","date":"2026-06-11","ts":"2026-06-11T07:04:50.000Z","itemId":"i12","name":"Tea 200g","qty":3,"price":18,"total":54,"payment":"cash","contactId":null},{"id":"s410","date":"2026-06-11","ts":"2026-06-11T16:04:51.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s411","date":"2026-06-11","ts":"2026-06-11T12:34:24.000Z","itemId":"i11","name":"Coffee 200g","qty":1,"price":28,"total":28,"payment":"cash","contactId":null},{"id":"s412","date":"2026-06-11","ts":"2026-06-11T13:35:57.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s413","date":"2026-06-11","ts":"2026-06-11T16:03:14.000Z","itemId":"i18","name":"Tomato paste","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s414","date":"2026-06-11","ts":"2026-06-11T07:53:47.000Z","itemId":"i23","name":"Chewing gum","qty":2,"price":2,"total":4,"payment":"cash","contactId":null},{"id":"s415","date":"2026-06-11","ts":"2026-06-11T10:59:40.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s416","date":"2026-06-12","ts":"2026-06-12T17:27:51.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s417","date":"2026-06-12","ts":"2026-06-12T07:31:26.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s418","date":"2026-06-12","ts":"2026-06-12T15:24:16.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s419","date":"2026-06-12","ts":"2026-06-12T11:05:17.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s420","date":"2026-06-12","ts":"2026-06-12T11:23:56.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s421","date":"2026-06-12","ts":"2026-06-12T07:27:09.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s422","date":"2026-06-12","ts":"2026-06-12T08:40:10.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s423","date":"2026-06-12","ts":"2026-06-12T07:31:47.000Z","itemId":"i13","name":"Sugar 1kg","qty":3,"price":8,"total":24,"payment":"cash","contactId":null},{"id":"s424","date":"2026-06-13","ts":"2026-06-13T09:47:31.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s425","date":"2026-06-13","ts":"2026-06-13T12:34:28.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s426","date":"2026-06-13","ts":"2026-06-13T17:09:15.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s427","date":"2026-06-13","ts":"2026-06-13T11:50:05.000Z","itemId":"i27","name":"Detergent 1kg","qty":3,"price":19,"total":57,"payment":"cash","contactId":null},{"id":"s428","date":"2026-06-13","ts":"2026-06-13T18:06:46.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s429","date":"2026-06-13","ts":"2026-06-13T12:43:18.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":5,"total":5,"payment":"credit","contactId":"c8"},{"id":"s430","date":"2026-06-14","ts":"2026-06-14T09:04:31.000Z","itemId":"i15","name":"Flour 1kg","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s431","date":"2026-06-14","ts":"2026-06-14T07:44:29.000Z","itemId":"i8","name":"Water 1.5L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s432","date":"2026-06-14","ts":"2026-06-14T12:21:11.000Z","itemId":"i26","name":"Toothpaste","qty":1,"price":13,"total":13,"payment":"cash","contactId":null},{"id":"s433","date":"2026-06-14","ts":"2026-06-14T07:22:02.000Z","itemId":"i20","name":"Chips","qty":3,"price":5,"total":15,"payment":"credit","contactId":"c8"},{"id":"s434","date":"2026-06-14","ts":"2026-06-14T18:01:32.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s435","date":"2026-06-14","ts":"2026-06-14T08:54:29.000Z","itemId":"i14","name":"Oil 1L","qty":2,"price":22,"total":44,"payment":"cash","contactId":null},{"id":"s436","date":"2026-06-15","ts":"2026-06-15T08:59:50.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s437","date":"2026-06-15","ts":"2026-06-15T18:33:21.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s438","date":"2026-06-15","ts":"2026-06-15T18:59:50.000Z","itemId":"i30","name":"Cigarettes pack","qty":1,"price":38,"total":38,"payment":"cash","contactId":null},{"id":"s439","date":"2026-06-15","ts":"2026-06-15T12:09:32.000Z","itemId":"i31","name":"Phone credit 10","qty":1,"price":10,"total":10,"payment":"cash","contactId":null},{"id":"s440","date":"2026-06-15","ts":"2026-06-15T19:18:45.000Z","itemId":"i30","name":"Cigarettes pack","qty":2,"price":38,"total":76,"payment":"cash","contactId":null},{"id":"s441","date":"2026-06-15","ts":"2026-06-15T13:46:53.000Z","itemId":"i15","name":"Flour 1kg","qty":2,"price":6,"total":12,"payment":"cash","contactId":null},{"id":"s442","date":"2026-06-15","ts":"2026-06-15T13:06:55.000Z","itemId":"i7","name":"Cheese portions","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s443","date":"2026-06-16","ts":"2026-06-16T13:07:13.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s444","date":"2026-06-16","ts":"2026-06-16T10:23:29.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":2,"total":2,"payment":"cash","contactId":null},{"id":"s445","date":"2026-06-16","ts":"2026-06-16T18:41:39.000Z","itemId":"i17","name":"Pasta 500g","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s446","date":"2026-06-16","ts":"2026-06-16T14:27:42.000Z","itemId":"i9","name":"Soda 1L","qty":1,"price":9,"total":9,"payment":"cash","contactId":null},{"id":"s447","date":"2026-06-16","ts":"2026-06-16T17:48:52.000Z","itemId":"i27","name":"Detergent 1kg","qty":1,"price":19,"total":19,"payment":"credit","contactId":"c4"},{"id":"s448","date":"2026-06-16","ts":"2026-06-16T18:06:32.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s449","date":"2026-06-17","ts":"2026-06-17T07:45:47.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null},{"id":"s450","date":"2026-06-17","ts":"2026-06-17T18:44:50.000Z","itemId":"i10","name":"Juice","qty":1,"price":8,"total":8,"payment":"cash","contactId":null},{"id":"s451","date":"2026-06-17","ts":"2026-06-17T10:52:54.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s452","date":"2026-06-17","ts":"2026-06-17T12:21:07.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s453","date":"2026-06-17","ts":"2026-06-17T17:05:34.000Z","itemId":"i26","name":"Toothpaste","qty":1,"price":13,"total":13,"payment":"credit","contactId":"c8"},{"id":"s454","date":"2026-06-18","ts":"2026-06-18T07:29:32.000Z","itemId":"i25","name":"Shampoo sachet","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s455","date":"2026-06-18","ts":"2026-06-18T09:08:05.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s456","date":"2026-06-18","ts":"2026-06-18T17:10:38.000Z","itemId":"i3","name":"Milk 1L","qty":1,"price":7,"total":7,"payment":"cash","contactId":null},{"id":"s457","date":"2026-06-18","ts":"2026-06-18T15:03:17.000Z","itemId":"i22","name":"Chocolate bar","qty":1,"price":6,"total":6,"payment":"cash","contactId":null},{"id":"s458","date":"2026-06-18","ts":"2026-06-18T19:04:18.000Z","itemId":"i21","name":"Biscuits","qty":3,"price":4,"total":12,"payment":"cash","contactId":null},{"id":"s459","date":"2026-06-18","ts":"2026-06-18T14:09:13.000Z","itemId":"i14","name":"Oil 1L","qty":1,"price":23,"total":23,"payment":"cash","contactId":null},{"id":"s460","date":"2026-06-18","ts":"2026-06-18T19:50:39.000Z","itemId":"i20","name":"Chips","qty":1,"price":5,"total":5,"payment":"cash","contactId":null},{"id":"s461","date":"2026-06-19","ts":"2026-06-19T10:42:37.000Z","itemId":"i4","name":"Yogurt","qty":1,"price":3,"total":3,"payment":"cash","contactId":null},{"id":"s462","date":"2026-06-19","ts":"2026-06-19T15:10:19.000Z","itemId":"i18","name":"Tomato paste","qty":3,"price":4,"total":12,"payment":"credit","contactId":"c9"},{"id":"s463","date":"2026-06-19","ts":"2026-06-19T16:37:57.000Z","itemId":"i21","name":"Biscuits","qty":1,"price":4,"total":4,"payment":"cash","contactId":null},{"id":"s464","date":"2026-06-19","ts":"2026-06-19T17:31:55.000Z","itemId":"i1","name":"Bread","qty":3,"price":2,"total":6,"payment":"cash","contactId":null},{"id":"s465","date":"2026-06-19","ts":"2026-06-19T07:07:45.000Z","itemId":"i27","name":"Detergent 1kg","qty":1,"price":19,"total":19,"payment":"cash","contactId":null},{"id":"s466","date":"2026-06-20","ts":"2026-06-20T10:52:54.000Z","itemId":"i19","name":"Tuna can","qty":1,"price":11,"total":11,"payment":"cash","contactId":null},{"id":"s467","date":"2026-06-20","ts":"2026-06-20T15:34:35.000Z","itemId":"i12","name":"Tea 200g","qty":1,"price":18,"total":18,"payment":"cash","contactId":null}],"debts":[{"id":"d1","contactId":"c3","kind":"charge","amount":4,"date":"2026-04-13","ts":"2026-04-13T13:16:38.000Z","saleId":"s41","note":"Biscuits"},{"id":"d2","contactId":"c5","kind":"charge","amount":5,"date":"2026-04-13","ts":"2026-04-13T17:26:22.000Z","saleId":"s46","note":"Water 1.5L"},{"id":"d3","contactId":"c4","kind":"charge","amount":5,"date":"2026-04-14","ts":"2026-04-14T11:11:02.000Z","saleId":"s53","note":"Water 1.5L"},{"id":"d4","contactId":"c10","kind":"charge","amount":38,"date":"2026-04-15","ts":"2026-04-15T12:45:50.000Z","saleId":"s54","note":"Cigarettes pack"},{"id":"d5","contactId":"c3","kind":"charge","amount":54,"date":"2026-04-15","ts":"2026-04-15T13:04:39.000Z","saleId":"s56","note":"Tea 200g"},{"id":"d6","contactId":"c6","kind":"charge","amount":7,"date":"2026-04-15","ts":"2026-04-15T12:50:59.000Z","saleId":"s59","note":"Pasta 500g"},{"id":"d7","contactId":"c7","kind":"charge","amount":1,"date":"2026-04-15","ts":"2026-04-15T18:04:37.000Z","saleId":"s61","note":"Bread"},{"id":"d8","contactId":"c8","kind":"charge","amount":2,"date":"2026-04-16","ts":"2026-04-16T17:14:10.000Z","saleId":"s64","note":"Shampoo sachet"},{"id":"d9","contactId":"c4","kind":"charge","amount":3,"date":"2026-04-17","ts":"2026-04-17T13:25:07.000Z","saleId":"s73","note":"Yogurt"},{"id":"d10","contactId":"c2","kind":"charge","amount":9,"date":"2026-04-22","ts":"2026-04-22T16:30:41.000Z","saleId":"s104","note":"Soda 1L"},{"id":"d11","contactId":"c6","kind":"charge","amount":20,"date":"2026-04-23","ts":"2026-04-23T16:00:10.000Z","saleId":"s114","note":"Phone credit 10"},{"id":"d12","contactId":"c2","kind":"charge","amount":23,"date":"2026-04-23","ts":"2026-04-23T12:31:11.000Z","saleId":"s115","note":"Oil 1L"},{"id":"d13","contactId":"c1","kind":"charge","amount":5,"date":"2026-04-25","ts":"2026-04-25T13:42:51.000Z","saleId":"s124","note":"Chips"},{"id":"d14","contactId":"c7","kind":"charge","amount":18,"date":"2026-04-25","ts":"2026-04-25T17:05:42.000Z","saleId":"s125","note":"Tea 200g"},{"id":"d15","contactId":"c7","kind":"charge","amount":14,"date":"2026-04-26","ts":"2026-04-26T14:20:51.000Z","saleId":"s126","note":"Rice 1kg"},{"id":"d16","contactId":"c6","kind":"charge","amount":3,"date":"2026-04-26","ts":"2026-04-26T13:26:14.000Z","saleId":"s127","note":"Yogurt"},{"id":"d17","contactId":"c9","kind":"charge","amount":6,"date":"2026-04-27","ts":"2026-04-27T09:51:35.000Z","saleId":"s130","note":"Chocolate bar"},{"id":"d18","contactId":"c8","kind":"charge","amount":23,"date":"2026-04-27","ts":"2026-04-27T17:11:24.000Z","saleId":"s133","note":"Oil 1L"},{"id":"d19","contactId":"c1","kind":"charge","amount":18,"date":"2026-04-28","ts":"2026-04-28T09:34:04.000Z","saleId":"s139","note":"Chocolate bar"},{"id":"d20","contactId":"c6","kind":"charge","amount":10,"date":"2026-04-30","ts":"2026-04-30T18:08:32.000Z","saleId":"s149","note":"Phone credit 10"},{"id":"d21","contactId":"c2","kind":"charge","amount":7,"date":"2026-04-30","ts":"2026-04-30T10:26:46.000Z","saleId":"s150","note":"Pasta 500g"},{"id":"d22","contactId":"c6","kind":"charge","amount":9,"date":"2026-05-01","ts":"2026-05-01T18:36:40.000Z","saleId":"s157","note":"Croissant"},{"id":"d23","contactId":"c3","kind":"charge","amount":4,"date":"2026-05-02","ts":"2026-05-02T16:04:11.000Z","saleId":"s164","note":"Biscuits"},{"id":"d24","contactId":"c1","kind":"charge","amount":6,"date":"2026-05-02","ts":"2026-05-02T14:06:39.000Z","saleId":"s170","note":"Flour 1kg"},{"id":"d25","contactId":"c6","kind":"charge","amount":6,"date":"2026-05-03","ts":"2026-05-03T19:47:40.000Z","saleId":"s177","note":"Chocolate bar"},{"id":"d26","contactId":"c3","kind":"charge","amount":54,"date":"2026-05-05","ts":"2026-05-05T18:58:49.000Z","saleId":"s185","note":"Detergent 1kg"},{"id":"d27","contactId":"c9","kind":"charge","amount":6,"date":"2026-05-06","ts":"2026-05-06T08:54:23.000Z","saleId":"s186","note":"Milk 1L"},{"id":"d28","contactId":"c1","kind":"charge","amount":2,"date":"2026-05-08","ts":"2026-05-08T08:53:44.000Z","saleId":"s199","note":"Bread"},{"id":"d29","contactId":"c10","kind":"charge","amount":6,"date":"2026-05-09","ts":"2026-05-09T07:26:51.000Z","saleId":"s204","note":"Chocolate bar"},{"id":"d30","contactId":"c5","kind":"charge","amount":6,"date":"2026-05-09","ts":"2026-05-09T09:46:05.000Z","saleId":"s209","note":"Flour 1kg"},{"id":"d31","contactId":"c3","kind":"charge","amount":5,"date":"2026-05-10","ts":"2026-05-10T15:51:36.000Z","saleId":"s215","note":"Chips"},{"id":"d32","contactId":"c2","kind":"charge","amount":2,"date":"2026-05-14","ts":"2026-05-14T13:28:18.000Z","saleId":"s241","note":"Bread"},{"id":"d33","contactId":"c4","kind":"charge","amount":3,"date":"2026-05-14","ts":"2026-05-14T17:50:58.000Z","saleId":"s242","note":"Candle"},{"id":"d34","contactId":"c5","kind":"charge","amount":14,"date":"2026-05-15","ts":"2026-05-15T14:26:27.000Z","saleId":"s253","note":"Butter 200g"},{"id":"d35","contactId":"c2","kind":"charge","amount":6,"date":"2026-05-16","ts":"2026-05-16T11:24:09.000Z","saleId":"s256","note":"Chocolate bar"},{"id":"d36","contactId":"c8","kind":"charge","amount":3,"date":"2026-05-18","ts":"2026-05-18T09:27:38.000Z","saleId":"s267","note":"Croissant"},{"id":"d37","contactId":"c3","kind":"charge","amount":9,"date":"2026-05-19","ts":"2026-05-19T09:00:58.000Z","saleId":"s270","note":"Soda 1L"},{"id":"d38","contactId":"c1","kind":"charge","amount":10,"date":"2026-05-19","ts":"2026-05-19T13:13:27.000Z","saleId":"s273","note":"Phone credit 10"},{"id":"d39","contactId":"c7","kind":"charge","amount":2,"date":"2026-05-19","ts":"2026-05-19T10:50:55.000Z","saleId":"s274","note":"Bread"},{"id":"d40","contactId":"c3","kind":"charge","amount":7,"date":"2026-05-22","ts":"2026-05-22T17:34:05.000Z","saleId":"s288","note":"Milk 1L"},{"id":"d41","contactId":"c3","kind":"charge","amount":9,"date":"2026-05-29","ts":"2026-05-29T11:52:23.000Z","saleId":"s332","note":"Cheese portions"},{"id":"d42","contactId":"c7","kind":"charge","amount":3,"date":"2026-05-31","ts":"2026-05-31T17:53:47.000Z","saleId":"s345","note":"Croissant"},{"id":"d43","contactId":"c2","kind":"charge","amount":18,"date":"2026-06-01","ts":"2026-06-01T08:15:01.000Z","saleId":"s353","note":"Soda 1L"},{"id":"d44","contactId":"c3","kind":"charge","amount":4,"date":"2026-06-03","ts":"2026-06-03T10:03:44.000Z","saleId":"s363","note":"Biscuits"},{"id":"d45","contactId":"c5","kind":"charge","amount":9,"date":"2026-06-04","ts":"2026-06-04T12:11:11.000Z","saleId":"s373","note":"Sugar 1kg"},{"id":"d46","contactId":"c6","kind":"charge","amount":4,"date":"2026-06-06","ts":"2026-06-06T12:09:06.000Z","saleId":"s378","note":"Biscuits"},{"id":"d47","contactId":"c6","kind":"charge","amount":8,"date":"2026-06-08","ts":"2026-06-08T08:38:53.000Z","saleId":"s393","note":"Tomato paste"},{"id":"d48","contactId":"c7","kind":"charge","amount":22,"date":"2026-06-09","ts":"2026-06-09T17:15:37.000Z","saleId":"s400","note":"Oil 1L"},{"id":"d49","contactId":"c4","kind":"charge","amount":23,"date":"2026-06-09","ts":"2026-06-09T11:19:52.000Z","saleId":"s403","note":"Oil 1L"},{"id":"d50","contactId":"c5","kind":"charge","amount":7,"date":"2026-06-09","ts":"2026-06-09T19:16:22.000Z","saleId":"s405","note":"Milk 1L"},{"id":"d51","contactId":"c3","kind":"charge","amount":7,"date":"2026-06-10","ts":"2026-06-10T07:43:02.000Z","saleId":"s406","note":"Milk 1L"},{"id":"d52","contactId":"c3","kind":"charge","amount":33,"date":"2026-06-10","ts":"2026-06-10T15:46:43.000Z","saleId":"s407","note":"Soda 1L"},{"id":"d53","contactId":"c8","kind":"charge","amount":5,"date":"2026-06-13","ts":"2026-06-13T12:43:18.000Z","saleId":"s429","note":"Water 1.5L"},{"id":"d54","contactId":"c8","kind":"charge","amount":15,"date":"2026-06-14","ts":"2026-06-14T07:22:02.000Z","saleId":"s433","note":"Chips"},{"id":"d55","contactId":"c4","kind":"charge","amount":19,"date":"2026-06-16","ts":"2026-06-16T17:48:52.000Z","saleId":"s447","note":"Detergent 1kg"},{"id":"d56","contactId":"c8","kind":"charge","amount":13,"date":"2026-06-17","ts":"2026-06-17T17:05:34.000Z","saleId":"s453","note":"Toothpaste"},{"id":"d57","contactId":"c9","kind":"charge","amount":12,"date":"2026-06-19","ts":"2026-06-19T15:10:19.000Z","saleId":"s462","note":"Tomato paste"},{"id":"d58","contactId":"c3","kind":"payment","amount":190,"date":"2026-06-13","ts":"2026-06-13T19:00:00.000Z","note":"Repayment"},{"id":"d59","contactId":"c4","kind":"payment","amount":27,"date":"2026-06-09","ts":"2026-06-09T19:00:00.000Z","note":"Repayment"},{"id":"d60","contactId":"c8","kind":"payment","amount":31,"date":"2026-06-12","ts":"2026-06-12T19:00:00.000Z","note":"Repayment"},{"id":"d61","contactId":"c9","kind":"payment","amount":12,"date":"2026-06-12","ts":"2026-06-12T19:00:00.000Z","note":"Repayment"},{"id":"d62","contactId":"c10","kind":"payment","amount":44,"date":"2026-06-09","ts":"2026-06-09T19:00:00.000Z","note":"Repayment"}],"expenses":[{"id":"e1","date":"2026-04-16","ts":"2026-04-16T19:00:00.000Z","amount":617,"category":"Purchases","note":"Grossiste Atlas"},{"id":"e2","date":"2026-04-18","ts":"2026-04-18T19:00:00.000Z","amount":222,"category":"Purchases","note":"Dépôt Central"},{"id":"e14","date":"2026-04-21","ts":"2026-04-21T19:00:00.000Z","amount":800,"category":"Rent","note":"Monthly rent"},{"id":"e3","date":"2026-04-23","ts":"2026-04-23T19:00:00.000Z","amount":588,"category":"Purchases","note":"Sodial Distribution"},{"id":"e17","date":"2026-04-26","ts":"2026-04-26T19:00:00.000Z","amount":177,"category":"Utilities","note":"Electricity & water"},{"id":"e4","date":"2026-05-02","ts":"2026-05-02T19:00:00.000Z","amount":833,"category":"Purchases","note":"Sodial Distribution"},{"id":"e5","date":"2026-05-04","ts":"2026-05-04T19:00:00.000Z","amount":290,"category":"Purchases","note":"Sodial Distribution"},{"id":"e6","date":"2026-05-10","ts":"2026-05-10T19:00:00.000Z","amount":632,"category":"Purchases","note":"Grossiste Atlas"},{"id":"e7","date":"2026-05-16","ts":"2026-05-16T19:00:00.000Z","amount":453,"category":"Purchases","note":"Grossiste Atlas"},{"id":"e8","date":"2026-05-20","ts":"2026-05-20T19:00:00.000Z","amount":243,"category":"Purchases","note":"Sodial Distribution"},{"id":"e15","date":"2026-05-21","ts":"2026-05-21T19:00:00.000Z","amount":800,"category":"Rent","note":"Monthly rent"},{"id":"e9","date":"2026-05-22","ts":"2026-05-22T19:00:00.000Z","amount":883,"category":"Purchases","note":"Grossiste Atlas"},{"id":"e18","date":"2026-05-26","ts":"2026-05-26T19:00:00.000Z","amount":307,"category":"Utilities","note":"Electricity & water"},{"id":"e10","date":"2026-06-08","ts":"2026-06-08T19:00:00.000Z","amount":357,"category":"Purchases","note":"Dépôt Central"},{"id":"e11","date":"2026-06-10","ts":"2026-06-10T19:00:00.000Z","amount":438,"category":"Purchases","note":"Sodial Distribution"},{"id":"e12","date":"2026-06-11","ts":"2026-06-11T19:00:00.000Z","amount":752,"category":"Purchases","note":"Dépôt Central"},{"id":"e13","date":"2026-06-15","ts":"2026-06-15T19:00:00.000Z","amount":330,"category":"Purchases","note":"Grossiste Atlas"},{"id":"e16","date":"2026-06-20","ts":"2026-06-20T19:00:00.000Z","amount":800,"category":"Rent","note":"Monthly rent"}]}</script>
+  <script>
+    (function () {
+      var SEED = null;
+      try { SEED = JSON.parse(document.getElementById('h-seed').textContent); } catch (e) { /* no seed */ }
+      function start() { window.Hanout.boot(SEED); }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+      else start();
+    })();
+  </script>
+</body>
+</html>

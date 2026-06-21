@@ -1,0 +1,34 @@
+{
+  "name": "hanout",
+  "version": "0.1.0",
+  "description": "Free, open-source, modular business manager — offline-first, single-file, runs on a phone. For مول الحانوت or any small shop.",
+  "type": "commonjs",
+  "scripts": {
+    "generate": "node data/generate.js",
+    "build": "node build/build.js",
+    "serve": "node build/serve.js",
+    "dev": "node build/build.js && node build/serve.js"
+  },
+  "license": "MIT",
+  "author": "hassanokrad <okrad@live.fr>",
+  "keywords": [
+    "pos",
+    "point-of-sale",
+    "inventory",
+    "offline-first",
+    "localstorage",
+    "modular",
+    "small-business",
+    "arabic",
+    "rtl",
+    "morocco",
+    "hanout"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hassanokrad/hanout"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
