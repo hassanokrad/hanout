@@ -16,6 +16,10 @@
 
   let store, settings, app, activeId, SEED = null;
   const listeners = {};
+  const tabStates = {};
+  // Per-tab UI state (search query, active filter, report period…) that must
+  // survive the auto re-render triggered on every store write.
+  function tabState(id) { id = id || activeId; return tabStates[id] || (tabStates[id] = {}); }
 
   // ---- settings ----
   function loadSettings() { return Object.assign({}, DEFAULT_SETTINGS, store.get(SETTINGS_KEY, {})); }
@@ -74,16 +78,40 @@
     catch (e) { console.error(e); ui.append(main, ui.el('pre', { class: 'h-err' }, String((e && e.stack) || e))); }
   }
   function refresh() { render(); }
+  const MAX_SLOTS = 7;
+  function navTab(m, opts) {
+    opts = opts || {};
+    return ui.el('button', { class: 'h-tab' + (opts.active ? ' active' : ''), onClick: opts.onClick || (() => openTab(m.id)) }, [
+      ui.el('span', { class: 'h-tab-ico' }, opts.icon || m.icon || '•'),
+      ui.el('span', { class: 'h-tab-lbl' }, opts.label || moduleTitle(m)),
+    ]);
+  }
   function renderNav() {
     const nav = document.getElementById('h-nav');
     if (!nav) return;
     ui.clear(nav);
-    enabledModules().forEach(m => nav.appendChild(
-      ui.el('button', { class: 'h-tab' + (m.id === activeId ? ' active' : ''), onClick: () => openTab(m.id) }, [
-        ui.el('span', { class: 'h-tab-ico' }, m.icon || '•'),
-        ui.el('span', { class: 'h-tab-lbl' }, moduleTitle(m)),
-      ])
-    ));
+    const enabled = enabledModules();
+    const prim = enabled.filter(m => !m.secondary);
+    const sec = enabled.filter(m => m.secondary);
+    const needMore = sec.length > 0 || prim.length > MAX_SLOTS;
+    const slots = needMore ? MAX_SLOTS - 1 : prim.length;
+    const shown = prim.slice(0, slots);
+    const overflow = prim.slice(slots).concat(sec);
+    shown.forEach(m => nav.appendChild(navTab(m, { active: m.id === activeId })));
+    if (overflow.length) {
+      nav.appendChild(navTab(null, {
+        icon: '☰', label: I18n.t('more'),
+        active: overflow.some(m => m.id === activeId),
+        onClick: () => openMore(overflow),
+      }));
+    }
+  }
+  function openMore(mods) {
+    let ref;
+    const list = ui.el('div', { class: 'h-list' }, mods.map(m =>
+      ui.el('div', { class: 'h-list-item' + (m.id === activeId ? ' active' : ''), onClick: () => { ref.close(); openTab(m.id); } },
+        ui.el('div', { class: 'h-list-title' }, (m.icon || '•') + '  ' + moduleTitle(m)))));
+    ref = ui.sheet({ title: I18n.t('more'), body: list });
   }
 
   // ---- seed / reset ----
@@ -120,7 +148,7 @@
       on, emit,
       get settings() { return settings; },
       saveSettings,
-      refresh, openTab,
+      refresh, openTab, tabState,
       modules: enabledModules,
       allModules: () => registry.slice(),
       moduleTitle, isEnabled,
@@ -130,7 +158,10 @@
 
     registry.forEach(m => m.strings && I18n.extend(m.strings));
     applySettings();
-    registry.forEach(m => { if (isEnabled(m) && m.setup) { try { m.setup(app); } catch (e) { console.error(e); } } });
+    // Setup ALL registered modules (not only enabled ones) so cross-module event
+    // hooks — stock decrement on sale, debt charge on credit — stay consistent no
+    // matter which tabs a business shows. Enable/disable controls navigation only.
+    registry.forEach(m => { if (m.setup) { try { m.setup(app); } catch (e) { console.error(e); } } });
 
     // re-render the active view whenever data changes (simple + fine at this scale)
     store.subscribe(() => { if (document.getElementById('h-view')) render(); });

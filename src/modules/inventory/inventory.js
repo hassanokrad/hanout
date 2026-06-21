@@ -45,7 +45,8 @@
     view(app) {
       const { el, store, t, money } = app, ui = app.ui;
       const wrap = el('div');
-      let q = '', filter = 'all', showArchived = false;
+      const st = app.tabState();
+      let q = st.q || '', filter = st.filter || 'all', showArchived = !!st.showArchived;
 
       // header
       wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
@@ -63,13 +64,13 @@
         : el('div', { class: 'h-row h-ok' }, [el('span', {}, '✅'), el('span', {}, t('all_good'))])));
 
       // search + filter chips
-      const search = ui.input({ type: 'search', placeholder: t('search_items'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderList(); } });
+      const search = ui.input({ type: 'search', placeholder: t('search_items'), value: q, oninput: e => { q = e.target.value; st.q = q; renderList(); } });
       wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
       const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
       [['all', t('all')], ['low', t('low_stock')], ['out', t('out_of_stock_label')]].forEach(([val, lbl]) =>
-        chips.appendChild(el('button', { class: 'h-chip' + (filter === val ? ' active' : ''), onClick: () => { filter = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['all', 'low', 'out'][i] === val)); renderList(); } }, lbl)));
+        chips.appendChild(el('button', { class: 'h-chip' + (filter === val ? ' active' : ''), onClick: () => { filter = val; st.filter = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['all', 'low', 'out'][i] === val)); renderList(); } }, lbl)));
       chips.appendChild(el('label', { class: 'h-chip h-row', style: { gap: '6px' } }, [
-        el('input', { type: 'checkbox', onchange: e => { showArchived = e.target.checked; renderList(); } }),
+        el('input', { type: 'checkbox', checked: showArchived, onchange: e => { showArchived = e.target.checked; st.showArchived = showArchived; renderList(); } }),
         el('span', {}, t('show_archived')),
       ]));
       wrap.appendChild(chips);
@@ -82,7 +83,7 @@
         if (!showArchived) list = list.filter(i => i.active !== false);
         if (filter === 'low') list = list.filter(i => i.stock != null && i.stock > 0 && i.stock <= LOW);
         if (filter === 'out') list = list.filter(i => i.stock != null && i.stock <= 0);
-        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q) || (i.category || '').toLowerCase().includes(q));
+        if (q) { const qq = q.toLowerCase().trim(); list = list.filter(i => (i.name || '').toLowerCase().includes(qq) || (i.category || '').toLowerCase().includes(qq)); }
         list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
         if (!list.length) { listCard.appendChild(ui.empty(null, '📦')); return; }
         const inner = el('div', { class: 'h-list' });
@@ -144,8 +145,8 @@
       if (!name) { app.toast(t('name_required')); return; }
       store.upsert('items', {
         id: item.id, name, category: f.category.value.trim(),
-        price: parseFloat(f.price.value) || 0, cost: parseFloat(f.cost.value) || 0,
-        stock: f.stock.value === '' ? null : (parseInt(f.stock.value, 10) || 0),
+        price: Math.max(0, parseFloat(f.price.value) || 0), cost: Math.max(0, parseFloat(f.cost.value) || 0),
+        stock: f.stock.value === '' ? null : Math.max(0, parseInt(f.stock.value, 10) || 0),
         unit: f.unit.value.trim() || 'pc', active,
       });
       close(); app.toast(t('saved'));

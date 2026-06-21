@@ -41,9 +41,10 @@
           t('todays_total') + ' · ' + todays.length + ' ' + t('sales').toLowerCase()),
       ])));
 
-      // search
-      let q = '', cat = '';
-      const search = ui.input({ type: 'search', placeholder: t('search_products'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderGrid(); } });
+      // search + category, persisted across re-renders so filters survive a sale
+      const st = app.tabState();
+      let q = st.q || '', cat = st.cat || '';
+      const search = ui.input({ type: 'search', placeholder: t('search_products'), value: q, oninput: e => { q = e.target.value; st.q = q; renderGrid(); } });
       wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
 
       const activeItems = () => store.all('items').filter(i => i.active !== false);
@@ -52,7 +53,7 @@
       function renderChips() {
         ui.clear(chipRow);
         [['', t('all')]].concat(cats.map(c => [c, c])).forEach(([val, lbl]) =>
-          chipRow.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; renderChips(); renderGrid(); } }, lbl)));
+          chipRow.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; st.cat = val; renderChips(); renderGrid(); } }, lbl)));
       }
       if (cats.length) { renderChips(); wrap.appendChild(chipRow); }
 
@@ -61,7 +62,7 @@
         ui.clear(grid);
         let list = activeItems();
         if (cat) list = list.filter(i => i.category === cat);
-        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q));
+        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q.toLowerCase().trim()));
         if (!list.length) { grid.appendChild(ui.empty(store.all('items').length ? t('empty_here') : t('no_products'), '🛒')); return; }
         list.forEach(it => {
           const low = it.stock != null && it.stock > 0 && it.stock <= 3;
@@ -117,6 +118,7 @@
 
     let saving = false;
     app.sheet({
+      autofocus: false,
       title: item.name,
       body: el('div', {}, [
         ui.field(t('unit_price'), priceInput,
@@ -146,6 +148,7 @@
 
   function recordSale(app, item, qty, price, payment, contactId) {
     const now = new Date();
+    price = Math.max(0, +price || 0); qty = Math.max(1, parseInt(qty, 10) || 1);
     const sale = {
       id: app.store.uid(), date: app.fmtDate(now), ts: now.toISOString(),
       itemId: item.id, name: item.name, qty, price, total: +(qty * price).toFixed(2),

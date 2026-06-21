@@ -1,7 +1,7 @@
 /* Hanout module — backup. Core. JSON backup/restore, CSV export, reset. */
 ;(function () {
   const MOD = {
-    id: 'backup', core: true, order: 95, icon: '💾',
+    id: 'backup', core: true, secondary: true, order: 95, icon: '💾',
     title: { en: 'Backup', fr: 'Sauvegarde', ar: 'النسخ' },
     strings: {
       en: { backup: 'Backup', export_backup: 'Export backup (JSON)', import_backup: 'Import backup (JSON)',
@@ -45,7 +45,7 @@
       // danger zone
       wrap.appendChild(ui.card(t('danger_zone'), el('div', { class: 'h-stack' }, [
         el('button', { class: 'h-btn h-btn-block', onClick: () => app.confirm(t('reset_sample_q')).then(ok => { if (ok) { app.resetToSample(); app.toast(t('saved')); } }) }, t('reset_to_sample')),
-        el('button', { class: 'h-btn h-btn-danger h-btn-block', onClick: () => app.confirm(t('clear_all_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { store.clearAll(); location.reload(); } }) }, t('clear_all_data')),
+        el('button', { class: 'h-btn h-btn-danger h-btn-block', onClick: () => app.confirm(t('clear_all_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { const s = app.settings; store.clearAll(); store.set('settings', { business: 'Hanout', currency: s.currency, lang: s.lang, theme: s.theme, enabled: {} }); location.reload(); } }) }, t('clear_all_data')),
       ])));
 
       return wrap;

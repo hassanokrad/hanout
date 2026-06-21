@@ -17,7 +17,8 @@
     view(app) {
       const { el, store, t, money } = app, ui = app.ui;
       const wrap = el('div');
-      let cat = '';
+      const st = app.tabState();
+      let cat = st.cat || '';
       const month = app.todayKey().slice(0, 7);
       const all = store.all('expenses');
       const monthTotal = all.filter(e => (e.date || '').slice(0, 7) === month).reduce((s, e) => s + (+e.amount || 0), 0);
@@ -36,7 +37,7 @@
       if (cats.length) {
         const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px', flexWrap: 'nowrap', overflowX: 'auto' } });
         [['', t('all')]].concat(cats.map(c => [c, c])).forEach(([val, lbl]) =>
-          chips.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; renderList(); [...chips.children].forEach((ch, i) => ch.classList.toggle('active', (['', ...cats][i]) === val)); } }, lbl)));
+          chips.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; st.cat = val; renderList(); [...chips.children].forEach((ch, i) => ch.classList.toggle('active', (['', ...cats][i]) === val)); } }, lbl)));
         wrap.appendChild(chips);
       }
 

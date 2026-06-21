@@ -22,7 +22,7 @@
       paid: 'Paid', unpaid: 'Unpaid', settings: 'Settings', currency: 'Currency',
       language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark',
       business_name: 'Business name', modules: 'Modules', required: 'required', optional: 'optional',
-      this_month: 'This month', last_month: 'Last month', all_time: 'All time',
+      this_month: 'This month', last_month: 'Last month', all_time: 'All time', more: 'More',
     },
     fr: {
       save: 'Enregistrer', cancel: 'Annuler', delete: 'Supprimer', edit: 'Modifier', add: 'Ajouter',
@@ -37,7 +37,7 @@
       paid: 'Payé', unpaid: 'Impayé', settings: 'Réglages', currency: 'Devise', language: 'Langue',
       theme: 'Thème', light: 'Clair', dark: 'Sombre', business_name: 'Nom du commerce',
       modules: 'Modules', required: 'requis', optional: 'optionnel',
-      this_month: 'Ce mois-ci', last_month: 'Le mois dernier', all_time: 'Tout',
+      this_month: 'Ce mois-ci', last_month: 'Le mois dernier', all_time: 'Tout', more: 'Plus',
     },
     ar: {
       save: 'حفظ', cancel: 'إلغاء', delete: 'حذف', edit: 'تعديل', add: 'إضافة', close: 'إغلاق',
@@ -52,7 +52,7 @@
       paid: 'مدفوع', unpaid: 'غير مدفوع', settings: 'الإعدادات', currency: 'العملة',
       language: 'اللغة', theme: 'المظهر', light: 'فاتح', dark: 'داكن', business_name: 'اسم النشاط',
       modules: 'الوحدات', required: 'مطلوب', optional: 'اختياري',
-      this_month: 'هذا الشهر', last_month: 'الشهر الماضي', all_time: 'الكل',
+      this_month: 'هذا الشهر', last_month: 'الشهر الماضي', all_time: 'الكل', more: 'المزيد',
     },
   };
 

@@ -115,12 +115,13 @@ button { font-family: inherit; cursor: pointer; }
 }
 .h-nav::-webkit-scrollbar { display: none; }
 .h-tab {
-  flex: 1 0 auto; min-width: 60px;
+  flex: 1 1 0; min-width: 0;
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   background: none; border: 0; border-radius: 10px; padding: 6px 8px;
   color: var(--muted); font-size: 10.5px; font-weight: 600;
 }
 .h-tab-ico { font-size: 19px; line-height: 1; filter: grayscale(.35); opacity: .8; }
+.h-tab-lbl { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .h-tab.active { color: var(--accent); background: var(--accent-soft); }
 .h-tab.active .h-tab-ico { filter: none; opacity: 1; }
 
@@ -174,6 +175,7 @@ select.h-input { appearance: none; }
   padding: 11px 2px; border-bottom: 1px solid var(--border);
 }
 .h-list-item:last-child { border-bottom: 0; }
+.h-list-item.active { background: var(--accent-soft); border-radius: 8px; }
 .h-list-main { min-width: 0; flex: 1; }
 .h-list-title { font-weight: 600; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .h-list-sub { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
@@ -428,7 +430,7 @@ select.h-input { appearance: none; }
       paid: 'Paid', unpaid: 'Unpaid', settings: 'Settings', currency: 'Currency',
       language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark',
       business_name: 'Business name', modules: 'Modules', required: 'required', optional: 'optional',
-      this_month: 'This month', last_month: 'Last month', all_time: 'All time',
+      this_month: 'This month', last_month: 'Last month', all_time: 'All time', more: 'More',
     },
     fr: {
       save: 'Enregistrer', cancel: 'Annuler', delete: 'Supprimer', edit: 'Modifier', add: 'Ajouter',
@@ -443,7 +445,7 @@ select.h-input { appearance: none; }
       paid: 'Payé', unpaid: 'Impayé', settings: 'Réglages', currency: 'Devise', language: 'Langue',
       theme: 'Thème', light: 'Clair', dark: 'Sombre', business_name: 'Nom du commerce',
       modules: 'Modules', required: 'requis', optional: 'optionnel',
-      this_month: 'Ce mois-ci', last_month: 'Le mois dernier', all_time: 'Tout',
+      this_month: 'Ce mois-ci', last_month: 'Le mois dernier', all_time: 'Tout', more: 'Plus',
     },
     ar: {
       save: 'حفظ', cancel: 'إلغاء', delete: 'حذف', edit: 'تعديل', add: 'إضافة', close: 'إغلاق',
@@ -458,7 +460,7 @@ select.h-input { appearance: none; }
       paid: 'مدفوع', unpaid: 'غير مدفوع', settings: 'الإعدادات', currency: 'العملة',
       language: 'اللغة', theme: 'المظهر', light: 'فاتح', dark: 'داكن', business_name: 'اسم النشاط',
       modules: 'الوحدات', required: 'مطلوب', optional: 'اختياري',
-      this_month: 'هذا الشهر', last_month: 'الشهر الماضي', all_time: 'الكل',
+      this_month: 'هذا الشهر', last_month: 'الشهر الماضي', all_time: 'الكل', more: 'المزيد',
     },
   };
 
@@ -572,9 +574,28 @@ select.h-input { appearance: none; }
     overlay.addEventListener('click', e => { if (e.target === overlay && opts.dismissable !== false) dismiss(); });
     document.body.appendChild(overlay);
     requestAnimationFrame(() => overlay.classList.add('show'));
+
+    // autofocus the first text field (skip when asked, e.g. the sale sheet)
+    if (opts.autofocus !== false) {
+      requestAnimationFrame(() => {
+        const f = card.querySelector('input:not([type=checkbox]):not([type=radio]):not([type=search]),select,textarea');
+        if (f) { try { f.focus(); } catch (e) {} }
+      });
+    }
+    // Enter on a text input triggers the primary action; Escape closes.
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'search' && !e.shiftKey) {
+        const primary = (opts.actions || []).find(a => a.kind === 'primary');
+        if (primary && primary.onClick) { e.preventDefault(); primary.onClick(dismiss); }
+      }
+    });
+    function onKey(e) { if (e.key === 'Escape') dismiss(); }
+    document.addEventListener('keydown', onKey);
+
     let closed = false;
     function dismiss() {
       if (closed) return; closed = true;
+      document.removeEventListener('keydown', onKey);
       overlay.classList.remove('show');
       setTimeout(() => overlay.remove(), 180);
       opts.onClose && opts.onClose();
@@ -679,6 +700,10 @@ select.h-input { appearance: none; }
 
   let store, settings, app, activeId, SEED = null;
   const listeners = {};
+  const tabStates = {};
+  // Per-tab UI state (search query, active filter, report period…) that must
+  // survive the auto re-render triggered on every store write.
+  function tabState(id) { id = id || activeId; return tabStates[id] || (tabStates[id] = {}); }
 
   // ---- settings ----
   function loadSettings() { return Object.assign({}, DEFAULT_SETTINGS, store.get(SETTINGS_KEY, {})); }
@@ -737,16 +762,40 @@ select.h-input { appearance: none; }
     catch (e) { console.error(e); ui.append(main, ui.el('pre', { class: 'h-err' }, String((e && e.stack) || e))); }
   }
   function refresh() { render(); }
+  const MAX_SLOTS = 7;
+  function navTab(m, opts) {
+    opts = opts || {};
+    return ui.el('button', { class: 'h-tab' + (opts.active ? ' active' : ''), onClick: opts.onClick || (() => openTab(m.id)) }, [
+      ui.el('span', { class: 'h-tab-ico' }, opts.icon || m.icon || '•'),
+      ui.el('span', { class: 'h-tab-lbl' }, opts.label || moduleTitle(m)),
+    ]);
+  }
   function renderNav() {
     const nav = document.getElementById('h-nav');
     if (!nav) return;
     ui.clear(nav);
-    enabledModules().forEach(m => nav.appendChild(
-      ui.el('button', { class: 'h-tab' + (m.id === activeId ? ' active' : ''), onClick: () => openTab(m.id) }, [
-        ui.el('span', { class: 'h-tab-ico' }, m.icon || '•'),
-        ui.el('span', { class: 'h-tab-lbl' }, moduleTitle(m)),
-      ])
-    ));
+    const enabled = enabledModules();
+    const prim = enabled.filter(m => !m.secondary);
+    const sec = enabled.filter(m => m.secondary);
+    const needMore = sec.length > 0 || prim.length > MAX_SLOTS;
+    const slots = needMore ? MAX_SLOTS - 1 : prim.length;
+    const shown = prim.slice(0, slots);
+    const overflow = prim.slice(slots).concat(sec);
+    shown.forEach(m => nav.appendChild(navTab(m, { active: m.id === activeId })));
+    if (overflow.length) {
+      nav.appendChild(navTab(null, {
+        icon: '☰', label: I18n.t('more'),
+        active: overflow.some(m => m.id === activeId),
+        onClick: () => openMore(overflow),
+      }));
+    }
+  }
+  function openMore(mods) {
+    let ref;
+    const list = ui.el('div', { class: 'h-list' }, mods.map(m =>
+      ui.el('div', { class: 'h-list-item' + (m.id === activeId ? ' active' : ''), onClick: () => { ref.close(); openTab(m.id); } },
+        ui.el('div', { class: 'h-list-title' }, (m.icon || '•') + '  ' + moduleTitle(m)))));
+    ref = ui.sheet({ title: I18n.t('more'), body: list });
   }
 
   // ---- seed / reset ----
@@ -783,7 +832,7 @@ select.h-input { appearance: none; }
       on, emit,
       get settings() { return settings; },
       saveSettings,
-      refresh, openTab,
+      refresh, openTab, tabState,
       modules: enabledModules,
       allModules: () => registry.slice(),
       moduleTitle, isEnabled,
@@ -793,7 +842,10 @@ select.h-input { appearance: none; }
 
     registry.forEach(m => m.strings && I18n.extend(m.strings));
     applySettings();
-    registry.forEach(m => { if (isEnabled(m) && m.setup) { try { m.setup(app); } catch (e) { console.error(e); } } });
+    // Setup ALL registered modules (not only enabled ones) so cross-module event
+    // hooks — stock decrement on sale, debt charge on credit — stay consistent no
+    // matter which tabs a business shows. Enable/disable controls navigation only.
+    registry.forEach(m => { if (m.setup) { try { m.setup(app); } catch (e) { console.error(e); } } });
 
     // re-render the active view whenever data changes (simple + fine at this scale)
     store.subscribe(() => { if (document.getElementById('h-view')) render(); });
@@ -864,9 +916,10 @@ select.h-input { appearance: none; }
           t('todays_total') + ' · ' + todays.length + ' ' + t('sales').toLowerCase()),
       ])));
 
-      // search
-      let q = '', cat = '';
-      const search = ui.input({ type: 'search', placeholder: t('search_products'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderGrid(); } });
+      // search + category, persisted across re-renders so filters survive a sale
+      const st = app.tabState();
+      let q = st.q || '', cat = st.cat || '';
+      const search = ui.input({ type: 'search', placeholder: t('search_products'), value: q, oninput: e => { q = e.target.value; st.q = q; renderGrid(); } });
       wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
 
       const activeItems = () => store.all('items').filter(i => i.active !== false);
@@ -875,7 +928,7 @@ select.h-input { appearance: none; }
       function renderChips() {
         ui.clear(chipRow);
         [['', t('all')]].concat(cats.map(c => [c, c])).forEach(([val, lbl]) =>
-          chipRow.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; renderChips(); renderGrid(); } }, lbl)));
+          chipRow.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; st.cat = val; renderChips(); renderGrid(); } }, lbl)));
       }
       if (cats.length) { renderChips(); wrap.appendChild(chipRow); }
 
@@ -884,7 +937,7 @@ select.h-input { appearance: none; }
         ui.clear(grid);
         let list = activeItems();
         if (cat) list = list.filter(i => i.category === cat);
-        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q));
+        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q.toLowerCase().trim()));
         if (!list.length) { grid.appendChild(ui.empty(store.all('items').length ? t('empty_here') : t('no_products'), '🛒')); return; }
         list.forEach(it => {
           const low = it.stock != null && it.stock > 0 && it.stock <= 3;
@@ -940,6 +993,7 @@ select.h-input { appearance: none; }
 
     let saving = false;
     app.sheet({
+      autofocus: false,
       title: item.name,
       body: el('div', {}, [
         ui.field(t('unit_price'), priceInput,
@@ -969,6 +1023,7 @@ select.h-input { appearance: none; }
 
   function recordSale(app, item, qty, price, payment, contactId) {
     const now = new Date();
+    price = Math.max(0, +price || 0); qty = Math.max(1, parseInt(qty, 10) || 1);
     const sale = {
       id: app.store.uid(), date: app.fmtDate(now), ts: now.toISOString(),
       itemId: item.id, name: item.name, qty, price, total: +(qty * price).toFixed(2),
@@ -1040,7 +1095,8 @@ select.h-input { appearance: none; }
     view(app) {
       const { el, store, t, money } = app, ui = app.ui;
       const wrap = el('div');
-      let q = '', filter = 'all', showArchived = false;
+      const st = app.tabState();
+      let q = st.q || '', filter = st.filter || 'all', showArchived = !!st.showArchived;
 
       // header
       wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
@@ -1058,13 +1114,13 @@ select.h-input { appearance: none; }
         : el('div', { class: 'h-row h-ok' }, [el('span', {}, '✅'), el('span', {}, t('all_good'))])));
 
       // search + filter chips
-      const search = ui.input({ type: 'search', placeholder: t('search_items'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderList(); } });
+      const search = ui.input({ type: 'search', placeholder: t('search_items'), value: q, oninput: e => { q = e.target.value; st.q = q; renderList(); } });
       wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
       const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
       [['all', t('all')], ['low', t('low_stock')], ['out', t('out_of_stock_label')]].forEach(([val, lbl]) =>
-        chips.appendChild(el('button', { class: 'h-chip' + (filter === val ? ' active' : ''), onClick: () => { filter = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['all', 'low', 'out'][i] === val)); renderList(); } }, lbl)));
+        chips.appendChild(el('button', { class: 'h-chip' + (filter === val ? ' active' : ''), onClick: () => { filter = val; st.filter = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['all', 'low', 'out'][i] === val)); renderList(); } }, lbl)));
       chips.appendChild(el('label', { class: 'h-chip h-row', style: { gap: '6px' } }, [
-        el('input', { type: 'checkbox', onchange: e => { showArchived = e.target.checked; renderList(); } }),
+        el('input', { type: 'checkbox', checked: showArchived, onchange: e => { showArchived = e.target.checked; st.showArchived = showArchived; renderList(); } }),
         el('span', {}, t('show_archived')),
       ]));
       wrap.appendChild(chips);
@@ -1077,7 +1133,7 @@ select.h-input { appearance: none; }
         if (!showArchived) list = list.filter(i => i.active !== false);
         if (filter === 'low') list = list.filter(i => i.stock != null && i.stock > 0 && i.stock <= LOW);
         if (filter === 'out') list = list.filter(i => i.stock != null && i.stock <= 0);
-        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q) || (i.category || '').toLowerCase().includes(q));
+        if (q) { const qq = q.toLowerCase().trim(); list = list.filter(i => (i.name || '').toLowerCase().includes(qq) || (i.category || '').toLowerCase().includes(qq)); }
         list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
         if (!list.length) { listCard.appendChild(ui.empty(null, '📦')); return; }
         const inner = el('div', { class: 'h-list' });
@@ -1139,8 +1195,8 @@ select.h-input { appearance: none; }
       if (!name) { app.toast(t('name_required')); return; }
       store.upsert('items', {
         id: item.id, name, category: f.category.value.trim(),
-        price: parseFloat(f.price.value) || 0, cost: parseFloat(f.cost.value) || 0,
-        stock: f.stock.value === '' ? null : (parseInt(f.stock.value, 10) || 0),
+        price: Math.max(0, parseFloat(f.price.value) || 0), cost: Math.max(0, parseFloat(f.cost.value) || 0),
+        stock: f.stock.value === '' ? null : Math.max(0, parseInt(f.stock.value, 10) || 0),
         unit: f.unit.value.trim() || 'pc', active,
       });
       close(); app.toast(t('saved'));
@@ -1318,7 +1374,8 @@ select.h-input { appearance: none; }
     view(app) {
       const { el, store, t, money } = app, ui = app.ui;
       const wrap = el('div');
-      let cat = '';
+      const st = app.tabState();
+      let cat = st.cat || '';
       const month = app.todayKey().slice(0, 7);
       const all = store.all('expenses');
       const monthTotal = all.filter(e => (e.date || '').slice(0, 7) === month).reduce((s, e) => s + (+e.amount || 0), 0);
@@ -1337,7 +1394,7 @@ select.h-input { appearance: none; }
       if (cats.length) {
         const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px', flexWrap: 'nowrap', overflowX: 'auto' } });
         [['', t('all')]].concat(cats.map(c => [c, c])).forEach(([val, lbl]) =>
-          chips.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; renderList(); [...chips.children].forEach((ch, i) => ch.classList.toggle('active', (['', ...cats][i]) === val)); } }, lbl)));
+          chips.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; st.cat = val; renderList(); [...chips.children].forEach((ch, i) => ch.classList.toggle('active', (['', ...cats][i]) === val)); } }, lbl)));
         wrap.appendChild(chips);
       }
 
@@ -1421,7 +1478,8 @@ select.h-input { appearance: none; }
     view(app) {
       const { el, store, t, money } = app, ui = app.ui;
       const wrap = el('div');
-      let q = '', type = '';
+      const st = app.tabState();
+      let q = st.q || '', type = st.type || '';
 
       wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
         el('div', { class: 'h-page-title', style: { margin: 0 } }, app.moduleTitle(MOD)),
@@ -1429,11 +1487,11 @@ select.h-input { appearance: none; }
         el('button', { class: 'h-btn h-btn-primary', onClick: () => openForm(app, null) }, '+ ' + t('add_contact')),
       ]));
 
-      const search = ui.input({ type: 'search', placeholder: t('search_contacts'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderList(); } });
+      const search = ui.input({ type: 'search', placeholder: t('search_contacts'), value: q, oninput: e => { q = e.target.value; st.q = q; renderList(); } });
       wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
       const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
       [['', t('all')], ['customer', t('customers')], ['supplier', t('suppliers')]].forEach(([val, lbl], i) =>
-        chips.appendChild(el('button', { class: 'h-chip' + (type === val ? ' active' : ''), onClick: () => { type = val; [...chips.children].forEach((c, j) => c.classList.toggle('active', ['', 'customer', 'supplier'][j] === val)); renderList(); } }, lbl)));
+        chips.appendChild(el('button', { class: 'h-chip' + (type === val ? ' active' : ''), onClick: () => { type = val; st.type = val; [...chips.children].forEach((c, j) => c.classList.toggle('active', ['', 'customer', 'supplier'][j] === val)); renderList(); } }, lbl)));
       wrap.appendChild(chips);
 
       const listCard = el('section', { class: 'h-card' });
@@ -1443,7 +1501,7 @@ select.h-input { appearance: none; }
         const bal = balances(app);
         let list = store.all('contacts').slice();
         if (type) list = list.filter(c => c.type === type);
-        if (q) list = list.filter(c => (c.name || '').toLowerCase().includes(q) || (c.phone || '').includes(q));
+        if (q) { const qq = q.toLowerCase().trim(); list = list.filter(c => (c.name || '').toLowerCase().includes(qq) || (c.phone || '').includes(qq)); }
         list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
         if (!list.length) { listCard.appendChild(ui.empty(t('no_contacts'), '👥')); return; }
         const inner = el('div', { class: 'h-list' });
@@ -1557,13 +1615,14 @@ select.h-input { appearance: none; }
     view(app) {
       const { el, store, t, money, nf } = app, ui = app.ui;
       const wrap = el('div');
-      let period = 'month';
+      const st = app.tabState();
+      let period = st.period || 'month';
       const nowMonth = app.todayKey().slice(0, 7);
 
       wrap.appendChild(el('div', { class: 'h-page-title', style: { marginBottom: '8px' } }, app.moduleTitle(MOD)));
       const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
       [['month', t('this_month')], ['prev', t('last_month')], ['all', t('all_time')]].forEach(([val, lbl]) =>
-        chips.appendChild(el('button', { class: 'h-chip' + (period === val ? ' active' : ''), onClick: () => { period = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['month', 'prev', 'all'][i] === val)); render(); } }, lbl)));
+        chips.appendChild(el('button', { class: 'h-chip' + (period === val ? ' active' : ''), onClick: () => { period = val; st.period = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['month', 'prev', 'all'][i] === val)); render(); } }, lbl)));
       wrap.appendChild(chips);
       const body = el('div');
       wrap.appendChild(body);
@@ -1647,10 +1706,10 @@ select.h-input { appearance: none; }
 /* ===== modules/settings ===== */
 /* Hanout module — settings. Core. Business profile, language, theme, modules. */
 ;(function () {
-  const APP_VERSION = '0.2.0';
+  const APP_VERSION = '0.3.0';
 
   const MOD = {
-    id: 'settings', core: true, order: 90, icon: '⚙️',
+    id: 'settings', core: true, secondary: true, order: 90, icon: '⚙️',
     title: { en: 'Settings', fr: 'Réglages', ar: 'الإعدادات' },
     strings: {
       en: { business: 'Business', core_module: 'Core module', enabled: 'Enabled', disabled: 'Disabled',
@@ -1713,7 +1772,7 @@ select.h-input { appearance: none; }
 /* Hanout module — backup. Core. JSON backup/restore, CSV export, reset. */
 ;(function () {
   const MOD = {
-    id: 'backup', core: true, order: 95, icon: '💾',
+    id: 'backup', core: true, secondary: true, order: 95, icon: '💾',
     title: { en: 'Backup', fr: 'Sauvegarde', ar: 'النسخ' },
     strings: {
       en: { backup: 'Backup', export_backup: 'Export backup (JSON)', import_backup: 'Import backup (JSON)',
@@ -1757,7 +1816,7 @@ select.h-input { appearance: none; }
       // danger zone
       wrap.appendChild(ui.card(t('danger_zone'), el('div', { class: 'h-stack' }, [
         el('button', { class: 'h-btn h-btn-block', onClick: () => app.confirm(t('reset_sample_q')).then(ok => { if (ok) { app.resetToSample(); app.toast(t('saved')); } }) }, t('reset_to_sample')),
-        el('button', { class: 'h-btn h-btn-danger h-btn-block', onClick: () => app.confirm(t('clear_all_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { store.clearAll(); location.reload(); } }) }, t('clear_all_data')),
+        el('button', { class: 'h-btn h-btn-danger h-btn-block', onClick: () => app.confirm(t('clear_all_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { const s = app.settings; store.clearAll(); store.set('settings', { business: 'Hanout', currency: s.currency, lang: s.lang, theme: s.theme, enabled: {} }); location.reload(); } }) }, t('clear_all_data')),
       ])));
 
       return wrap;

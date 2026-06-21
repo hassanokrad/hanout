@@ -18,7 +18,8 @@
     view(app) {
       const { el, store, t, money } = app, ui = app.ui;
       const wrap = el('div');
-      let q = '', type = '';
+      const st = app.tabState();
+      let q = st.q || '', type = st.type || '';
 
       wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
         el('div', { class: 'h-page-title', style: { margin: 0 } }, app.moduleTitle(MOD)),
@@ -26,11 +27,11 @@
         el('button', { class: 'h-btn h-btn-primary', onClick: () => openForm(app, null) }, '+ ' + t('add_contact')),
       ]));
 
-      const search = ui.input({ type: 'search', placeholder: t('search_contacts'), oninput: e => { q = e.target.value.toLowerCase().trim(); renderList(); } });
+      const search = ui.input({ type: 'search', placeholder: t('search_contacts'), value: q, oninput: e => { q = e.target.value; st.q = q; renderList(); } });
       wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
       const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
       [['', t('all')], ['customer', t('customers')], ['supplier', t('suppliers')]].forEach(([val, lbl], i) =>
-        chips.appendChild(el('button', { class: 'h-chip' + (type === val ? ' active' : ''), onClick: () => { type = val; [...chips.children].forEach((c, j) => c.classList.toggle('active', ['', 'customer', 'supplier'][j] === val)); renderList(); } }, lbl)));
+        chips.appendChild(el('button', { class: 'h-chip' + (type === val ? ' active' : ''), onClick: () => { type = val; st.type = val; [...chips.children].forEach((c, j) => c.classList.toggle('active', ['', 'customer', 'supplier'][j] === val)); renderList(); } }, lbl)));
       wrap.appendChild(chips);
 
       const listCard = el('section', { class: 'h-card' });
@@ -40,7 +41,7 @@
         const bal = balances(app);
         let list = store.all('contacts').slice();
         if (type) list = list.filter(c => c.type === type);
-        if (q) list = list.filter(c => (c.name || '').toLowerCase().includes(q) || (c.phone || '').includes(q));
+        if (q) { const qq = q.toLowerCase().trim(); list = list.filter(c => (c.name || '').toLowerCase().includes(qq) || (c.phone || '').includes(qq)); }
         list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
         if (!list.length) { listCard.appendChild(ui.empty(t('no_contacts'), '👥')); return; }
         const inner = el('div', { class: 'h-list' });

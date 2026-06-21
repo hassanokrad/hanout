@@ -1,9 +1,9 @@
 /* Hanout module — settings. Core. Business profile, language, theme, modules. */
 ;(function () {
-  const APP_VERSION = '0.2.0';
+  const APP_VERSION = '0.3.0';
 
   const MOD = {
-    id: 'settings', core: true, order: 90, icon: '⚙️',
+    id: 'settings', core: true, secondary: true, order: 90, icon: '⚙️',
     title: { en: 'Settings', fr: 'Réglages', ar: 'الإعدادات' },
     strings: {
       en: { business: 'Business', core_module: 'Core module', enabled: 'Enabled', disabled: 'Disabled',

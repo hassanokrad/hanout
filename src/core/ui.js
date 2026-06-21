@@ -81,9 +81,28 @@
     overlay.addEventListener('click', e => { if (e.target === overlay && opts.dismissable !== false) dismiss(); });
     document.body.appendChild(overlay);
     requestAnimationFrame(() => overlay.classList.add('show'));
+
+    // autofocus the first text field (skip when asked, e.g. the sale sheet)
+    if (opts.autofocus !== false) {
+      requestAnimationFrame(() => {
+        const f = card.querySelector('input:not([type=checkbox]):not([type=radio]):not([type=search]),select,textarea');
+        if (f) { try { f.focus(); } catch (e) {} }
+      });
+    }
+    // Enter on a text input triggers the primary action; Escape closes.
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'search' && !e.shiftKey) {
+        const primary = (opts.actions || []).find(a => a.kind === 'primary');
+        if (primary && primary.onClick) { e.preventDefault(); primary.onClick(dismiss); }
+      }
+    });
+    function onKey(e) { if (e.key === 'Escape') dismiss(); }
+    document.addEventListener('keydown', onKey);
+
     let closed = false;
     function dismiss() {
       if (closed) return; closed = true;
+      document.removeEventListener('keydown', onKey);
       overlay.classList.remove('show');
       setTimeout(() => overlay.remove(), 180);
       opts.onClose && opts.onClose();

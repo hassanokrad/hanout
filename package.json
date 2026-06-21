@@ -1,6 +1,6 @@
 {
   "name": "hanout",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Free, open-source, modular business manager — offline-first, single-file, runs on a phone. For مول الحانوت or any small shop.",
   "type": "commonjs",
   "scripts": {

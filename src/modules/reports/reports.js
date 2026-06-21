@@ -18,13 +18,14 @@
     view(app) {
       const { el, store, t, money, nf } = app, ui = app.ui;
       const wrap = el('div');
-      let period = 'month';
+      const st = app.tabState();
+      let period = st.period || 'month';
       const nowMonth = app.todayKey().slice(0, 7);
 
       wrap.appendChild(el('div', { class: 'h-page-title', style: { marginBottom: '8px' } }, app.moduleTitle(MOD)));
       const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
       [['month', t('this_month')], ['prev', t('last_month')], ['all', t('all_time')]].forEach(([val, lbl]) =>
-        chips.appendChild(el('button', { class: 'h-chip' + (period === val ? ' active' : ''), onClick: () => { period = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['month', 'prev', 'all'][i] === val)); render(); } }, lbl)));
+        chips.appendChild(el('button', { class: 'h-chip' + (period === val ? ' active' : ''), onClick: () => { period = val; st.period = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['month', 'prev', 'all'][i] === val)); render(); } }, lbl)));
       wrap.appendChild(chips);
       const body = el('div');
       wrap.appendChild(body);
