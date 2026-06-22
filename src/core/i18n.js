@@ -23,6 +23,7 @@
       language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark',
       business_name: 'Business name', modules: 'Modules', required: 'required', optional: 'optional',
       this_month: 'This month', last_month: 'Last month', all_time: 'All time', more: 'More',
+      storage_full: 'Could not save — device storage may be full. Export a backup.',
     },
     fr: {
       save: 'Enregistrer', cancel: 'Annuler', delete: 'Supprimer', edit: 'Modifier', add: 'Ajouter',
@@ -38,6 +39,7 @@
       theme: 'Thème', light: 'Clair', dark: 'Sombre', business_name: 'Nom du commerce',
       modules: 'Modules', required: 'requis', optional: 'optionnel',
       this_month: 'Ce mois-ci', last_month: 'Le mois dernier', all_time: 'Tout', more: 'Plus',
+      storage_full: "Échec de l'enregistrement — stockage peut-être plein. Exportez une sauvegarde.",
     },
     ar: {
       save: 'حفظ', cancel: 'إلغاء', delete: 'حذف', edit: 'تعديل', add: 'إضافة', close: 'إغلاق',
@@ -53,6 +55,7 @@
       language: 'اللغة', theme: 'المظهر', light: 'فاتح', dark: 'داكن', business_name: 'اسم النشاط',
       modules: 'الوحدات', required: 'مطلوب', optional: 'اختياري',
       this_month: 'هذا الشهر', last_month: 'الشهر الماضي', all_time: 'الكل', more: 'المزيد',
+      storage_full: 'تعذّر الحفظ — قد تكون ذاكرة الجهاز ممتلئة. صدّر نسخة احتياطية.',
     },
   };
 

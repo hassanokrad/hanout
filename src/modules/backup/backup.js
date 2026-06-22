@@ -8,16 +8,19 @@
         export_sales_csv: 'Export sales (CSV)', danger_zone: 'Danger zone', reset_to_sample: 'Reset to sample data',
         reset_sample_q: 'Replace everything with the sample data?', clear_all_data: 'Delete all data',
         clear_all_q: 'Delete ALL data? This cannot be undone.', imported: 'Backup restored', bad_file: 'Could not read that file',
+        import_confirm_q: 'Replace ALL current data with this backup? This cannot be undone.',
         count_items: 'Items', count_sales: 'Sales', count_contacts: 'Contacts', count_expenses: 'Expenses' },
       fr: { backup: 'Sauvegarde', export_backup: 'Exporter (JSON)', import_backup: 'Importer (JSON)',
         export_sales_csv: 'Exporter ventes (CSV)', danger_zone: 'Zone sensible', reset_to_sample: 'Réinitialiser (démo)',
         reset_sample_q: 'Tout remplacer par les données de démo ?', clear_all_data: 'Supprimer les données',
         clear_all_q: 'Supprimer TOUTES les données ? Irréversible.', imported: 'Sauvegarde restaurée', bad_file: 'Fichier illisible',
+        import_confirm_q: 'Remplacer TOUTES les données actuelles par cette sauvegarde ? Irréversible.',
         count_items: 'Articles', count_sales: 'Ventes', count_contacts: 'Contacts', count_expenses: 'Dépenses' },
       ar: { backup: 'نسخة احتياطية', export_backup: 'تصدير نسخة (JSON)', import_backup: 'استيراد نسخة (JSON)',
         export_sales_csv: 'تصدير المبيعات (CSV)', danger_zone: 'منطقة الخطر', reset_to_sample: 'استعادة بيانات تجريبية',
         reset_sample_q: 'استبدال كل شيء بالبيانات التجريبية؟', clear_all_data: 'حذف كل البيانات',
         clear_all_q: 'حذف كل البيانات؟ لا يمكن التراجع.', imported: 'تمت الاستعادة', bad_file: 'تعذّرت قراءة الملف',
+        import_confirm_q: 'استبدال كل البيانات الحالية بهذه النسخة؟ لا يمكن التراجع.',
         count_items: 'العناصر', count_sales: 'المبيعات', count_contacts: 'الزبناء', count_expenses: 'المصاريف' },
     },
 
@@ -34,7 +37,7 @@
       wrap.appendChild(grid);
 
       // backup actions
-      const fileInput = el('input', { type: 'file', accept: '.json,application/json', style: { display: 'none' }, onchange: e => importJSON(app, e.target.files[0]) });
+      const fileInput = el('input', { type: 'file', accept: '.json,application/json', style: { display: 'none' }, onchange: e => { importJSON(app, e.target.files[0]); e.target.value = ''; } });
       wrap.appendChild(ui.card(t('backup'), el('div', { class: 'h-stack' }, [
         el('button', { class: 'h-btn h-btn-primary h-btn-block', onClick: () => exportJSON(app) }, '⬇  ' + t('export_backup')),
         el('button', { class: 'h-btn h-btn-block', onClick: () => fileInput.click() }, '⬆  ' + t('import_backup')),
@@ -44,7 +47,7 @@
 
       // danger zone
       wrap.appendChild(ui.card(t('danger_zone'), el('div', { class: 'h-stack' }, [
-        el('button', { class: 'h-btn h-btn-block', onClick: () => app.confirm(t('reset_sample_q')).then(ok => { if (ok) { app.resetToSample(); app.toast(t('saved')); } }) }, t('reset_to_sample')),
+        el('button', { class: 'h-btn h-btn-block', onClick: () => app.confirm(t('reset_sample_q'), { danger: true, ok: t('reset_to_sample') }).then(ok => { if (ok) { app.resetToSample(); app.toast(t('saved')); } }) }, t('reset_to_sample')),
         el('button', { class: 'h-btn h-btn-danger h-btn-block', onClick: () => app.confirm(t('clear_all_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { const s = app.settings; store.clearAll(); store.set('settings', { business: 'Hanout', currency: s.currency, lang: s.lang, theme: s.theme, enabled: {} }); location.reload(); } }) }, t('clear_all_data')),
       ])));
 
@@ -68,14 +71,19 @@
 
   function importJSON(app, file) {
     if (!file) return;
-    const reader = new FileReader();
+    const t = app.t, reader = new FileReader();
     reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
+      let data;
+      try { data = JSON.parse(reader.result); } catch (e) { app.toast(t('bad_file')); return; }
+      if (!data || typeof data !== 'object' || Array.isArray(data)) { app.toast(t('bad_file')); return; }
+      const n = k => Array.isArray(data[k]) ? data[k].length : 0;
+      const summary = n('items') + ' ' + t('count_items') + ' · ' + n('sales') + ' ' + t('count_sales') + ' · ' + n('contacts') + ' ' + t('count_contacts');
+      app.confirm(t('import_confirm_q') + ' — ' + summary, { danger: true, ok: t('import_backup') }).then(ok => {
+        if (!ok) return;
         app.store.importAll(data);
-        app.toast(app.t('imported'));
+        app.toast(t('imported'));
         setTimeout(() => location.reload(), 400);
-      } catch (e) { app.toast(app.t('bad_file')); }
+      });
     };
     reader.readAsText(file);
   }

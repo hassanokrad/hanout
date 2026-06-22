@@ -28,7 +28,8 @@
     }
     function write(key, val) {
       cache[key] = val;
-      try { localStorage.setItem(PREFIX + key, JSON.stringify(val)); } catch (e) { /* quota / private mode */ }
+      try { localStorage.setItem(PREFIX + key, JSON.stringify(val)); }
+      catch (e) { if (typeof H.Store.onWriteError === 'function') { try { H.Store.onWriteError(e); } catch (_) {} } } // quota / private mode
       notify(key);
     }
     function notify(key) { subs.forEach(fn => { try { fn(key); } catch (e) { console.error(e); } }); }
@@ -98,5 +99,5 @@
     return store;
   }
 
-  H.Store = { create, uid, PREFIX };
+  H.Store = { create, uid, PREFIX, onWriteError: null };
 })();

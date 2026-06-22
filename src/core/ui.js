@@ -48,8 +48,12 @@
   function todayKey() { return fmtDate(new Date()); }
 
   // ---- toast ----
-  let toastT;
-  function toast(msg) {
+  let toastT, toastLockUntil = 0;
+  function toast(msg, opts) {
+    opts = opts || {};
+    const now = Date.now();
+    if (!opts.priority && now < toastLockUntil) return;   // don't let a routine toast bury a priority one (e.g. a failed save)
+    if (opts.priority) toastLockUntil = now + 2200;
     let t = document.getElementById('h-toast');
     if (!t) { t = el('div', { id: 'h-toast', class: 'h-toast' }); document.body.appendChild(t); }
     t.textContent = msg;

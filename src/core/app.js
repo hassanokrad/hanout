@@ -137,6 +137,14 @@
   function boot(seed) {
     SEED = seed || null;
     store = H.Store.create();
+    // warn (once, then throttle) if a write to localStorage fails — the in-memory
+    // cache still shows the data, but it won't survive a reload, so the user must act.
+    let stWarned = false;
+    H.Store.onWriteError = function () {
+      if (stWarned) return; stWarned = true;
+      try { ui.toast(I18n.t('storage_full'), { priority: true }); } catch (e) {}
+      setTimeout(function () { stWarned = false; }, 8000);
+    };
     firstRunSeed(SEED);
     settings = loadSettings();
 

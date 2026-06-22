@@ -331,7 +331,8 @@ select.h-input { appearance: none; }
     }
     function write(key, val) {
       cache[key] = val;
-      try { localStorage.setItem(PREFIX + key, JSON.stringify(val)); } catch (e) { /* quota / private mode */ }
+      try { localStorage.setItem(PREFIX + key, JSON.stringify(val)); }
+      catch (e) { if (typeof H.Store.onWriteError === 'function') { try { H.Store.onWriteError(e); } catch (_) {} } } // quota / private mode
       notify(key);
     }
     function notify(key) { subs.forEach(fn => { try { fn(key); } catch (e) { console.error(e); } }); }
@@ -401,7 +402,7 @@ select.h-input { appearance: none; }
     return store;
   }
 
-  H.Store = { create, uid, PREFIX };
+  H.Store = { create, uid, PREFIX, onWriteError: null };
 })();
 
 
@@ -431,6 +432,7 @@ select.h-input { appearance: none; }
       language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark',
       business_name: 'Business name', modules: 'Modules', required: 'required', optional: 'optional',
       this_month: 'This month', last_month: 'Last month', all_time: 'All time', more: 'More',
+      storage_full: 'Could not save — device storage may be full. Export a backup.',
     },
     fr: {
       save: 'Enregistrer', cancel: 'Annuler', delete: 'Supprimer', edit: 'Modifier', add: 'Ajouter',
@@ -446,6 +448,7 @@ select.h-input { appearance: none; }
       theme: 'Thème', light: 'Clair', dark: 'Sombre', business_name: 'Nom du commerce',
       modules: 'Modules', required: 'requis', optional: 'optionnel',
       this_month: 'Ce mois-ci', last_month: 'Le mois dernier', all_time: 'Tout', more: 'Plus',
+      storage_full: "Échec de l'enregistrement — stockage peut-être plein. Exportez une sauvegarde.",
     },
     ar: {
       save: 'حفظ', cancel: 'إلغاء', delete: 'حذف', edit: 'تعديل', add: 'إضافة', close: 'إغلاق',
@@ -461,6 +464,7 @@ select.h-input { appearance: none; }
       language: 'اللغة', theme: 'المظهر', light: 'فاتح', dark: 'داكن', business_name: 'اسم النشاط',
       modules: 'الوحدات', required: 'مطلوب', optional: 'اختياري',
       this_month: 'هذا الشهر', last_month: 'الشهر الماضي', all_time: 'الكل', more: 'المزيد',
+      storage_full: 'تعذّر الحفظ — قد تكون ذاكرة الجهاز ممتلئة. صدّر نسخة احتياطية.',
     },
   };
 
@@ -541,8 +545,12 @@ select.h-input { appearance: none; }
   function todayKey() { return fmtDate(new Date()); }
 
   // ---- toast ----
-  let toastT;
-  function toast(msg) {
+  let toastT, toastLockUntil = 0;
+  function toast(msg, opts) {
+    opts = opts || {};
+    const now = Date.now();
+    if (!opts.priority && now < toastLockUntil) return;   // don't let a routine toast bury a priority one (e.g. a failed save)
+    if (opts.priority) toastLockUntil = now + 2200;
     let t = document.getElementById('h-toast');
     if (!t) { t = el('div', { id: 'h-toast', class: 'h-toast' }); document.body.appendChild(t); }
     t.textContent = msg;
@@ -821,6 +829,14 @@ select.h-input { appearance: none; }
   function boot(seed) {
     SEED = seed || null;
     store = H.Store.create();
+    // warn (once, then throttle) if a write to localStorage fails — the in-memory
+    // cache still shows the data, but it won't survive a reload, so the user must act.
+    let stWarned = false;
+    H.Store.onWriteError = function () {
+      if (stWarned) return; stWarned = true;
+      try { ui.toast(I18n.t('storage_full'), { priority: true }); } catch (e) {}
+      setTimeout(function () { stWarned = false; }, 8000);
+    };
     firstRunSeed(SEED);
     settings = loadSettings();
 
@@ -882,23 +898,26 @@ select.h-input { appearance: none; }
       en: {
         todays_total: "Today's total", todays_sales: "Today's sales", record_sale: 'Record sale',
         unit_price: 'Unit price', payment: 'Payment', customer: 'Customer', pick_customer: 'pick a customer',
-        no_products: 'No products yet — add items in Inventory.', search_products: 'Search products…',
+        no_products: 'No products yet — use Quick sale, or add items in Inventory.', search_products: 'Search products…',
         sale_recorded: 'Sale recorded', out_of_stock: 'out', in_stock: 'in stock',
         select_customer_first: 'Pick a customer for a credit sale', undo_sale: 'Undo this sale?',
+        quick_sale: 'Quick sale', enter_price: 'Enter a price',
       },
       fr: {
         todays_total: 'Total du jour', todays_sales: 'Ventes du jour', record_sale: 'Enregistrer la vente',
         unit_price: 'Prix unitaire', payment: 'Paiement', customer: 'Client', pick_customer: 'choisir un client',
-        no_products: 'Aucun produit — ajoutez des articles dans Stock.', search_products: 'Rechercher un produit…',
+        no_products: 'Aucun produit — utilisez Vente rapide, ou ajoutez des articles dans Stock.', search_products: 'Rechercher un produit…',
         sale_recorded: 'Vente enregistrée', out_of_stock: 'épuisé', in_stock: 'en stock',
         select_customer_first: 'Choisissez un client pour une vente à crédit', undo_sale: 'Annuler cette vente ?',
+        quick_sale: 'Vente rapide', enter_price: 'Saisissez un prix',
       },
       ar: {
         todays_total: 'مجموع اليوم', todays_sales: 'مبيعات اليوم', record_sale: 'تسجيل البيع',
         unit_price: 'ثمن الوحدة', payment: 'الأداء', customer: 'الزبون', pick_customer: 'اختر زبوناً',
-        no_products: 'لا توجد منتجات بعد — أضِف عناصر في المخزون.', search_products: 'ابحث عن منتج…',
+        no_products: 'لا توجد منتجات بعد — استعمل البيع السريع، أو أضِف عناصر في المخزون.', search_products: 'ابحث عن منتج…',
         sale_recorded: 'تم تسجيل البيع', out_of_stock: 'نفد', in_stock: 'متوفر',
         select_customer_first: 'اختر زبوناً للبيع بالكريدي', undo_sale: 'تراجع عن هذا البيع؟',
+        quick_sale: 'بيع سريع', enter_price: 'أدخل الثمن',
       },
     },
 
@@ -915,6 +934,10 @@ select.h-input { appearance: none; }
         el('div', { class: 'h-muted', style: { fontSize: '12.5px', marginTop: '2px' } },
           t('todays_total') + ' · ' + todays.length + ' ' + t('sales').toLowerCase()),
       ])));
+
+      // quick / custom sale — always available, so a sale can be made even with no
+      // catalogue items or with the Inventory module turned off entirely.
+      wrap.appendChild(el('button', { class: 'h-btn h-btn-block', style: { marginBottom: '12px' }, onClick: () => openSale(app, null) }, '＋ ' + t('quick_sale')));
 
       // search + category, persisted across re-renders so filters survive a sale
       const st = app.tabState();
@@ -974,13 +997,16 @@ select.h-input { appearance: none; }
 
   function openSale(app, item) {
     const { el, store, t, money } = app, ui = app.ui;
-    let qty = 1, price = +item.price || 0, payment = 'cash', contactId = '';
+    const custom = !item;                                   // a quick sale not tied to any catalogue item
+    let name = custom ? '' : item.name;
+    let qty = 1, price = custom ? 0 : (+item.price || 0), payment = 'cash', contactId = '';
     const customers = store.all('contacts').filter(c => c.type === 'customer');
 
     const totalEl = el('div', { class: 'h-bignum h-accent' });
     const qtyEl = el('span', { style: { minWidth: '38px', textAlign: 'center', fontWeight: '700', fontSize: '18px' } }, String(qty));
     const upd = () => { totalEl.textContent = money(qty * price); };
 
+    const nameInput = custom ? ui.input({ value: '', placeholder: t('name'), oninput: e => { name = e.target.value; } }) : null;
     const priceInput = ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: String(price), oninput: e => { price = parseFloat(e.target.value) || 0; upd(); } });
 
     const custField = ui.field(t('customer'),
@@ -993,11 +1019,12 @@ select.h-input { appearance: none; }
 
     let saving = false;
     app.sheet({
-      autofocus: false,
-      title: item.name,
+      autofocus: custom,                                    // focus the name field for a quick sale; keep the keyboard down for catalogue taps
+      title: custom ? t('quick_sale') : item.name,
       body: el('div', {}, [
+        custom ? ui.field(t('name'), nameInput) : null,
         ui.field(t('unit_price'), priceInput,
-          item.stock != null ? (item.stock <= 0 ? t('out_of_stock') : item.stock + ' ' + (item.unit || '') + ' ' + t('in_stock')) : null),
+          (!custom && item.stock != null) ? (item.stock <= 0 ? t('out_of_stock') : item.stock + ' ' + (item.unit || '') + ' ' + t('in_stock')) : null),
         ui.field(t('quantity'), el('div', { class: 'h-row' }, [
           el('button', { class: 'h-btn', onClick: () => { if (qty > 1) { qty--; qtyEl.textContent = qty; upd(); } } }, '−'),
           qtyEl,
@@ -1011,9 +1038,11 @@ select.h-input { appearance: none; }
         { label: t('cancel'), onClick: close => close() },
         { label: t('record_sale'), kind: 'primary', onClick: close => {
             if (saving) return;
+            if (price <= 0) { app.toast(t('enter_price')); return; }
             if (payment === 'credit' && !contactId) { app.toast(t('select_customer_first')); return; }
             saving = true;
-            recordSale(app, item, qty, price, payment, payment === 'credit' ? contactId : null);
+            const saleItem = custom ? { id: null, name: name.trim() || t('custom') } : item;
+            recordSale(app, saleItem, qty, price, payment, payment === 'credit' ? contactId : null);
             close();
           } },
       ],
@@ -1706,7 +1735,7 @@ select.h-input { appearance: none; }
 /* ===== modules/settings ===== */
 /* Hanout module — settings. Core. Business profile, language, theme, modules. */
 ;(function () {
-  const APP_VERSION = '0.3.0';
+  const APP_VERSION = '0.3.1';
 
   const MOD = {
     id: 'settings', core: true, secondary: true, order: 90, icon: '⚙️',
@@ -1779,16 +1808,19 @@ select.h-input { appearance: none; }
         export_sales_csv: 'Export sales (CSV)', danger_zone: 'Danger zone', reset_to_sample: 'Reset to sample data',
         reset_sample_q: 'Replace everything with the sample data?', clear_all_data: 'Delete all data',
         clear_all_q: 'Delete ALL data? This cannot be undone.', imported: 'Backup restored', bad_file: 'Could not read that file',
+        import_confirm_q: 'Replace ALL current data with this backup? This cannot be undone.',
         count_items: 'Items', count_sales: 'Sales', count_contacts: 'Contacts', count_expenses: 'Expenses' },
       fr: { backup: 'Sauvegarde', export_backup: 'Exporter (JSON)', import_backup: 'Importer (JSON)',
         export_sales_csv: 'Exporter ventes (CSV)', danger_zone: 'Zone sensible', reset_to_sample: 'Réinitialiser (démo)',
         reset_sample_q: 'Tout remplacer par les données de démo ?', clear_all_data: 'Supprimer les données',
         clear_all_q: 'Supprimer TOUTES les données ? Irréversible.', imported: 'Sauvegarde restaurée', bad_file: 'Fichier illisible',
+        import_confirm_q: 'Remplacer TOUTES les données actuelles par cette sauvegarde ? Irréversible.',
         count_items: 'Articles', count_sales: 'Ventes', count_contacts: 'Contacts', count_expenses: 'Dépenses' },
       ar: { backup: 'نسخة احتياطية', export_backup: 'تصدير نسخة (JSON)', import_backup: 'استيراد نسخة (JSON)',
         export_sales_csv: 'تصدير المبيعات (CSV)', danger_zone: 'منطقة الخطر', reset_to_sample: 'استعادة بيانات تجريبية',
         reset_sample_q: 'استبدال كل شيء بالبيانات التجريبية؟', clear_all_data: 'حذف كل البيانات',
         clear_all_q: 'حذف كل البيانات؟ لا يمكن التراجع.', imported: 'تمت الاستعادة', bad_file: 'تعذّرت قراءة الملف',
+        import_confirm_q: 'استبدال كل البيانات الحالية بهذه النسخة؟ لا يمكن التراجع.',
         count_items: 'العناصر', count_sales: 'المبيعات', count_contacts: 'الزبناء', count_expenses: 'المصاريف' },
     },
 
@@ -1805,7 +1837,7 @@ select.h-input { appearance: none; }
       wrap.appendChild(grid);
 
       // backup actions
-      const fileInput = el('input', { type: 'file', accept: '.json,application/json', style: { display: 'none' }, onchange: e => importJSON(app, e.target.files[0]) });
+      const fileInput = el('input', { type: 'file', accept: '.json,application/json', style: { display: 'none' }, onchange: e => { importJSON(app, e.target.files[0]); e.target.value = ''; } });
       wrap.appendChild(ui.card(t('backup'), el('div', { class: 'h-stack' }, [
         el('button', { class: 'h-btn h-btn-primary h-btn-block', onClick: () => exportJSON(app) }, '⬇  ' + t('export_backup')),
         el('button', { class: 'h-btn h-btn-block', onClick: () => fileInput.click() }, '⬆  ' + t('import_backup')),
@@ -1815,7 +1847,7 @@ select.h-input { appearance: none; }
 
       // danger zone
       wrap.appendChild(ui.card(t('danger_zone'), el('div', { class: 'h-stack' }, [
-        el('button', { class: 'h-btn h-btn-block', onClick: () => app.confirm(t('reset_sample_q')).then(ok => { if (ok) { app.resetToSample(); app.toast(t('saved')); } }) }, t('reset_to_sample')),
+        el('button', { class: 'h-btn h-btn-block', onClick: () => app.confirm(t('reset_sample_q'), { danger: true, ok: t('reset_to_sample') }).then(ok => { if (ok) { app.resetToSample(); app.toast(t('saved')); } }) }, t('reset_to_sample')),
         el('button', { class: 'h-btn h-btn-danger h-btn-block', onClick: () => app.confirm(t('clear_all_q'), { danger: true, ok: t('delete') }).then(ok => { if (ok) { const s = app.settings; store.clearAll(); store.set('settings', { business: 'Hanout', currency: s.currency, lang: s.lang, theme: s.theme, enabled: {} }); location.reload(); } }) }, t('clear_all_data')),
       ])));
 
@@ -1839,14 +1871,19 @@ select.h-input { appearance: none; }
 
   function importJSON(app, file) {
     if (!file) return;
-    const reader = new FileReader();
+    const t = app.t, reader = new FileReader();
     reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
+      let data;
+      try { data = JSON.parse(reader.result); } catch (e) { app.toast(t('bad_file')); return; }
+      if (!data || typeof data !== 'object' || Array.isArray(data)) { app.toast(t('bad_file')); return; }
+      const n = k => Array.isArray(data[k]) ? data[k].length : 0;
+      const summary = n('items') + ' ' + t('count_items') + ' · ' + n('sales') + ' ' + t('count_sales') + ' · ' + n('contacts') + ' ' + t('count_contacts');
+      app.confirm(t('import_confirm_q') + ' — ' + summary, { danger: true, ok: t('import_backup') }).then(ok => {
+        if (!ok) return;
         app.store.importAll(data);
-        app.toast(app.t('imported'));
+        app.toast(t('imported'));
         setTimeout(() => location.reload(), 400);
-      } catch (e) { app.toast(app.t('bad_file')); }
+      });
     };
     reader.readAsText(file);
   }

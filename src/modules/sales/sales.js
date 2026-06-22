@@ -7,23 +7,26 @@
       en: {
         todays_total: "Today's total", todays_sales: "Today's sales", record_sale: 'Record sale',
         unit_price: 'Unit price', payment: 'Payment', customer: 'Customer', pick_customer: 'pick a customer',
-        no_products: 'No products yet — add items in Inventory.', search_products: 'Search products…',
+        no_products: 'No products yet — use Quick sale, or add items in Inventory.', search_products: 'Search products…',
         sale_recorded: 'Sale recorded', out_of_stock: 'out', in_stock: 'in stock',
         select_customer_first: 'Pick a customer for a credit sale', undo_sale: 'Undo this sale?',
+        quick_sale: 'Quick sale', enter_price: 'Enter a price',
       },
       fr: {
         todays_total: 'Total du jour', todays_sales: 'Ventes du jour', record_sale: 'Enregistrer la vente',
         unit_price: 'Prix unitaire', payment: 'Paiement', customer: 'Client', pick_customer: 'choisir un client',
-        no_products: 'Aucun produit — ajoutez des articles dans Stock.', search_products: 'Rechercher un produit…',
+        no_products: 'Aucun produit — utilisez Vente rapide, ou ajoutez des articles dans Stock.', search_products: 'Rechercher un produit…',
         sale_recorded: 'Vente enregistrée', out_of_stock: 'épuisé', in_stock: 'en stock',
         select_customer_first: 'Choisissez un client pour une vente à crédit', undo_sale: 'Annuler cette vente ?',
+        quick_sale: 'Vente rapide', enter_price: 'Saisissez un prix',
       },
       ar: {
         todays_total: 'مجموع اليوم', todays_sales: 'مبيعات اليوم', record_sale: 'تسجيل البيع',
         unit_price: 'ثمن الوحدة', payment: 'الأداء', customer: 'الزبون', pick_customer: 'اختر زبوناً',
-        no_products: 'لا توجد منتجات بعد — أضِف عناصر في المخزون.', search_products: 'ابحث عن منتج…',
+        no_products: 'لا توجد منتجات بعد — استعمل البيع السريع، أو أضِف عناصر في المخزون.', search_products: 'ابحث عن منتج…',
         sale_recorded: 'تم تسجيل البيع', out_of_stock: 'نفد', in_stock: 'متوفر',
         select_customer_first: 'اختر زبوناً للبيع بالكريدي', undo_sale: 'تراجع عن هذا البيع؟',
+        quick_sale: 'بيع سريع', enter_price: 'أدخل الثمن',
       },
     },
 
@@ -40,6 +43,10 @@
         el('div', { class: 'h-muted', style: { fontSize: '12.5px', marginTop: '2px' } },
           t('todays_total') + ' · ' + todays.length + ' ' + t('sales').toLowerCase()),
       ])));
+
+      // quick / custom sale — always available, so a sale can be made even with no
+      // catalogue items or with the Inventory module turned off entirely.
+      wrap.appendChild(el('button', { class: 'h-btn h-btn-block', style: { marginBottom: '12px' }, onClick: () => openSale(app, null) }, '＋ ' + t('quick_sale')));
 
       // search + category, persisted across re-renders so filters survive a sale
       const st = app.tabState();
@@ -99,13 +106,16 @@
 
   function openSale(app, item) {
     const { el, store, t, money } = app, ui = app.ui;
-    let qty = 1, price = +item.price || 0, payment = 'cash', contactId = '';
+    const custom = !item;                                   // a quick sale not tied to any catalogue item
+    let name = custom ? '' : item.name;
+    let qty = 1, price = custom ? 0 : (+item.price || 0), payment = 'cash', contactId = '';
     const customers = store.all('contacts').filter(c => c.type === 'customer');
 
     const totalEl = el('div', { class: 'h-bignum h-accent' });
     const qtyEl = el('span', { style: { minWidth: '38px', textAlign: 'center', fontWeight: '700', fontSize: '18px' } }, String(qty));
     const upd = () => { totalEl.textContent = money(qty * price); };
 
+    const nameInput = custom ? ui.input({ value: '', placeholder: t('name'), oninput: e => { name = e.target.value; } }) : null;
     const priceInput = ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: String(price), oninput: e => { price = parseFloat(e.target.value) || 0; upd(); } });
 
     const custField = ui.field(t('customer'),
@@ -118,11 +128,12 @@
 
     let saving = false;
     app.sheet({
-      autofocus: false,
-      title: item.name,
+      autofocus: custom,                                    // focus the name field for a quick sale; keep the keyboard down for catalogue taps
+      title: custom ? t('quick_sale') : item.name,
       body: el('div', {}, [
+        custom ? ui.field(t('name'), nameInput) : null,
         ui.field(t('unit_price'), priceInput,
-          item.stock != null ? (item.stock <= 0 ? t('out_of_stock') : item.stock + ' ' + (item.unit || '') + ' ' + t('in_stock')) : null),
+          (!custom && item.stock != null) ? (item.stock <= 0 ? t('out_of_stock') : item.stock + ' ' + (item.unit || '') + ' ' + t('in_stock')) : null),
         ui.field(t('quantity'), el('div', { class: 'h-row' }, [
           el('button', { class: 'h-btn', onClick: () => { if (qty > 1) { qty--; qtyEl.textContent = qty; upd(); } } }, '−'),
           qtyEl,
@@ -136,9 +147,11 @@
         { label: t('cancel'), onClick: close => close() },
         { label: t('record_sale'), kind: 'primary', onClick: close => {
             if (saving) return;
+            if (price <= 0) { app.toast(t('enter_price')); return; }
             if (payment === 'credit' && !contactId) { app.toast(t('select_customer_first')); return; }
             saving = true;
-            recordSale(app, item, qty, price, payment, payment === 'credit' ? contactId : null);
+            const saleItem = custom ? { id: null, name: name.trim() || t('custom') } : item;
+            recordSale(app, saleItem, qty, price, payment, payment === 'credit' ? contactId : null);
             close();
           } },
       ],
