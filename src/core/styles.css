@@ -170,7 +170,8 @@ select.h-input { appearance: none; }
 /* ---------- product grid (POS) ---------- */
 .h-prodgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(102px, 1fr)); gap: 10px; }
 .h-prod {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--text); /* <button> doesn't inherit page color — set it so the name isn't UA-black in dark mode */
+  border: 1px solid var(--border); border-radius: var(--radius);
   box-shadow: var(--shadow); padding: 12px 10px; text-align: center; min-height: 86px;
   display: flex; flex-direction: column; justify-content: center; gap: 4px;
 }
