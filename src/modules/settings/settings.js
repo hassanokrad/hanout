@@ -1,6 +1,6 @@
 /* Hanout module — settings. Core. Business profile, language, theme, modules. */
 ;(function () {
-  const APP_VERSION = '0.3.2';
+  const APP_VERSION = '0.5.0';
 
   const MOD = {
     id: 'settings', core: true, secondary: true, order: 90, icon: '⚙️',
@@ -22,10 +22,7 @@
       // business profile
       wrap.appendChild(ui.card(t('business'), el('div', {}, [
         ui.field(t('business_name'), ui.input({ value: s.business, onchange: e => app.saveSettings({ business: e.target.value.trim() || 'Hanout' }) })),
-        el('div', { class: 'h-form-grid' }, [
-          ui.field(t('currency'), ui.input({ value: s.currency, onchange: e => app.saveSettings({ currency: e.target.value.trim() || 'MAD' }) })),
-          ui.field(t('language'), ui.select(app.i18n.langs.map(l => ({ value: l, label: app.i18n.label[l], selected: l === s.lang })), { onchange: e => app.saveSettings({ lang: e.target.value }) })),
-        ]),
+        ui.field(t('currency'), ui.input({ value: s.currency, onchange: e => app.saveSettings({ currency: e.target.value.trim() || 'MAD' }) })),
         ui.field(t('theme'), el('div', { class: 'h-chips' }, [
           el('button', { class: 'h-chip' + (s.theme !== 'dark' ? ' active' : ''), onClick: () => app.saveSettings({ theme: 'light' }) }, t('light')),
           el('button', { class: 'h-chip' + (s.theme === 'dark' ? ' active' : ''), onClick: () => app.saveSettings({ theme: 'dark' }) }, t('dark')),

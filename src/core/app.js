@@ -12,7 +12,9 @@
 
   const SETTINGS_KEY = 'settings';
   const SEEDVER_KEY = 'seedver';
-  const DEFAULT_SETTINGS = { business: 'Hanout', currency: 'MAD', lang: 'en', theme: 'light', enabled: {} };
+  // Arabic-only build: the UI and sample data are Arabic (RTL). `lang` is forced to 'ar'
+  // in loadSettings, so there is no in-app language switch.
+  const DEFAULT_SETTINGS = { business: 'Hanout', currency: 'MAD', lang: 'ar', theme: 'light', enabled: {} };
 
   let store, settings, app, activeId, SEED = null;
   const listeners = {};
@@ -22,7 +24,7 @@
   function tabState(id) { id = id || activeId; return tabStates[id] || (tabStates[id] = {}); }
 
   // ---- settings ----
-  function loadSettings() { return Object.assign({}, DEFAULT_SETTINGS, store.get(SETTINGS_KEY, {})); }
+  function loadSettings() { const s = Object.assign({}, DEFAULT_SETTINGS, store.get(SETTINGS_KEY, {})); s.lang = 'ar'; return s; }
   function saveSettings(patch) {
     settings = Object.assign({}, settings, patch);
     if (patch && patch.enabled) settings.enabled = Object.assign({}, settings.enabled, patch.enabled);
@@ -33,16 +35,14 @@
   }
   function applySettings() {
     ui.cfg.currency = settings.currency || 'MAD';
-    ui.cfg.lang = settings.lang || 'en';
-    I18n.setLang(settings.lang || 'en');
+    ui.cfg.lang = settings.lang || 'ar';
+    I18n.setLang(settings.lang || 'ar');
     ui.cfg.dir = I18n.dir();
-    document.documentElement.lang = settings.lang || 'en';
+    document.documentElement.lang = settings.lang || 'ar';
     document.documentElement.dir = I18n.dir();
     document.body.setAttribute('data-theme', settings.theme || 'light');
     const bn = document.getElementById('h-business');
     if (bn) bn.textContent = settings.business || 'Hanout';
-    const langSel = document.getElementById('h-lang');
-    if (langSel) langSel.value = settings.lang;
   }
 
   // ---- modules ----
@@ -180,13 +180,6 @@
   }
 
   function wireHeader() {
-    const langSel = document.getElementById('h-lang');
-    if (langSel) {
-      langSel.innerHTML = '';
-      I18n.langs.forEach(l => langSel.appendChild(ui.el('option', { value: l }, I18n.label[l])));
-      langSel.value = settings.lang;
-      langSel.onchange = () => saveSettings({ lang: langSel.value });
-    }
     const themeBtn = document.getElementById('h-theme');
     if (themeBtn) themeBtn.onclick = () => saveSettings({ theme: settings.theme === 'dark' ? 'light' : 'dark' });
   }

@@ -170,20 +170,57 @@ select.h-input { appearance: none; }
 /* ---------- product grid (POS) ---------- */
 .h-prodgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(102px, 1fr)); gap: 10px; }
 .h-prod {
+  position: relative;                  /* anchor the status dot in the corner */
   background: var(--surface); color: var(--text); /* <button> doesn't inherit page color — set it so the name isn't UA-black in dark mode */
   border: 1px solid var(--border); border-radius: var(--radius);
   box-shadow: var(--shadow); padding: 12px 10px; text-align: center; min-height: 86px;
   display: flex; flex-direction: column; justify-content: center; gap: 4px;
+  transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
 }
 .h-prod:active { transform: scale(.96); border-color: var(--accent); }
 .h-prod-name { font-weight: 600; font-size: 13px; line-height: 1.25; }
 .h-prod-price { font-size: 12px; color: var(--accent); font-weight: 700; }
 .h-prod-stock { font-size: 10.5px; color: var(--muted); }
-.h-prod.low .h-prod-stock { color: var(--warn); }
-.h-prod.out { opacity: .55; }
+
+/* Low / out hooks are set per item in the sales module (stock <= 3 / <= 0).
+   Rather than recolour one line, the whole tile changes state. */
+
+/* low stock — the tile warms up + a soft halo dot quietly says "reorder soon" */
+.h-prod.low {
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--warn-soft) 82%, var(--surface)), var(--surface) 72%);
+}
+.h-prod.low .h-prod-stock { color: var(--warn); font-weight: 700; }
+.h-prod.low::after {
+  content: ""; position: absolute; top: 8px; inset-inline-end: 8px;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--warn);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 24%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .h-prod.low::after { animation: h-low-pulse 2.4s ease-in-out infinite; }
+}
+@keyframes h-low-pulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--warn) 5%, transparent); } }
+
+/* out of stock — cooled down, flattened, faint diagonal hatch; still tappable so
+   the shopkeeper can sell the last one or override the price. */
+.h-prod.out {
+  border-style: dashed; box-shadow: none;
+  border-color: color-mix(in srgb, var(--muted) 38%, var(--border));
+  background:
+    repeating-linear-gradient(135deg, transparent 0 7px, color-mix(in srgb, var(--muted) 7%, transparent) 7px 14px),
+    var(--surface-2);
+}
+.h-prod.out .h-prod-name { opacity: .65; }
+.h-prod.out .h-prod-price { opacity: .5; }
+.h-prod.out .h-prod-stock { color: var(--danger); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
+.h-prod.out::after {
+  content: ""; position: absolute; top: 8px; inset-inline-end: 8px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--surface); border: 1.5px solid var(--danger);
+}
 
 /* ---------- KPIs ---------- */
-.h-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.h-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 14px; }
 .h-kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 13px 14px; }
 .h-kpi-val { font-size: 22px; font-weight: 800; letter-spacing: -.4px; font-variant-numeric: tabular-nums; }
 .h-kpi-label { font-size: 12px; color: var(--muted); margin-top: 2px; }

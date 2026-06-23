@@ -11,6 +11,7 @@
         sale_recorded: 'Sale recorded', out_of_stock: 'out', in_stock: 'in stock',
         select_customer_first: 'Pick a customer for a credit sale', undo_sale: 'Undo this sale?',
         quick_sale: 'Quick sale', enter_price: 'Enter a price',
+        scan: 'Scan', point_at_barcode: 'Point the camera at a barcode', camera_error: 'Could not open the camera.', no_barcode_match: 'No product has that code yet.',
       },
       fr: {
         todays_total: 'Total du jour', todays_sales: 'Ventes du jour', record_sale: 'Enregistrer la vente',
@@ -19,6 +20,7 @@
         sale_recorded: 'Vente enregistrée', out_of_stock: 'épuisé', in_stock: 'en stock',
         select_customer_first: 'Choisissez un client pour une vente à crédit', undo_sale: 'Annuler cette vente ?',
         quick_sale: 'Vente rapide', enter_price: 'Saisissez un prix',
+        scan: 'Scanner', point_at_barcode: 'Pointez la caméra vers un code-barres', camera_error: "Impossible d'ouvrir la caméra.", no_barcode_match: "Aucun produit n'a ce code pour l'instant.",
       },
       ar: {
         todays_total: 'مجموع اليوم', todays_sales: 'مبيعات اليوم', record_sale: 'تسجيل البيع',
@@ -27,6 +29,7 @@
         sale_recorded: 'تم تسجيل البيع', out_of_stock: 'نفد', in_stock: 'متوفر',
         select_customer_first: 'اختر زبوناً للبيع بالكريدي', undo_sale: 'تراجع عن هذا البيع؟',
         quick_sale: 'بيع سريع', enter_price: 'أدخل الثمن',
+        scan: 'مسح', point_at_barcode: 'وجّه الكاميرا نحو الباركود', camera_error: 'تعذّر فتح الكاميرا.', no_barcode_match: 'لا يوجد منتج بهذا الرمز بعد.',
       },
     },
 
@@ -44,9 +47,13 @@
           t('todays_total') + ' · ' + todays.length + ' ' + t('sales').toLowerCase()),
       ])));
 
-      // quick / custom sale — always available, so a sale can be made even with no
+      // quick / custom sale (+ optional camera scan) — a sale can be made even with no
       // catalogue items or with the Inventory module turned off entirely.
-      wrap.appendChild(el('button', { class: 'h-btn h-btn-block', style: { marginBottom: '12px' }, onClick: () => openSale(app, null) }, '＋ ' + t('quick_sale')));
+      const canScan = 'BarcodeDetector' in window && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+      wrap.appendChild(el('div', { class: 'h-row', style: { gap: '10px', marginBottom: '12px' } }, [
+        canScan ? el('button', { class: 'h-btn h-spacer', onClick: () => openScanner(app) }, '📷 ' + t('scan')) : null,
+        el('button', { class: 'h-btn h-spacer', onClick: () => openSale(app, null) }, '＋ ' + t('quick_sale')),
+      ]));
 
       // search + category, persisted across re-renders so filters survive a sale
       const st = app.tabState();
@@ -56,7 +63,7 @@
 
       const activeItems = () => store.all('items').filter(i => i.active !== false);
       const cats = Array.from(new Set(activeItems().map(i => i.category).filter(Boolean)));
-      const chipRow = el('div', { class: 'h-chips', style: { flexWrap: 'nowrap', overflowX: 'auto', marginBottom: '12px' } });
+      const chipRow = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
       function renderChips() {
         ui.clear(chipRow);
         [['', t('all')]].concat(cats.map(c => [c, c])).forEach(([val, lbl]) =>
@@ -69,7 +76,7 @@
         ui.clear(grid);
         let list = activeItems();
         if (cat) list = list.filter(i => i.category === cat);
-        if (q) list = list.filter(i => (i.name || '').toLowerCase().includes(q.toLowerCase().trim()));
+        if (q) { const qq = q.toLowerCase().trim(); list = list.filter(i => (i.name || '').toLowerCase().includes(qq) || (i.barcode || '').toLowerCase().includes(qq)); }
         if (!list.length) { grid.appendChild(ui.empty(store.all('items').length ? t('empty_here') : t('no_products'), '🛒')); return; }
         list.forEach(it => {
           const low = it.stock != null && it.stock > 0 && it.stock <= 3;
@@ -179,6 +186,54 @@
       app.emit('sale:undone', sale);
       app.toast(app.t('removed'));
     });
+  }
+
+  // Camera barcode scan via the native BarcodeDetector API (no dependency). Opens the
+  // rear camera, polls for a code, matches it to an item's `barcode`, and opens its sale
+  // sheet. The Scan button is only shown when this API + getUserMedia are available.
+  function openScanner(app) {
+    const { el, store, t } = app;
+    let stream = null, timer = null, detector = null, closed = false, busy = false, ref;
+    const video = el('video', { autoplay: true, muted: true, playsinline: true,
+      style: { width: '100%', maxHeight: '60vh', objectFit: 'cover', borderRadius: '12px', background: '#000' } });
+    video.muted = true; video.setAttribute('playsinline', '');
+
+    ref = app.sheet({
+      title: '📷 ' + t('scan'),
+      body: el('div', {}, [video, el('div', { class: 'h-muted h-center', style: { marginTop: '10px', fontSize: '13px' } }, t('point_at_barcode'))]),
+      onClose: stop,
+    });
+
+    function stop() {
+      closed = true;
+      if (timer) { clearInterval(timer); timer = null; }
+      if (stream) { stream.getTracks().forEach(tr => tr.stop()); stream = null; }
+    }
+    try { detector = new window.BarcodeDetector(); } catch (e) { detector = null; }
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(s => {
+      if (closed) { s.getTracks().forEach(tr => tr.stop()); return; }
+      stream = s; video.srcObject = s;
+      const p = video.play(); if (p && p.catch) p.catch(() => {});
+      timer = setInterval(tick, 350);
+    }).catch(() => { app.toast(t('camera_error')); ref.close(); });
+
+    function tick() {
+      if (busy || closed || !detector || !video.videoWidth) return;
+      busy = true;
+      detector.detect(video).then(codes => {
+        busy = false;
+        if (closed || !codes || !codes.length) return;
+        const raw = (codes[0].rawValue || '').trim();
+        if (raw) onCode(raw);
+      }).catch(() => { busy = false; });
+    }
+    function onCode(code) {
+      stop(); ref.close();
+      const item = store.all('items').find(i => (i.barcode || '').trim() === code && i.active !== false);
+      if (item) openSale(app, item);
+      else app.toast(t('no_barcode_match'));
+    }
   }
 
   window.Hanout.module(MOD);

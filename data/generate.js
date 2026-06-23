@@ -30,37 +30,37 @@ function isots(d) { return d.toISOString(); }
 
 // ---- catalogue: [name, category, price, cost, stock, unit, weight] ----
 const RAW_ITEMS = [
-  ['Bread', 'Bakery', 2, 1.4, 40, 'pc', 10],
-  ['Croissant', 'Bakery', 3, 2, 18, 'pc', 4],
-  ['Milk 1L', 'Dairy', 7, 6, 30, 'pc', 9],
-  ['Yogurt', 'Dairy', 3, 2.2, 24, 'pc', 6],
-  ['Butter 200g', 'Dairy', 14, 11, 2, 'pc', 2],
-  ['Eggs (30)', 'Dairy', 42, 36, 0, 'tray', 3],
-  ['Cheese portions', 'Dairy', 9, 7, 10, 'pc', 3],
-  ['Water 1.5L', 'Drinks', 5, 3.5, 60, 'pc', 9],
-  ['Soda 1L', 'Drinks', 9, 6.5, 28, 'pc', 7],
-  ['Juice', 'Drinks', 8, 6, 16, 'pc', 4],
-  ['Coffee 200g', 'Grocery', 28, 23, 3, 'pc', 2],
-  ['Tea 200g', 'Grocery', 18, 14, 12, 'pc', 4],
-  ['Sugar 1kg', 'Grocery', 9, 7.5, 22, 'kg', 6],
-  ['Oil 1L', 'Grocery', 23, 20, 14, 'pc', 4],
-  ['Flour 1kg', 'Grocery', 6, 4.8, 20, 'kg', 4],
-  ['Rice 1kg', 'Grocery', 14, 11, 12, 'kg', 3],
-  ['Pasta 500g', 'Grocery', 7, 5, 18, 'pc', 4],
-  ['Tomato paste', 'Grocery', 4, 2.8, 26, 'pc', 5],
-  ['Tuna can', 'Grocery', 11, 8.5, 15, 'pc', 4],
-  ['Chips', 'Snacks', 5, 3.2, 30, 'pc', 7],
-  ['Biscuits', 'Snacks', 4, 2.5, 28, 'pc', 6],
-  ['Chocolate bar', 'Snacks', 6, 4, 24, 'pc', 6],
-  ['Chewing gum', 'Snacks', 2, 1.2, 35, 'pc', 5],
-  ['Soap', 'Hygiene', 5, 3.5, 20, 'pc', 3],
-  ['Shampoo sachet', 'Hygiene', 2, 1.2, 40, 'pc', 4],
-  ['Toothpaste', 'Hygiene', 13, 10, 8, 'pc', 2],
-  ['Detergent 1kg', 'Household', 19, 15, 9, 'pc', 3],
-  ['Matches', 'Household', 2, 1.2, 25, 'pc', 3],
-  ['Candle', 'Household', 3, 2, 14, 'pc', 2],
-  ['Cigarettes pack', 'Other', 38, 35, 20, 'pc', 8],
-  ['Phone credit 10', 'Other', 10, 9.5, 999, 'pc', 8],
+  ['خبز', 'مخبزة', 2, 1.4, 40, 'حبة', 10],
+  ['كرواسون', 'مخبزة', 3, 2, 18, 'حبة', 4],
+  ['حليب 1ل', 'ألبان', 7, 6, 30, 'حبة', 9],
+  ['ياغورت', 'ألبان', 3, 2.2, 24, 'حبة', 6],
+  ['زبدة 200غ', 'ألبان', 14, 11, 2, 'حبة', 2],
+  ['بيض (30)', 'ألبان', 42, 36, 0, 'طبق', 3],
+  ['جبن حصص', 'ألبان', 9, 7, 10, 'حبة', 3],
+  ['ماء 1.5ل', 'مشروبات', 5, 3.5, 60, 'حبة', 9],
+  ['مشروب غازي 1ل', 'مشروبات', 9, 6.5, 28, 'حبة', 7],
+  ['عصير', 'مشروبات', 8, 6, 16, 'حبة', 4],
+  ['قهوة 200غ', 'بقالة', 28, 23, 3, 'حبة', 2],
+  ['أتاي 200غ', 'بقالة', 18, 14, 12, 'حبة', 4],
+  ['سكر 1كغ', 'بقالة', 9, 7.5, 22, 'كغ', 6],
+  ['زيت 1ل', 'بقالة', 23, 20, 14, 'حبة', 4],
+  ['دقيق 1كغ', 'بقالة', 6, 4.8, 20, 'كغ', 4],
+  ['أرز 1كغ', 'بقالة', 14, 11, 12, 'كغ', 3],
+  ['معكرونة 500غ', 'بقالة', 7, 5, 18, 'حبة', 4],
+  ['معجون الطماطم', 'بقالة', 4, 2.8, 26, 'حبة', 5],
+  ['علبة طون', 'بقالة', 11, 8.5, 15, 'حبة', 4],
+  ['شيبس', 'وجبات خفيفة', 5, 3.2, 30, 'حبة', 7],
+  ['بسكويت', 'وجبات خفيفة', 4, 2.5, 28, 'حبة', 6],
+  ['لوح شوكولاتة', 'وجبات خفيفة', 6, 4, 24, 'حبة', 6],
+  ['علكة', 'وجبات خفيفة', 2, 1.2, 35, 'حبة', 5],
+  ['صابون', 'نظافة', 5, 3.5, 20, 'حبة', 3],
+  ['كيس شامبو', 'نظافة', 2, 1.2, 40, 'حبة', 4],
+  ['معجون أسنان', 'نظافة', 13, 10, 8, 'حبة', 2],
+  ['مسحوق غسيل 1كغ', 'أدوات منزلية', 19, 15, 9, 'حبة', 3],
+  ['ثقاب', 'أدوات منزلية', 2, 1.2, 25, 'حبة', 3],
+  ['شمعة', 'أدوات منزلية', 3, 2, 14, 'حبة', 2],
+  ['علبة سجائر', 'أخرى', 38, 35, 20, 'حبة', 8],
+  ['تعبئة 10', 'أخرى', 10, 9.5, 999, 'حبة', 8],
 ];
 const items = RAW_ITEMS.map((r, i) => ({
   id: 'i' + (i + 1), name: r[0], category: r[1], price: r[2], cost: r[3],
@@ -71,8 +71,8 @@ const pool = [];
 RAW_ITEMS.forEach((r, i) => { for (let w = 0; w < r[6]; w++) pool.push(items[i]); });
 
 // ---- contacts ----
-const customerNames = ['Mehdi', 'Karima', 'Youssef', 'Fatima', 'Said', 'Naima', 'Omar', 'Salma', 'Rachid', 'Hind'];
-const supplierNames = ['Grossiste Atlas', 'Dépôt Central', 'Sodial Distribution'];
+const customerNames = ['مهدي', 'كريمة', 'يوسف', 'فاطمة', 'سعيد', 'نعيمة', 'عمر', 'سلمى', 'رشيد', 'هند'];
+const supplierNames = ['موزع أطلس', 'المستودع المركزي', 'سوديال للتوزيع'];
 const contacts = [];
 customerNames.forEach((n, i) => contacts.push({ id: 'c' + (i + 1), name: n, type: 'customer', phone: '06' + between(10, 99) + ' ' + between(100, 999) + ' ' + between(100, 999) }));
 supplierNames.forEach((n, i) => contacts.push({ id: 'cs' + (i + 1), name: n, type: 'supplier', phone: '05' + between(20, 39) + ' ' + between(100, 999) + ' ' + between(100, 999) }));
@@ -107,7 +107,7 @@ customerIds.forEach((cid) => {
   if (owed > 0 && chance(0.6)) {
     const pay = Math.round(owed * (chance(0.5) ? 1 : 0.5));
     const t = dayOffset(between(0, 20));
-    debts.push({ id: 'd' + (++dN), contactId: cid, kind: 'payment', amount: pay, date: iso(t), ts: isots(t), note: 'Repayment' });
+    debts.push({ id: 'd' + (++dN), contactId: cid, kind: 'payment', amount: pay, date: iso(t), ts: isots(t), note: 'تسديد' });
   }
 });
 
@@ -115,14 +115,14 @@ customerIds.forEach((cid) => {
 const expenses = [];
 let eN = 0;
 for (let day = DAYS; day >= 0; day--) {
-  if (chance(0.28)) { const t = dayOffset(day); expenses.push({ id: 'e' + (++eN), date: iso(t), ts: isots(t), amount: between(200, 900), category: 'Purchases', note: pick(supplierNames) }); }
+  if (chance(0.28)) { const t = dayOffset(day); expenses.push({ id: 'e' + (++eN), date: iso(t), ts: isots(t), amount: between(200, 900), category: 'مشتريات', note: pick(supplierNames) }); }
 }
-[60, 30, 0].forEach((off) => { const t = dayOffset(off); expenses.push({ id: 'e' + (++eN), date: iso(t), ts: isots(t), amount: 800, category: 'Rent', note: 'Monthly rent' }); });
-[55, 25].forEach((off) => { const t = dayOffset(off); expenses.push({ id: 'e' + (++eN), date: iso(t), ts: isots(t), amount: between(150, 350), category: 'Utilities', note: 'Electricity & water' }); });
+[60, 30, 0].forEach((off) => { const t = dayOffset(off); expenses.push({ id: 'e' + (++eN), date: iso(t), ts: isots(t), amount: 800, category: 'كراء', note: 'كراء شهري' }); });
+[55, 25].forEach((off) => { const t = dayOffset(off); expenses.push({ id: 'e' + (++eN), date: iso(t), ts: isots(t), amount: between(150, 350), category: 'فواتير', note: 'كهرباء وماء' }); });
 expenses.sort((a, b) => a.ts < b.ts ? -1 : 1);
 
 // ---- settings ----
-const settings = { business: 'Chez Karima', currency: 'MAD', lang: 'en', theme: 'light', enabled: {} };
+const settings = { business: 'حانوت كريمة', currency: 'MAD', lang: 'ar', theme: 'light', enabled: {} };
 
 const out = { version: 'demo-1', settings, items, contacts, sales, debts, expenses };
 fs.writeFileSync(path.join(__dirname, 'sample.json'), JSON.stringify(out));

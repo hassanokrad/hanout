@@ -1,6 +1,6 @@
 /* Hanout module — expenses (cashbook out): purchases, rent, utilities… */
 ;(function () {
-  const DEFAULT_CATS = ['Purchases', 'Rent', 'Utilities', 'Transport', 'Salaries', 'Other'];
+  const DEFAULT_CATS = ['مشتريات', 'كراء', 'فواتير', 'نقل', 'أجور', 'أخرى'];
 
   const MOD = {
     id: 'expenses', order: 40, icon: '💸',
@@ -35,7 +35,7 @@
 
       const cats = Array.from(new Set(all.map(e => e.category).filter(Boolean)));
       if (cats.length) {
-        const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px', flexWrap: 'nowrap', overflowX: 'auto' } });
+        const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
         [['', t('all')]].concat(cats.map(c => [c, c])).forEach(([val, lbl]) =>
           chips.appendChild(el('button', { class: 'h-chip' + (cat === val ? ' active' : ''), onClick: () => { cat = val; st.cat = val; renderList(); [...chips.children].forEach((ch, i) => ch.classList.toggle('active', (['', ...cats][i]) === val)); } }, lbl)));
         wrap.appendChild(chips);

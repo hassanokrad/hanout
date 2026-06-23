@@ -124,8 +124,10 @@
         title: opts.title || H.I18n.t('confirm'),
         body: el('p', { class: 'h-muted' }, message),
         actions: [
-          { label: opts.cancel || H.I18n.t('cancel'), onClick: close => { close(); done(false); } },
-          { label: opts.ok || H.I18n.t('confirm'), kind: opts.danger ? 'danger' : 'primary', onClick: close => { close(); done(true); } },
+          // record the decision BEFORE close() — close() runs onClose (→ done(false)),
+          // which would otherwise win the race and make OK resolve false.
+          { label: opts.cancel || H.I18n.t('cancel'), onClick: close => { done(false); close(); } },
+          { label: opts.ok || H.I18n.t('confirm'), kind: opts.danger ? 'danger' : 'primary', onClick: close => { done(true); close(); } },
         ],
         onClose: () => done(false),
       });

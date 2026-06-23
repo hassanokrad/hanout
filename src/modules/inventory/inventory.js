@@ -9,21 +9,21 @@
       en: {
         add_item: 'Add item', edit_item: 'Edit item', low_stock: 'low', out_of_stock_label: 'out',
         stock: 'Stock', unit: 'Unit', status: 'Status', active: 'Active', archived: 'Archived',
-        sell_price: 'Sale price', search_items: 'Search items…', name_required: 'Name is required',
+        sell_price: 'Sale price', search_items: 'Search items…', name_required: 'Name is required', barcode: 'Barcode',
         delete_item_q: 'Delete this item?', show_archived: 'Show archived', in_stock_n: '{n} in stock',
         n_low_m_out: '{low} low · {out} out of stock', all_good: 'Stock looks healthy',
       },
       fr: {
         add_item: 'Ajouter un article', edit_item: "Modifier l'article", low_stock: 'bas', out_of_stock_label: 'épuisé',
         stock: 'Stock', unit: 'Unité', status: 'Statut', active: 'Actif', archived: 'Archivé',
-        sell_price: 'Prix de vente', search_items: 'Rechercher…', name_required: 'Le nom est requis',
+        sell_price: 'Prix de vente', search_items: 'Rechercher…', name_required: 'Le nom est requis', barcode: 'Code-barres',
         delete_item_q: 'Supprimer cet article ?', show_archived: 'Afficher archivés', in_stock_n: '{n} en stock',
         n_low_m_out: '{low} bas · {out} épuisés', all_good: 'Stock en bon état',
       },
       ar: {
         add_item: 'إضافة عنصر', edit_item: 'تعديل العنصر', low_stock: 'منخفض', out_of_stock_label: 'نفد',
         stock: 'المخزون', unit: 'الوحدة', status: 'الحالة', active: 'نشط', archived: 'مؤرشف',
-        sell_price: 'ثمن البيع', search_items: 'بحث…', name_required: 'الاسم مطلوب',
+        sell_price: 'ثمن البيع', search_items: 'بحث…', name_required: 'الاسم مطلوب', barcode: 'الباركود',
         delete_item_q: 'حذف هذا العنصر؟', show_archived: 'إظهار المؤرشف', in_stock_n: '{n} في المخزون',
         n_low_m_out: '{low} منخفض · {out} نفد', all_good: 'المخزون بحالة جيدة',
       },
@@ -83,7 +83,7 @@
         if (!showArchived) list = list.filter(i => i.active !== false);
         if (filter === 'low') list = list.filter(i => i.stock != null && i.stock > 0 && i.stock <= LOW);
         if (filter === 'out') list = list.filter(i => i.stock != null && i.stock <= 0);
-        if (q) { const qq = q.toLowerCase().trim(); list = list.filter(i => (i.name || '').toLowerCase().includes(qq) || (i.category || '').toLowerCase().includes(qq)); }
+        if (q) { const qq = q.toLowerCase().trim(); list = list.filter(i => (i.name || '').toLowerCase().includes(qq) || (i.category || '').toLowerCase().includes(qq) || (i.barcode || '').toLowerCase().includes(qq)); }
         list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
         if (!list.length) { listCard.appendChild(ui.empty(null, '📦')); return; }
         const inner = el('div', { class: 'h-list' });
@@ -118,6 +118,7 @@
       cost: ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: item.cost != null ? item.cost : '' }),
       stock: ui.input({ type: 'number', inputmode: 'numeric', step: '1', value: item.stock != null ? item.stock : '' }),
       unit: ui.input({ value: item.unit || '', placeholder: 'pc' }),
+      barcode: ui.input({ value: item.barcode || '', placeholder: t('barcode') }),
     };
     let active = item.active !== false;
     const body = el('div', {}, [
@@ -130,6 +131,7 @@
         ui.field(t('cost') + ' (' + t('optional') + ')', f.cost),
         ui.field(t('stock'), f.stock),
       ]),
+      ui.field(t('barcode') + ' (' + t('optional') + ')', f.barcode),
       ed ? ui.field(t('status'), el('label', { class: 'h-row', style: { gap: '8px' } }, [
         el('input', { type: 'checkbox', checked: active, onchange: e => { active = e.target.checked; } }),
         el('span', {}, t('active')),
@@ -147,7 +149,7 @@
         id: item.id, name, category: f.category.value.trim(),
         price: Math.max(0, parseFloat(f.price.value) || 0), cost: Math.max(0, parseFloat(f.cost.value) || 0),
         stock: f.stock.value === '' ? null : Math.max(0, parseInt(f.stock.value, 10) || 0),
-        unit: f.unit.value.trim() || 'pc', active,
+        unit: f.unit.value.trim() || 'pc', barcode: f.barcode.value.trim(), active,
       });
       close(); app.toast(t('saved'));
     } });
