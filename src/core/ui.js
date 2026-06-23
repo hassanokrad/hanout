@@ -16,7 +16,11 @@
       else if (k === 'text') node.textContent = v;
       else if (k === 'dataset') Object.assign(node.dataset, v);
       else if (k === 'style' && typeof v === 'object') Object.assign(node.style, v);
-      else if (k.slice(0, 2) === 'on' && typeof v === 'function') node.addEventListener(k.slice(2).toLowerCase(), v);
+      else if (k.slice(0, 2) === 'on' && typeof v === 'function') {
+        const evt = k.slice(2).toLowerCase();
+        node.addEventListener(evt, v);
+        if (evt === 'click') node.style.cursor = 'pointer';   // any click handler → show it's tappable (divs/cards/list rows)
+      }
       else if (v === true) node.setAttribute(k, '');
       else node.setAttribute(k, v);
     }
@@ -190,15 +194,31 @@
 
   // ---- barcode scanner (camera) ----
   // Opens the rear camera in a sheet, reads with the native BarcodeDetector, and calls
-  // onCode(text) with the first code found. Shared by the POS (find an item to sell) and
-  // Inventory (capture a product's barcode). Explains why it can't run instead of failing
-  // silently, and falls back to any camera if the rear one isn't available.
+  // onCode(text) once it has a *confirmed* code. Shared by the POS (find an item to sell)
+  // and Inventory (capture a product's barcode). Explains why it can't run instead of
+  // failing silently, and falls back to any camera if the rear one isn't available.
+  //
+  // Accuracy: a single video frame can mis-decode (a half-lit or warped barcode), which is
+  // how a "wrong number" slips through. We guard against that two ways: (1) ignore codes
+  // whose shape is implausible — an all-digit code must be a real EAN/UPC length, not a
+  // truncated fragment; (2) only accept a value after it reads identically on NEED frames in
+  // a row, so a one-frame glitch never wins. The detector also checks EAN/UPC checksums itself.
+  const SCAN_CONFIRM = 2;           // identical reads required before we trust a code
+  const SCAN_INTERVAL = 250;        // ms between frames → confirmation feels instant (~½s)
+  // an all-numeric code must be a genuine retail length (EAN-8 / UPC-A / EAN-13 / ITF-14);
+  // anything else (Code-128/39, QR) just has to be long enough to not be noise.
+  function plausibleCode(raw) {
+    if (!raw) return false;
+    if (/^\d+$/.test(raw)) return raw.length === 8 || raw.length === 12 || raw.length === 13 || raw.length === 14;
+    return raw.length >= 4;
+  }
   function scanBarcode(onCode) {
     const t = (k) => H.I18n.t(k);
     if (!('BarcodeDetector' in window) || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
       toast(t('scan_unsupported')); return;
     }
     let stream = null, timer = null, detector = null, closed = false, busy = false, ref;
+    let lastCode = null, streak = 0;
     const video = el('video', { autoplay: true, muted: true, playsinline: true });
     video.muted = true; video.setAttribute('playsinline', '');
     ref = sheet({
@@ -210,12 +230,15 @@
       onClose: stop,
     });
     function stop() { closed = true; if (timer) { clearInterval(timer); timer = null; } if (stream) { stream.getTracks().forEach(tr => tr.stop()); stream = null; } }
-    try { detector = new window.BarcodeDetector(); } catch (e) { detector = null; }
+    // Restrict to the symbologies a shop actually uses (faster, fewer false decodes); fall
+    // back to the unconstrained detector if this build doesn't accept a format list.
+    try { detector = new window.BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39', 'itf', 'codabar'] }); }
+    catch (e) { try { detector = new window.BarcodeDetector(); } catch (e2) { detector = null; } }
     function open(constraints, retried) {
       navigator.mediaDevices.getUserMedia(constraints).then(s => {
         if (closed) { s.getTracks().forEach(tr => tr.stop()); return; }
         stream = s; video.srcObject = s; const p = video.play(); if (p && p.catch) p.catch(() => {});
-        timer = setInterval(tick, 350);
+        timer = setInterval(tick, SCAN_INTERVAL);
       }).catch(err => {
         // a device without a rear camera rejects facingMode:environment — retry with any camera
         if (!retried && err && (err.name === 'OverconstrainedError' || err.name === 'NotFoundError')) { open({ video: true }, true); return; }
@@ -224,14 +247,26 @@
       });
     }
     open({ video: { facingMode: 'environment' } }, false);
+    function accept(code) {
+      stop(); ref.close();
+      try { if (navigator.vibrate) navigator.vibrate(60); } catch (e) {}   // tactile "got it" on phones
+      try { onCode(code); } catch (e) { console.error(e); }
+    }
     function tick() {
       if (busy || closed || !detector || !video.videoWidth) return;
       busy = true;
       detector.detect(video).then(codes => {
         busy = false;
         if (closed || !codes || !codes.length) return;
-        const raw = (codes[0].rawValue || '').trim();
-        if (raw) { stop(); ref.close(); try { onCode(raw); } catch (e) { console.error(e); } }
+        // among everything in frame, take the first plausible code (skip noise/fragments)
+        let raw = null;
+        for (let i = 0; i < codes.length; i++) {
+          const v = (codes[i].rawValue || '').trim();
+          if (plausibleCode(v)) { raw = v; break; }
+        }
+        if (!raw) return;
+        if (raw === lastCode) streak++; else { lastCode = raw; streak = 1; }
+        if (streak >= SCAN_CONFIRM) accept(raw);
       }).catch(() => { busy = false; });
     }
   }

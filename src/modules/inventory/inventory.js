@@ -55,20 +55,28 @@
         el('button', { class: 'h-btn h-btn-primary', onClick: () => openItemForm(app, null) }, '+ ' + t('add_item')),
       ]));
 
-      // health banner
+      // health: two stat cards (low / out)
       const live = () => store.all('items').filter(i => i.active !== false);
       const lowN = live().filter(i => i.stock != null && i.stock > 0 && i.stock <= LOW).length;
       const outN = live().filter(i => i.stock != null && i.stock <= 0).length;
-      wrap.appendChild(ui.card(null, (lowN + outN)
-        ? el('div', { class: 'h-row' }, [el('span', {}, '⚠️'), el('span', {}, t('n_low_m_out', { low: lowN, out: outN }))])
-        : el('div', { class: 'h-row h-ok' }, [el('span', {}, '✅'), el('span', {}, t('all_good'))])));
+      wrap.appendChild(el('div', { class: 'h-statgrid' }, [
+        el('div', { class: 'h-stat' + (lowN ? ' warn' : ' ok'), onClick: () => { filter = 'low'; st.filter = 'low'; syncFilter(); renderList(); } }, [
+          el('div', { class: 'h-stat-num' }, String(lowN)),
+          el('div', { class: 'h-stat-lbl' }, t('low_stock')),
+        ]),
+        el('div', { class: 'h-stat' + (outN ? ' danger' : ' ok'), onClick: () => { filter = 'out'; st.filter = 'out'; syncFilter(); renderList(); } }, [
+          el('div', { class: 'h-stat-num' }, String(outN)),
+          el('div', { class: 'h-stat-lbl' }, t('out_of_stock_label')),
+        ]),
+      ]));
 
       // search + filter chips
       const search = ui.input({ type: 'search', placeholder: t('search_items'), value: q, oninput: e => { q = e.target.value; st.q = q; renderList(); } });
       wrap.appendChild(el('div', { style: { marginBottom: '10px' } }, search));
       const chips = el('div', { class: 'h-chips', style: { marginBottom: '12px' } });
+      function syncFilter() { [...chips.children].forEach((c, i) => { if (i < 3) c.classList.toggle('active', ['all', 'low', 'out'][i] === filter); }); }
       [['all', t('all')], ['low', t('low_stock')], ['out', t('out_of_stock_label')]].forEach(([val, lbl]) =>
-        chips.appendChild(el('button', { class: 'h-chip' + (filter === val ? ' active' : ''), onClick: () => { filter = val; st.filter = val; [...chips.children].forEach((c, i) => c.classList.toggle('active', ['all', 'low', 'out'][i] === val)); renderList(); } }, lbl)));
+        chips.appendChild(el('button', { class: 'h-chip' + (filter === val ? ' active' : ''), onClick: () => { filter = val; st.filter = val; syncFilter(); renderList(); } }, lbl)));
       chips.appendChild(el('label', { class: 'h-chip h-row', style: { gap: '6px' } }, [
         el('input', { type: 'checkbox', checked: showArchived, onchange: e => { showArchived = e.target.checked; st.showArchived = showArchived; renderList(); } }),
         el('span', {}, t('show_archived')),

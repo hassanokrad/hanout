@@ -3,7 +3,7 @@
   const DEFAULT_CATS = ['مشتريات', 'كراء', 'فواتير', 'نقل', 'أجور', 'أخرى'];
 
   const MOD = {
-    id: 'expenses', order: 40, icon: '💸',
+    id: 'expenses', secondary: true, order: 40, icon: '💸',
     title: { en: 'Expenses', fr: 'Dépenses', ar: 'المصاريف' },
     strings: {
       en: { add_expense: 'Add expense', edit_expense: 'Edit expense', this_month_spent: 'Spent this month',

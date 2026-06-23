@@ -1,7 +1,7 @@
 /* Hanout module — contacts (customers & suppliers) with history + balances. */
 ;(function () {
   const MOD = {
-    id: 'contacts', order: 50, icon: '👥',
+    id: 'contacts', secondary: true, order: 50, icon: '👥',
     title: { en: 'Contacts', fr: 'Contacts', ar: 'الزبناء' },
     strings: {
       en: { add_contact: 'Add contact', edit_contact: 'Edit contact', customers: 'Customers', suppliers: 'Suppliers',

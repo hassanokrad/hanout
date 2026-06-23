@@ -8,16 +8,19 @@
         total_outstanding: 'Total outstanding', record_payment: 'Record payment', add_charge: 'Add charge',
         owes: 'owes', settled: 'All settled — nobody owes anything', pick_contact: 'Pick a customer',
         charge: 'Charge', a_payment: 'Payment', amount_gt0: 'Enter an amount', repayment: 'Repayment',
+        collect: 'Collect', credit_customers: 'on credit', the_book: 'The book',
       },
       fr: {
         total_outstanding: 'Total dû', record_payment: 'Enregistrer un paiement', add_charge: 'Ajouter une dette',
         owes: 'doit', settled: 'Tout est réglé — personne ne doit rien', pick_contact: 'Choisir un client',
         charge: 'Dette', a_payment: 'Paiement', amount_gt0: 'Saisissez un montant', repayment: 'Remboursement',
+        collect: 'Encaisser', credit_customers: 'à crédit', the_book: 'Le carnet',
       },
       ar: {
         total_outstanding: 'المجموع المتبقي', record_payment: 'تسجيل دفعة', add_charge: 'إضافة دين',
         owes: 'عليه', settled: 'كل شيء مسدد — لا أحد مدين', pick_contact: 'اختر زبوناً',
         charge: 'دين', a_payment: 'دفعة', amount_gt0: 'أدخل مبلغاً', repayment: 'تسديد',
+        collect: 'تحصيل', credit_customers: 'بالكريدي', the_book: 'الدفتر',
       },
     },
 
@@ -42,30 +45,45 @@
       const cname = id => (contacts.find(c => c.id === id) || {}).name || '—';
       const total = Object.keys(bal).reduce((s, id) => s + Math.max(0, bal[id]), 0);
 
+      const owing = Object.keys(bal).filter(id => bal[id] > 0.001).sort((a, b) => bal[b] - bal[a]);
+
       wrap.appendChild(el('div', { class: 'h-row', style: { marginBottom: '12px' } }, [
         el('div', { class: 'h-page-title', style: { margin: 0 } }, app.moduleTitle(MOD)),
         el('div', { class: 'h-spacer' }),
-        el('button', { class: 'h-btn h-btn-primary', onClick: () => openEntry(app, null, 'payment') }, '+ ' + t('record_payment')),
+        el('button', { class: 'h-btn', onClick: () => openEntry(app, null, 'payment') }, '+ ' + t('record_payment')),
       ]));
-      wrap.appendChild(ui.card(null, el('div', {}, [
-        el('div', { class: 'h-bignum ' + (total > 0 ? 'h-danger' : 'h-ok') }, money(total)),
-        el('div', { class: 'h-muted', style: { fontSize: '12.5px' } }, t('total_outstanding')),
-      ])));
 
-      const owing = Object.keys(bal).filter(id => bal[id] > 0.001).sort((a, b) => bal[b] - bal[a]);
+      // outstanding hero (red)
+      wrap.appendChild(el('div', { class: 'h-hero danger', style: { marginBottom: '18px' } }, [
+        el('div', { class: 'h-hero-eyebrow' }, t('total_outstanding')),
+        el('div', { class: 'h-hero-num' }, money(total)),
+        el('div', { class: 'h-hero-meta' }, el('span', {}, [el('b', {}, String(owing.length)), ' ' + t('credit_customers')])),
+      ]));
+
       if (!owing.length) {
         wrap.appendChild(ui.card(null, el('div', { class: 'h-row h-ok' }, [el('span', {}, '✅'), el('span', {}, t('settled'))])));
         return wrap;
       }
-      const list = el('div', { class: 'h-list' });
-      owing.forEach(id => list.appendChild(el('div', { class: 'h-list-item', onClick: () => openContact(app, id) }, [
-        el('div', { class: 'h-list-main' }, [
-          el('div', { class: 'h-list-title' }, cname(id)),
-          el('div', { class: 'h-list-sub' }, t('owes')),
-        ]),
-        el('div', { class: 'h-list-end' }, ui.pill(money(bal[id]), 'danger')),
-      ])));
-      wrap.appendChild(ui.card(null, list));
+
+      // the carnet — one card per debtor, colored avatar + collect action
+      const palette = ['#0c8577', '#d98a2b', '#3f7cc4', '#9b59b6', '#c9483c', '#2f8f5b', '#6b7280'];
+      wrap.appendChild(el('div', { class: 'h-section-title', style: { marginTop: 0 } }, t('the_book')));
+      const list = el('div', { class: 'h-stack' });
+      owing.forEach((id, i) => {
+        const nm = cname(id);
+        list.appendChild(el('div', { class: 'h-card', style: { margin: 0, display: 'flex', alignItems: 'center', gap: '13px' }, onClick: () => openContact(app, id) }, [
+          el('div', { class: 'h-avatar', style: { background: palette[i % palette.length] } }, (nm[0] || '؟')),
+          el('div', { class: 'h-list-main' }, [
+            el('div', { class: 'h-list-title' }, nm),
+            el('div', { class: 'h-list-sub' }, t('owes')),
+          ]),
+          el('div', { style: { textAlign: 'end' } }, [
+            el('div', { class: 'h-num', style: { fontSize: '15.5px', fontWeight: '800', color: 'var(--danger)' } }, money(bal[id])),
+            el('button', { class: 'h-link', onClick: (e) => { e.stopPropagation(); openEntry(app, id, 'payment', () => app.refresh()); } }, t('collect')),
+          ]),
+        ]));
+      });
+      wrap.appendChild(list);
       return wrap;
     },
   };

@@ -33,6 +33,14 @@
     renderNav();
     render();
   }
+  // Moroccan Arabic day/month names — built with Latin digits to match the app's
+  // numbers-stay-LTR rule (avoids Eastern-Arabic numerals from toLocaleDateString).
+  const AR_DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  const AR_MONTHS = ['يناير', 'فبراير', 'مارس', 'أبريل', 'ماي', 'يونيو', 'يوليوز', 'غشت', 'شتنبر', 'أكتوبر', 'نونبر', 'دجنبر'];
+  function headerStatus() {
+    const d = new Date();
+    return I18n.t('open_status') + ' · ' + AR_DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + AR_MONTHS[d.getMonth()];
+  }
   function applySettings() {
     ui.cfg.currency = settings.currency || 'MAD';
     ui.cfg.lang = settings.lang || 'ar';
@@ -41,8 +49,13 @@
     document.documentElement.lang = settings.lang || 'ar';
     document.documentElement.dir = I18n.dir();
     document.body.setAttribute('data-theme', settings.theme || 'light');
+    const name = settings.business || 'Hanout';
     const bn = document.getElementById('h-business');
-    if (bn) bn.textContent = settings.business || 'Hanout';
+    if (bn) bn.textContent = name;
+    const lg = document.getElementById('h-logo');
+    if (lg) lg.textContent = (name.trim()[0] || 'ح');
+    const st = document.getElementById('h-status-txt');
+    if (st) st.textContent = headerStatus();
   }
 
   // ---- modules ----
@@ -79,10 +92,21 @@
   }
   function refresh() { render(); }
   const MAX_SLOTS = 7;
+  // line icons for the bottom nav (stroke, rounded) — keyed by module id so modules
+  // keep their emoji (used in the More sheet) while the nav looks premium.
+  const SW = 'fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"';
+  const NAV_ICONS = {
+    sales: '<svg width="23" height="23" viewBox="0 0 24 24" ' + SW + '><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h2.3l2.2 12.4a1.6 1.6 0 0 0 1.6 1.3h8.5a1.6 1.6 0 0 0 1.6-1.3L20.8 7H5.4"/></svg>',
+    inventory: '<svg width="23" height="23" viewBox="0 0 24 24" ' + SW + '><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>',
+    debts: '<svg width="23" height="23" viewBox="0 0 24 24" ' + SW + '><path d="M3 7h15a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7.5V6a2 2 0 0 1 2-2h11"/><circle cx="16.5" cy="13" r="1.25"/></svg>',
+    reports: '<svg width="23" height="23" viewBox="0 0 24 24" ' + SW + '><path d="M5 21V10M12 21V4M19 21v-7"/></svg>',
+    __more: '<svg width="23" height="23" viewBox="0 0 24 24" ' + SW + '><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>',
+  };
   function navTab(m, opts) {
     opts = opts || {};
+    const ico = opts.iconHtml || (m && NAV_ICONS[m.id]);
     return ui.el('button', { class: 'h-tab' + (opts.active ? ' active' : ''), onClick: opts.onClick || (() => openTab(m.id)) }, [
-      ui.el('span', { class: 'h-tab-ico' }, opts.icon || m.icon || '•'),
+      ico ? ui.el('span', { class: 'h-tab-ico', html: ico }) : ui.el('span', { class: 'h-tab-ico' }, opts.icon || m.icon || '•'),
       ui.el('span', { class: 'h-tab-lbl' }, opts.label || moduleTitle(m)),
     ]);
   }
@@ -100,7 +124,7 @@
     shown.forEach(m => nav.appendChild(navTab(m, { active: m.id === activeId })));
     if (overflow.length) {
       nav.appendChild(navTab(null, {
-        icon: '☰', label: I18n.t('more'),
+        iconHtml: NAV_ICONS.__more, label: I18n.t('more'),
         active: overflow.some(m => m.id === activeId),
         onClick: () => openMore(overflow),
       }));
@@ -182,6 +206,12 @@
   function wireHeader() {
     const themeBtn = document.getElementById('h-theme');
     if (themeBtn) themeBtn.onclick = () => saveSettings({ theme: settings.theme === 'dark' ? 'light' : 'dark' });
+    // gear → the secondary sections (settings, backup, contacts, expenses) as a sheet
+    const setBtn = document.getElementById('h-settings');
+    if (setBtn) setBtn.onclick = () => {
+      const sec = enabledModules().filter(m => m.secondary);
+      if (sec.length) openMore(sec); else openTab('settings');
+    };
   }
 
   H.module = module;
