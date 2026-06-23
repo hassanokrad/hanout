@@ -76,10 +76,6 @@ button { font-family: inherit; cursor: pointer; }
 .h-logo { font-size: 22px; }
 .h-business { font-weight: 700; font-size: 17px; letter-spacing: .2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .h-header-actions { margin-inline-start: auto; display: flex; align-items: center; gap: 8px; }
-.h-lang {
-  appearance: none; background: var(--surface-2); color: var(--text);
-  border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 13px;
-}
 .h-icon-btn {
   background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
   border-radius: 999px; width: 36px; height: 36px; font-size: 16px; line-height: 1;

@@ -33,7 +33,9 @@
 
   // number / money / date formatting (Latin digits everywhere to avoid bidi issues)
   function nf(n, max) { return Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: max == null ? 2 : max }); }
-  function money(n) { return nf(n) + ' ' + cfg.currency; }
+  // Wrap in an LTR isolate (U+2066 … U+2069) so "5,402 MAD" always reads left-to-right
+  // even inside RTL (Arabic) text — without reordering the surrounding text or its alignment.
+  function money(n) { return '⁦' + nf(n) + ' ' + cfg.currency + '⁩'; }
   function pad(x) { return String(x).padStart(2, '0'); }
   function fmtDate(d) {
     const dt = (d instanceof Date) ? d : new Date(d);

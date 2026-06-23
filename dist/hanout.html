@@ -91,10 +91,6 @@ button { font-family: inherit; cursor: pointer; }
 .h-logo { font-size: 22px; }
 .h-business { font-weight: 700; font-size: 17px; letter-spacing: .2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .h-header-actions { margin-inline-start: auto; display: flex; align-items: center; gap: 8px; }
-.h-lang {
-  appearance: none; background: var(--surface-2); color: var(--text);
-  border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 13px;
-}
 .h-icon-btn {
   background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
   border-radius: 999px; width: 36px; height: 36px; font-size: 16px; line-height: 1;
@@ -567,7 +563,9 @@ select.h-input { appearance: none; }
 
   // number / money / date formatting (Latin digits everywhere to avoid bidi issues)
   function nf(n, max) { return Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: max == null ? 2 : max }); }
-  function money(n) { return nf(n) + ' ' + cfg.currency; }
+  // Wrap in an LTR isolate (U+2066 … U+2069) so "5,402 MAD" always reads left-to-right
+  // even inside RTL (Arabic) text — without reordering the surrounding text or its alignment.
+  function money(n) { return '⁦' + nf(n) + ' ' + cfg.currency + '⁩'; }
   function pad(x) { return String(x).padStart(2, '0'); }
   function fmtDate(d) {
     const dt = (d instanceof Date) ? d : new Date(d);
@@ -1824,7 +1822,7 @@ select.h-input { appearance: none; }
 /* ===== modules/settings ===== */
 /* Hanout module — settings. Core. Business profile, language, theme, modules. */
 ;(function () {
-  const APP_VERSION = '0.5.0';
+  const APP_VERSION = '0.5.1';
 
   const MOD = {
     id: 'settings', core: true, secondary: true, order: 90, icon: '⚙️',
