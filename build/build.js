@@ -72,8 +72,11 @@ const outDir = path.join(root, 'dist');
 fs.mkdirSync(outDir, { recursive: true });
 const outPath = path.join(outDir, 'hanout.html');
 fs.writeFileSync(outPath, html);
+// Also emit index.html at the repo root so GitHub Pages serves the app at the site root
+// (https://<user>.github.io/<repo>/) — which is what makes the camera/PWA work on a phone.
+fs.writeFileSync(path.join(root, 'index.html'), html);
 
 console.log(
-  `Built ${path.relative(root, outPath)}  —  ${(html.length / 1024).toFixed(0)} KB, ` +
+  `Built ${path.relative(root, outPath)} + index.html  —  ${(html.length / 1024).toFixed(0)} KB, ` +
   `${modList.length - missing}/${modList.length} modules`
 );
