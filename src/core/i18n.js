@@ -24,6 +24,9 @@
       business_name: 'Business name', modules: 'Modules', required: 'required', optional: 'optional',
       this_month: 'This month', last_month: 'Last month', all_time: 'All time', more: 'More',
       storage_full: 'Could not save — device storage may be full. Export a backup.',
+      scan: 'Scan', scan_title: 'Scan barcode', point_at_barcode: 'Point the camera at a barcode',
+      camera_error: 'Could not open the camera.', camera_denied: 'Camera access was blocked — allow it in your browser settings.',
+      scan_unsupported: 'Scanning isn’t available here — type a barcode onto an item in Inventory instead.',
     },
     fr: {
       save: 'Enregistrer', cancel: 'Annuler', delete: 'Supprimer', edit: 'Modifier', add: 'Ajouter',
@@ -40,6 +43,9 @@
       modules: 'Modules', required: 'requis', optional: 'optionnel',
       this_month: 'Ce mois-ci', last_month: 'Le mois dernier', all_time: 'Tout', more: 'Plus',
       storage_full: "Échec de l'enregistrement — stockage peut-être plein. Exportez une sauvegarde.",
+      scan: 'Scanner', scan_title: 'Scanner un code-barres', point_at_barcode: 'Pointez la caméra vers un code-barres',
+      camera_error: "Impossible d'ouvrir la caméra.", camera_denied: "Accès caméra bloqué — autorisez-le dans les réglages du navigateur.",
+      scan_unsupported: "Le scan n'est pas disponible ici — saisissez un code-barres sur un article dans Stock.",
     },
     ar: {
       save: 'حفظ', cancel: 'إلغاء', delete: 'حذف', edit: 'تعديل', add: 'إضافة', close: 'إغلاق',
@@ -56,6 +62,9 @@
       modules: 'الوحدات', required: 'مطلوب', optional: 'اختياري',
       this_month: 'هذا الشهر', last_month: 'الشهر الماضي', all_time: 'الكل', more: 'المزيد',
       storage_full: 'تعذّر الحفظ — قد تكون ذاكرة الجهاز ممتلئة. صدّر نسخة احتياطية.',
+      scan: 'مسح', scan_title: 'مسح الباركود', point_at_barcode: 'وجّه الكاميرا نحو الباركود',
+      camera_error: 'تعذّر فتح الكاميرا.', camera_denied: 'تم حظر الكاميرا — اسمح بها في إعدادات المتصفّح.',
+      scan_unsupported: 'المسح غير متاح هنا — أضِف الباركود يدويًا لعنصر في المخزون.',
     },
   };
 

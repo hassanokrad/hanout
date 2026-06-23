@@ -188,9 +188,57 @@
   function pill(text, kind) { return el('span', { class: 'h-pill' + (kind ? ' h-pill-' + kind : '') }, text); }
   function row(cells, props) { return el('div', Object.assign({ class: 'h-row' }, props), cells); }
 
+  // ---- barcode scanner (camera) ----
+  // Opens the rear camera in a sheet, reads with the native BarcodeDetector, and calls
+  // onCode(text) with the first code found. Shared by the POS (find an item to sell) and
+  // Inventory (capture a product's barcode). Explains why it can't run instead of failing
+  // silently, and falls back to any camera if the rear one isn't available.
+  function scanBarcode(onCode) {
+    const t = (k) => H.I18n.t(k);
+    if (!('BarcodeDetector' in window) || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
+      toast(t('scan_unsupported')); return;
+    }
+    let stream = null, timer = null, detector = null, closed = false, busy = false, ref;
+    const video = el('video', { autoplay: true, muted: true, playsinline: true });
+    video.muted = true; video.setAttribute('playsinline', '');
+    ref = sheet({
+      title: '📷 ' + t('scan_title'),
+      body: el('div', {}, [
+        el('div', { class: 'h-scan' }, [video, el('div', { class: 'h-scan-frame' })]),
+        el('div', { class: 'h-muted h-center', style: { marginTop: '10px', fontSize: '13px' } }, t('point_at_barcode')),
+      ]),
+      onClose: stop,
+    });
+    function stop() { closed = true; if (timer) { clearInterval(timer); timer = null; } if (stream) { stream.getTracks().forEach(tr => tr.stop()); stream = null; } }
+    try { detector = new window.BarcodeDetector(); } catch (e) { detector = null; }
+    function open(constraints, retried) {
+      navigator.mediaDevices.getUserMedia(constraints).then(s => {
+        if (closed) { s.getTracks().forEach(tr => tr.stop()); return; }
+        stream = s; video.srcObject = s; const p = video.play(); if (p && p.catch) p.catch(() => {});
+        timer = setInterval(tick, 350);
+      }).catch(err => {
+        // a device without a rear camera rejects facingMode:environment — retry with any camera
+        if (!retried && err && (err.name === 'OverconstrainedError' || err.name === 'NotFoundError')) { open({ video: true }, true); return; }
+        toast(err && err.name === 'NotAllowedError' ? t('camera_denied') : t('camera_error'));
+        ref.close();
+      });
+    }
+    open({ video: { facingMode: 'environment' } }, false);
+    function tick() {
+      if (busy || closed || !detector || !video.videoWidth) return;
+      busy = true;
+      detector.detect(video).then(codes => {
+        busy = false;
+        if (closed || !codes || !codes.length) return;
+        const raw = (codes[0].rawValue || '').trim();
+        if (raw) { stop(); ref.close(); try { onCode(raw); } catch (e) { console.error(e); } }
+      }).catch(() => { busy = false; });
+    }
+  }
+
   H.ui = {
     cfg, el, append, clear, money, nf, fmtDate, fmtTime, todayKey,
     toast, modal, sheet, confirm, field, input, select, button, bars,
-    empty, card, kpi, pill, row,
+    empty, card, kpi, pill, row, scanBarcode,
   };
 })();

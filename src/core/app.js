@@ -152,7 +152,7 @@
       store, ui, i18n: I18n,
       t: (k, v) => I18n.t(k, v),
       el: ui.el, money: ui.money, nf: ui.nf, fmtDate: ui.fmtDate, fmtTime: ui.fmtTime, todayKey: ui.todayKey,
-      toast: ui.toast, modal: ui.modal, sheet: ui.sheet, confirm: ui.confirm,
+      toast: ui.toast, modal: ui.modal, sheet: ui.sheet, confirm: ui.confirm, scanBarcode: ui.scanBarcode,
       on, emit,
       get settings() { return settings; },
       saveSettings,

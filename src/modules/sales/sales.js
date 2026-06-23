@@ -11,8 +11,7 @@
         sale_recorded: 'Sale recorded', out_of_stock: 'out', in_stock: 'in stock',
         select_customer_first: 'Pick a customer for a credit sale', undo_sale: 'Undo this sale?',
         quick_sale: 'Quick sale', enter_price: 'Enter a price',
-        scan: 'Scan', point_at_barcode: 'Point the camera at a barcode', camera_error: 'Could not open the camera.', no_barcode_match: 'No product has that code yet.',
-        scan_title: 'Scan barcode', scan_unsupported: 'Scanning isn’t available here — you can type a barcode onto an item in Inventory instead.',
+        no_barcode_match: 'No product has that code yet.', enter_qty: 'Enter a quantity',
       },
       fr: {
         todays_total: 'Total du jour', todays_sales: 'Ventes du jour', record_sale: 'Enregistrer la vente',
@@ -21,8 +20,7 @@
         sale_recorded: 'Vente enregistrée', out_of_stock: 'épuisé', in_stock: 'en stock',
         select_customer_first: 'Choisissez un client pour une vente à crédit', undo_sale: 'Annuler cette vente ?',
         quick_sale: 'Vente rapide', enter_price: 'Saisissez un prix',
-        scan: 'Scanner', point_at_barcode: 'Pointez la caméra vers un code-barres', camera_error: "Impossible d'ouvrir la caméra.", no_barcode_match: "Aucun produit n'a ce code pour l'instant.",
-        scan_title: 'Scanner un code-barres', scan_unsupported: "Le scan n'est pas disponible ici — saisissez un code-barres sur un article dans Stock.",
+        no_barcode_match: "Aucun produit n'a ce code pour l'instant.", enter_qty: 'Saisissez une quantité',
       },
       ar: {
         todays_total: 'مجموع اليوم', todays_sales: 'مبيعات اليوم', record_sale: 'تسجيل البيع',
@@ -31,8 +29,7 @@
         sale_recorded: 'تم تسجيل البيع', out_of_stock: 'نفد', in_stock: 'متوفر',
         select_customer_first: 'اختر زبوناً للبيع بالكريدي', undo_sale: 'تراجع عن هذا البيع؟',
         quick_sale: 'بيع سريع', enter_price: 'أدخل الثمن',
-        scan: 'مسح', point_at_barcode: 'وجّه الكاميرا نحو الباركود', camera_error: 'تعذّر فتح الكاميرا.', no_barcode_match: 'لا يوجد منتج بهذا الرمز بعد.',
-        scan_title: 'مسح الباركود', scan_unsupported: 'المسح غير متاح هنا — يمكنك إضافة الباركود يدويًا لعنصر في المخزون.',
+        no_barcode_match: 'لا يوجد منتج بهذا الرمز بعد.', enter_qty: 'أدخل الكمية',
       },
     },
 
@@ -100,7 +97,7 @@
           list.appendChild(el('div', { class: 'h-list-item' }, [
             el('div', { class: 'h-list-main' }, [
               el('div', { class: 'h-list-title' }, s.name),
-              el('div', { class: 'h-list-sub' }, app.fmtTime(s.ts) + (s.qty > 1 ? ' · ' + s.qty + '×' + money(s.price) : '') + ' · ' + (s.payment === 'credit' ? t('credit') : t('cash'))),
+              el('div', { class: 'h-list-sub' }, app.fmtTime(s.ts) + (s.qty !== 1 ? ' · ' + app.nf(s.qty, 3) + '×' + money(s.price) : '') + ' · ' + (s.payment === 'credit' ? t('credit') : t('cash'))),
             ]),
             el('div', { class: 'h-list-end' }, el('div', { class: 'h-list-amount' }, money(s.total))),
             el('button', { class: 'h-link', onClick: () => undoSale(app, s) }, t('undo')),
@@ -121,8 +118,12 @@
     const customers = store.all('contacts').filter(c => c.type === 'customer');
 
     const totalEl = el('div', { class: 'h-bignum h-accent' });
-    const qtyEl = el('span', { style: { minWidth: '38px', textAlign: 'center', fontWeight: '700', fontSize: '18px' } }, String(qty));
     const upd = () => { totalEl.textContent = money(qty * price); };
+    // Quantity is a free decimal, so you can sell by weight/volume (e.g. 0.034 kg of butter), not just whole pieces.
+    const qtyInput = ui.input({ type: 'number', inputmode: 'decimal', step: 'any', min: '0', value: '1',
+      style: { textAlign: 'center', maxWidth: '120px', fontWeight: '700', fontSize: '18px' },
+      oninput: e => { qty = parseFloat(e.target.value) || 0; upd(); } });
+    const stepQty = (d) => { qty = Math.max(0, +(((parseFloat(qtyInput.value) || 0) + d).toFixed(3))); qtyInput.value = qty; upd(); };
 
     const nameInput = custom ? ui.input({ value: '', placeholder: t('name'), oninput: e => { name = e.target.value; } }) : null;
     const priceInput = ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: String(price), oninput: e => { price = parseFloat(e.target.value) || 0; upd(); } });
@@ -143,10 +144,10 @@
         custom ? ui.field(t('name'), nameInput) : null,
         ui.field(t('unit_price'), priceInput,
           (!custom && item.stock != null) ? (item.stock <= 0 ? t('out_of_stock') : item.stock + ' ' + (item.unit || '') + ' ' + t('in_stock')) : null),
-        ui.field(t('quantity'), el('div', { class: 'h-row' }, [
-          el('button', { class: 'h-btn', onClick: () => { if (qty > 1) { qty--; qtyEl.textContent = qty; upd(); } } }, '−'),
-          qtyEl,
-          el('button', { class: 'h-btn', onClick: () => { qty++; qtyEl.textContent = qty; upd(); } }, '+'),
+        ui.field(t('quantity') + (!custom && item.unit ? ' · ' + item.unit : ''), el('div', { class: 'h-row', style: { gap: '8px' } }, [
+          el('button', { class: 'h-btn', type: 'button', onClick: () => stepQty(-1) }, '−'),
+          qtyInput,
+          el('button', { class: 'h-btn', type: 'button', onClick: () => stepQty(1) }, '+'),
         ])),
         ui.field(t('payment'), el('div', { class: 'h-chips' }, [cashBtn, creditBtn])),
         custField,
@@ -157,6 +158,7 @@
         { label: t('record_sale'), kind: 'primary', onClick: close => {
             if (saving) return;
             if (price <= 0) { app.toast(t('enter_price')); return; }
+            if (qty <= 0) { app.toast(t('enter_qty')); return; }
             if (payment === 'credit' && !contactId) { app.toast(t('select_customer_first')); return; }
             saving = true;
             const saleItem = custom ? { id: null, name: name.trim() || t('custom') } : item;
@@ -170,7 +172,7 @@
 
   function recordSale(app, item, qty, price, payment, contactId) {
     const now = new Date();
-    price = Math.max(0, +price || 0); qty = Math.max(1, parseInt(qty, 10) || 1);
+    price = Math.max(0, +price || 0); qty = Math.max(0, +((+qty || 0).toFixed(3)));
     const sale = {
       id: app.store.uid(), date: app.fmtDate(now), ts: now.toISOString(),
       itemId: item.id, name: item.name, qty, price, total: +(qty * price).toFixed(2),
@@ -193,57 +195,13 @@
   // Camera barcode scan via the native BarcodeDetector API (no dependency). Opens the
   // rear camera, polls for a code, matches it to an item's `barcode`, and opens its sale
   // sheet. The Scan button is only shown when this API + getUserMedia are available.
+  // POS scan: read a barcode (shared core scanner) and open the matching item's sale sheet.
   function openScanner(app) {
-    const { el, store, t } = app;
-    // Camera scan needs the native BarcodeDetector API + a camera on a secure origin
-    // (https or localhost). Where that's missing, say so plainly instead of failing silently.
-    if (!('BarcodeDetector' in window) || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
-      app.toast(t('scan_unsupported'));
-      return;
-    }
-    let stream = null, timer = null, detector = null, closed = false, busy = false, ref;
-    const video = el('video', { autoplay: true, muted: true, playsinline: true });
-    video.muted = true; video.setAttribute('playsinline', '');
-
-    ref = app.sheet({
-      title: '📷 ' + t('scan_title'),
-      body: el('div', {}, [
-        el('div', { class: 'h-scan' }, [video, el('div', { class: 'h-scan-frame' })]),
-        el('div', { class: 'h-muted h-center', style: { marginTop: '10px', fontSize: '13px' } }, t('point_at_barcode')),
-      ]),
-      onClose: stop,
-    });
-
-    function stop() {
-      closed = true;
-      if (timer) { clearInterval(timer); timer = null; }
-      if (stream) { stream.getTracks().forEach(tr => tr.stop()); stream = null; }
-    }
-    try { detector = new window.BarcodeDetector(); } catch (e) { detector = null; }
-
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(s => {
-      if (closed) { s.getTracks().forEach(tr => tr.stop()); return; }
-      stream = s; video.srcObject = s;
-      const p = video.play(); if (p && p.catch) p.catch(() => {});
-      timer = setInterval(tick, 350);
-    }).catch(() => { app.toast(t('camera_error')); ref.close(); });
-
-    function tick() {
-      if (busy || closed || !detector || !video.videoWidth) return;
-      busy = true;
-      detector.detect(video).then(codes => {
-        busy = false;
-        if (closed || !codes || !codes.length) return;
-        const raw = (codes[0].rawValue || '').trim();
-        if (raw) onCode(raw);
-      }).catch(() => { busy = false; });
-    }
-    function onCode(code) {
-      stop(); ref.close();
-      const item = store.all('items').find(i => (i.barcode || '').trim() === code && i.active !== false);
+    app.scanBarcode(function (code) {
+      const item = app.store.all('items').find(i => (i.barcode || '').trim() === code && i.active !== false);
       if (item) openSale(app, item);
-      else app.toast(t('no_barcode_match'));
-    }
+      else app.toast(app.t('no_barcode_match'));
+    });
   }
 
   window.Hanout.module(MOD);

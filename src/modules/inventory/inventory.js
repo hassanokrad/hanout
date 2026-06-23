@@ -33,12 +33,12 @@
       app.on('sale:recorded', s => {
         if (!s.itemId) return;
         const it = app.store.find('items', s.itemId);
-        if (it && typeof it.stock === 'number') app.store.update('items', it.id, { stock: Math.max(0, it.stock - s.qty) });
+        if (it && typeof it.stock === 'number') app.store.update('items', it.id, { stock: Math.max(0, +((it.stock - s.qty).toFixed(3))) });
       });
       app.on('sale:undone', s => {
         if (!s.itemId) return;
         const it = app.store.find('items', s.itemId);
-        if (it && typeof it.stock === 'number') app.store.update('items', it.id, { stock: it.stock + s.qty });
+        if (it && typeof it.stock === 'number') app.store.update('items', it.id, { stock: +((it.stock + s.qty).toFixed(3)) });
       });
     },
 
@@ -116,9 +116,9 @@
       category: ui.input({ value: item.category || '', placeholder: t('category'), list: 'h-cats' }),
       price: ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: item.price != null ? item.price : '' }),
       cost: ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', value: item.cost != null ? item.cost : '' }),
-      stock: ui.input({ type: 'number', inputmode: 'numeric', step: '1', value: item.stock != null ? item.stock : '' }),
-      unit: ui.input({ value: item.unit || '', placeholder: 'pc' }),
-      barcode: ui.input({ value: item.barcode || '', placeholder: t('barcode') }),
+      stock: ui.input({ type: 'number', inputmode: 'decimal', step: 'any', value: item.stock != null ? item.stock : '' }),
+      unit: ui.input({ value: item.unit || '', placeholder: 'حبة' }),
+      barcode: ui.input({ value: item.barcode || '', placeholder: t('barcode'), style: { flex: '1', minWidth: '0' } }),
     };
     let active = item.active !== false;
     const body = el('div', {}, [
@@ -131,7 +131,10 @@
         ui.field(t('cost') + ' (' + t('optional') + ')', f.cost),
         ui.field(t('stock'), f.stock),
       ]),
-      ui.field(t('barcode') + ' (' + t('optional') + ')', f.barcode),
+      ui.field(t('barcode') + ' (' + t('optional') + ')', el('div', { class: 'h-row', style: { gap: '8px' } }, [
+        f.barcode,
+        el('button', { class: 'h-btn', type: 'button', title: t('scan'), onClick: () => app.scanBarcode(code => { f.barcode.value = code; }) }, '📷'),
+      ])),
       ed ? ui.field(t('status'), el('label', { class: 'h-row', style: { gap: '8px' } }, [
         el('input', { type: 'checkbox', checked: active, onchange: e => { active = e.target.checked; } }),
         el('span', {}, t('active')),
@@ -148,8 +151,8 @@
       store.upsert('items', {
         id: item.id, name, category: f.category.value.trim(),
         price: Math.max(0, parseFloat(f.price.value) || 0), cost: Math.max(0, parseFloat(f.cost.value) || 0),
-        stock: f.stock.value === '' ? null : Math.max(0, parseInt(f.stock.value, 10) || 0),
-        unit: f.unit.value.trim() || 'pc', barcode: f.barcode.value.trim(), active,
+        stock: f.stock.value === '' ? null : Math.max(0, +((parseFloat(f.stock.value) || 0).toFixed(3))),
+        unit: f.unit.value.trim() || 'حبة', barcode: f.barcode.value.trim(), active,
       });
       close(); app.toast(t('saved'));
     } });
