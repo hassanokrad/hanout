@@ -12,6 +12,7 @@
         select_customer_first: 'Pick a customer for a credit sale', undo_sale: 'Undo this sale?',
         quick_sale: 'Quick sale', enter_price: 'Enter a price',
         scan: 'Scan', point_at_barcode: 'Point the camera at a barcode', camera_error: 'Could not open the camera.', no_barcode_match: 'No product has that code yet.',
+        scan_title: 'Scan barcode', scan_unsupported: 'Scanning isn’t available here — you can type a barcode onto an item in Inventory instead.',
       },
       fr: {
         todays_total: 'Total du jour', todays_sales: 'Ventes du jour', record_sale: 'Enregistrer la vente',
@@ -21,6 +22,7 @@
         select_customer_first: 'Choisissez un client pour une vente à crédit', undo_sale: 'Annuler cette vente ?',
         quick_sale: 'Vente rapide', enter_price: 'Saisissez un prix',
         scan: 'Scanner', point_at_barcode: 'Pointez la caméra vers un code-barres', camera_error: "Impossible d'ouvrir la caméra.", no_barcode_match: "Aucun produit n'a ce code pour l'instant.",
+        scan_title: 'Scanner un code-barres', scan_unsupported: "Le scan n'est pas disponible ici — saisissez un code-barres sur un article dans Stock.",
       },
       ar: {
         todays_total: 'مجموع اليوم', todays_sales: 'مبيعات اليوم', record_sale: 'تسجيل البيع',
@@ -30,6 +32,7 @@
         select_customer_first: 'اختر زبوناً للبيع بالكريدي', undo_sale: 'تراجع عن هذا البيع؟',
         quick_sale: 'بيع سريع', enter_price: 'أدخل الثمن',
         scan: 'مسح', point_at_barcode: 'وجّه الكاميرا نحو الباركود', camera_error: 'تعذّر فتح الكاميرا.', no_barcode_match: 'لا يوجد منتج بهذا الرمز بعد.',
+        scan_title: 'مسح الباركود', scan_unsupported: 'المسح غير متاح هنا — يمكنك إضافة الباركود يدويًا لعنصر في المخزون.',
       },
     },
 
@@ -47,11 +50,10 @@
           t('todays_total') + ' · ' + todays.length + ' ' + t('sales').toLowerCase()),
       ])));
 
-      // quick / custom sale (+ optional camera scan) — a sale can be made even with no
-      // catalogue items or with the Inventory module turned off entirely.
-      const canScan = 'BarcodeDetector' in window && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+      // Scan a barcode + quick/custom sale. Both are always shown so they're discoverable;
+      // the scanner explains itself if the device/browser can't do camera scanning.
       wrap.appendChild(el('div', { class: 'h-row', style: { gap: '10px', marginBottom: '12px' } }, [
-        canScan ? el('button', { class: 'h-btn h-spacer', onClick: () => openScanner(app) }, '📷 ' + t('scan')) : null,
+        el('button', { class: 'h-btn h-spacer', onClick: () => openScanner(app) }, '📷 ' + t('scan')),
         el('button', { class: 'h-btn h-spacer', onClick: () => openSale(app, null) }, '＋ ' + t('quick_sale')),
       ]));
 
@@ -193,14 +195,22 @@
   // sheet. The Scan button is only shown when this API + getUserMedia are available.
   function openScanner(app) {
     const { el, store, t } = app;
+    // Camera scan needs the native BarcodeDetector API + a camera on a secure origin
+    // (https or localhost). Where that's missing, say so plainly instead of failing silently.
+    if (!('BarcodeDetector' in window) || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
+      app.toast(t('scan_unsupported'));
+      return;
+    }
     let stream = null, timer = null, detector = null, closed = false, busy = false, ref;
-    const video = el('video', { autoplay: true, muted: true, playsinline: true,
-      style: { width: '100%', maxHeight: '60vh', objectFit: 'cover', borderRadius: '12px', background: '#000' } });
+    const video = el('video', { autoplay: true, muted: true, playsinline: true });
     video.muted = true; video.setAttribute('playsinline', '');
 
     ref = app.sheet({
-      title: '📷 ' + t('scan'),
-      body: el('div', {}, [video, el('div', { class: 'h-muted h-center', style: { marginTop: '10px', fontSize: '13px' } }, t('point_at_barcode'))]),
+      title: '📷 ' + t('scan_title'),
+      body: el('div', {}, [
+        el('div', { class: 'h-scan' }, [video, el('div', { class: 'h-scan-frame' })]),
+        el('div', { class: 'h-muted h-center', style: { marginTop: '10px', fontSize: '13px' } }, t('point_at_barcode')),
+      ]),
       onClose: stop,
     });
 
