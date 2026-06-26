@@ -1,6 +1,6 @@
 /* Hanout module — settings. Core. Business profile, language, theme, modules. */
 ;(function () {
-  const APP_VERSION = '0.7.0';
+  const APP_VERSION = '0.7.1';
 
   const MOD = {
     id: 'settings', core: true, secondary: true, order: 90, icon: '⚙️',

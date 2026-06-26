@@ -19,6 +19,7 @@
         no_barcode_match: 'No product has that code yet.', enter_qty: 'Enter a quantity',
         cart_title: 'Cart', empty_cart: 'Cart is empty', in_ticket: '{n} in the ticket',
         vs_yesterday: 'vs yesterday', sales_word: 'sales', recorded_credit: 'Credit',
+        new_product: 'New product', save_and_sell: 'Save & sell', sell_once_no_save: "Sell once, don't save", add_named: 'Add "{name}"',
       },
       fr: {
         todays_total: 'Recette du jour', todays_sales: 'Ventes récentes', record_sale: 'Enregistrer',
@@ -30,6 +31,7 @@
         no_barcode_match: "Aucun produit n'a ce code.", enter_qty: 'Saisissez une quantité',
         cart_title: 'Panier', empty_cart: 'Panier vide', in_ticket: '{n} dans le ticket',
         vs_yesterday: 'vs hier', sales_word: 'ventes', recorded_credit: 'Crédit',
+        new_product: 'Nouveau produit', save_and_sell: 'Enregistrer & vendre', sell_once_no_save: 'Vendre une fois, sans enregistrer', add_named: 'Ajouter « {name} »',
       },
       ar: {
         todays_total: 'مداخيل اليوم', todays_sales: 'آخر المبيعات', record_sale: 'تسجيل البيع',
@@ -41,6 +43,7 @@
         no_barcode_match: 'لا يوجد منتج بهذا الرمز بعد.', enter_qty: 'أدخل الكمية',
         cart_title: 'السلة', empty_cart: 'السلة فارغة', in_ticket: '{n} في السلة',
         vs_yesterday: 'مقارنة بالأمس', sales_word: 'مبيعات', recorded_credit: 'كريدي',
+        new_product: 'منتج جديد', save_and_sell: 'حفظ وبيع', sell_once_no_save: 'بيع مرة واحدة بدون حفظ', add_named: 'أضف «{name}»',
       },
     },
 
@@ -102,7 +105,15 @@
         let list = activeItems();
         if (cat) list = list.filter(i => i.category === cat);
         if (q) { const qq = q.toLowerCase().trim(); list = list.filter(i => (i.name || '').toLowerCase().includes(qq) || (i.barcode || '').toLowerCase().includes(qq)); }
-        if (!list.length && store.all('items').length) { grid.appendChild(el('div', { style: { gridColumn: '1 / -1' } }, ui.empty(t('empty_here'), '🔍'))); }
+        // searched for something not in the catalogue → offer to add it on the spot
+        if (!list.length && q.trim()) {
+          grid.appendChild(el('button', { class: 'h-addcard', style: { gridColumn: '1 / -1' }, onClick: () => openNewProduct(app, q.trim()) }, [
+            el('span', { class: 'h-prod-plus' }, '＋'),
+            el('span', {}, t('add_named', { name: q.trim() })),
+          ]));
+        } else if (!list.length && store.all('items').length) {
+          grid.appendChild(el('div', { style: { gridColumn: '1 / -1' } }, ui.empty(t('empty_here'), '🔍')));
+        }
         list.forEach(it => {
           const low = it.stock != null && it.stock > 0 && it.stock <= 3;
           const out = it.stock != null && it.stock <= 0;
@@ -114,10 +125,10 @@
             it.stock != null ? el('div', { class: 'h-prod-stock' }, out ? t('out_of_stock') : (nf(it.stock, 3) + ' ' + (it.unit || ''))) : el('div', { class: 'h-prod-stock' }, ' '),
           ]));
         });
-        // quick-sale tile (one-off custom line)
-        grid.appendChild(el('button', { class: 'h-prod add', onClick: () => openQuickSale(app) }, [
+        // add a brand-new product (saves to the catalogue) — the start-empty / first-sale path
+        grid.appendChild(el('button', { class: 'h-prod add', onClick: () => openNewProduct(app, '') }, [
           el('div', { class: 'h-prod-plus' }, '＋'),
-          el('div', {}, t('quick_sale')),
+          el('div', {}, t('new_product')),
         ]));
       }
       renderGrid();
@@ -207,23 +218,69 @@
     upd();
   }
 
-  // quick sale → add a one-off custom line (name + price) to the ticket
-  function openQuickSale(app, onAdd) {
-    const { el, t } = app, ui = app.ui;
-    const st = app.tabState('sales'); const ticket = st.ticket = st.ticket || {};
-    const nameI = ui.input({ placeholder: t('name') });
-    const priceI = ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', placeholder: '0' });
-    app.sheet({
-      title: t('quick_sale'),
-      body: el('div', {}, [ui.field(t('name'), nameI), ui.field(t('unit_price'), priceI)]),
+  // New product (the easy-onboarding path): only name + price are required — the rest is
+  // optional and tucked away. Saves to the catalogue AND drops it in the ticket, so a new
+  // shop builds its product list simply by selling. A one-off link sells without saving.
+  function openNewProduct(app, prefill) {
+    const { el, store, t } = app, ui = app.ui;
+    const ticket = (function () { const st = app.tabState('sales'); return st.ticket = st.ticket || {}; })();
+    const cats = Array.from(new Set(store.all('items').map(i => i.category).filter(Boolean)));
+    const f = {
+      name: ui.input({ value: prefill || '', placeholder: t('name') }),
+      price: ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', placeholder: '0' }),
+      category: ui.input({ value: '', placeholder: t('category'), list: 'h-np-cats' }),
+      unit: ui.input({ value: '', placeholder: 'حبة' }),
+      cost: ui.input({ type: 'number', inputmode: 'decimal', step: '0.5', min: '0', placeholder: '0' }),
+      stock: ui.input({ type: 'number', inputmode: 'decimal', step: 'any', placeholder: '' }),
+      barcode: ui.input({ value: '', placeholder: t('barcode'), style: { flex: '1', minWidth: '0' } }),
+    };
+    const lineOf = (item, qty) => ({ key: item.id, itemId: item.id, name: item.name, price: +item.price || 0, cost: +item.cost || 0, unit: item.unit || '', qty });
+    function addToTicket(item) {
+      if (item.unit === 'كغ') openWeightEntry(app, item, 0, (kg) => { ticket[item.id] = lineOf(item, kg); app.refresh(); });
+      else { const cur = ticket[item.id]; ticket[item.id] = lineOf(item, (cur ? cur.qty : 0) + 1); app.refresh(); }
+    }
+    let ref;
+    ref = app.sheet({
+      title: t('new_product'),
+      body: el('div', {}, [
+        el('datalist', { id: 'h-np-cats' }, cats.map(c => el('option', { value: c }))),
+        ui.field(t('name'), f.name),
+        ui.field(t('sell_price'), f.price),
+        el('details', { class: 'h-details' }, [
+          el('summary', {}, t('more_details') + ' (' + t('optional') + ')'),
+          el('div', { class: 'h-form-grid', style: { marginTop: '10px' } }, [
+            ui.field(t('category'), f.category),
+            ui.field(t('unit'), f.unit),
+            ui.field(t('cost'), f.cost),
+            ui.field(t('stock'), f.stock),
+          ]),
+          ui.field(t('barcode'), el('div', { class: 'h-row', style: { gap: '8px' } }, [
+            f.barcode,
+            el('button', { class: 'h-btn', type: 'button', title: t('scan'), onClick: () => app.scanBarcode(code => { f.barcode.value = code; }) }, '📷'),
+          ])),
+        ]),
+        el('button', { class: 'h-link', style: { marginTop: '2px', paddingInline: '0' }, onClick: () => {
+            const price = parseFloat(f.price.value) || 0;
+            if (price <= 0) { app.toast(t('enter_price')); return; }
+            const key = 'q' + store.uid();
+            ticket[key] = { key, itemId: null, name: f.name.value.trim() || t('custom'), price, cost: 0, unit: '', qty: 1 };
+            ref.close(); app.refresh();
+          } }, t('sell_once_no_save')),
+      ]),
       actions: [
         { label: t('cancel'), onClick: close => close() },
-        { label: t('add_to_cart'), kind: 'primary', onClick: close => {
-            const price = parseFloat(priceI.value) || 0;
+        { label: t('save_and_sell'), kind: 'primary', onClick: close => {
+            const name = f.name.value.trim();
+            const price = parseFloat(f.price.value) || 0;
+            if (!name) { app.toast(t('name_required')); return; }
             if (price <= 0) { app.toast(t('enter_price')); return; }
-            const key = 'q' + app.store.uid();
-            ticket[key] = { key, itemId: null, name: nameI.value.trim() || t('custom'), price, cost: 0, unit: '', qty: 1 };
-            close(); app.refresh();
+            const sku = store.upsert('items', {
+              id: store.uid(), name, category: f.category.value.trim(),
+              price: Math.max(0, price), cost: Math.max(0, parseFloat(f.cost.value) || 0),
+              stock: f.stock.value === '' ? null : Math.max(0, +((parseFloat(f.stock.value) || 0).toFixed(3))),
+              unit: f.unit.value.trim() || 'حبة', barcode: f.barcode.value.trim(), active: true,
+            });
+            close(); addToTicket(sku);
           } },
       ],
     });

@@ -220,6 +220,23 @@ select.h-input { appearance: none; }
 .h-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
 .h-form-grid .h-col-2 { grid-column: 1 / -1; }
 
+/* collapsible "more details (optional)" group — keeps add-product forms to 2 fields */
+.h-details { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0 12px; margin-bottom: 13px; background: var(--surface); }
+.h-details > summary { list-style: none; cursor: pointer; padding: 12px 0; font-size: 13px; font-weight: 700; color: var(--muted); display: flex; align-items: center; }
+.h-details > summary::-webkit-details-marker { display: none; }
+.h-details > summary::after { content: "⌄"; margin-inline-start: auto; font-size: 18px; line-height: 1; transition: transform .15s ease; }
+.h-details[open] > summary::after { transform: rotate(180deg); }
+.h-details[open] { padding-bottom: 6px; }
+
+/* "add '<query>'" prompt shown in the POS when a search finds no product */
+.h-addcard {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px; border-radius: var(--radius); border: 1.5px dashed var(--accent);
+  background: var(--accent-soft); color: var(--accent-text); font-weight: 800; font-size: 14px;
+}
+.h-addcard:active { transform: scale(.99); }
+.h-addcard .h-prod-plus { font-size: 20px; line-height: 1; color: var(--accent); }
+
 /* search + scan row (POS) */
 .h-searchrow { display: flex; gap: 10px; }
 .h-searchbox {

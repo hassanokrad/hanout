@@ -129,20 +129,25 @@
       barcode: ui.input({ value: item.barcode || '', placeholder: t('barcode'), style: { flex: '1', minWidth: '0' } }),
     };
     let active = item.active !== false;
+    // Only name + sell price are upfront; everything else is optional and collapsed, so
+    // adding a product feels like two fields, not seven (open by default when editing).
     const body = el('div', {}, [
       el('datalist', { id: 'h-cats' }, cats.map(c => el('option', { value: c }))),
       ui.field(t('name'), f.name),
-      el('div', { class: 'h-form-grid' }, [
-        ui.field(t('category'), f.category),
-        ui.field(t('unit') + ' (' + t('optional') + ')', f.unit),
-        ui.field(t('sell_price'), f.price),
-        ui.field(t('cost') + ' (' + t('optional') + ')', f.cost),
-        ui.field(t('stock'), f.stock),
+      ui.field(t('sell_price'), f.price),
+      el('details', { class: 'h-details', open: ed }, [
+        el('summary', {}, t('more_details') + ' (' + t('optional') + ')'),
+        el('div', { class: 'h-form-grid', style: { marginTop: '10px' } }, [
+          ui.field(t('category'), f.category),
+          ui.field(t('unit'), f.unit),
+          ui.field(t('cost'), f.cost),
+          ui.field(t('stock'), f.stock),
+        ]),
+        ui.field(t('barcode'), el('div', { class: 'h-row', style: { gap: '8px' } }, [
+          f.barcode,
+          el('button', { class: 'h-btn', type: 'button', title: t('scan'), onClick: () => app.scanBarcode(code => { f.barcode.value = code; }) }, '📷'),
+        ])),
       ]),
-      ui.field(t('barcode') + ' (' + t('optional') + ')', el('div', { class: 'h-row', style: { gap: '8px' } }, [
-        f.barcode,
-        el('button', { class: 'h-btn', type: 'button', title: t('scan'), onClick: () => app.scanBarcode(code => { f.barcode.value = code; }) }, '📷'),
-      ])),
       ed ? ui.field(t('status'), el('label', { class: 'h-row', style: { gap: '8px' } }, [
         el('input', { type: 'checkbox', checked: active, onchange: e => { active = e.target.checked; } }),
         el('span', {}, t('active')),
